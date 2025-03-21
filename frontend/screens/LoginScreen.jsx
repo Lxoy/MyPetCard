@@ -1,12 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-// tailwind
-import "../global.css";
 
 export default function LoginScreen() {
   return (
-    <View>
+    <View className="bg-red-600 h-full w-full">
       <Text>LoginScreen</Text>
     </View>
   )
