@@ -1,10 +1,9 @@
-import { View, Text, Image, TextInput } from 'react-native'
+import { View, Text, Image, TextInput, ImageBackground } from 'react-native'
 import React from 'react'
 
 
 export default function LoginScreen() {
   return (
-
     // logo
     <View className="bg-background h-full w-full">
       <Image className="h-[350px] w-[350px] absolute top-10 left-1/2 -translate-x-1/2" source={require('../img/logo-transparent.png')} />
@@ -15,7 +14,7 @@ export default function LoginScreen() {
           <Text className='font-bold tracking-wider text-5xl text-secondary'>Login</Text>
         </View>
 
-        
+
         {/* form */}
         <View className='flex items-center mx-4 space-y-4'>
           <View className='bg-accent p-3 rounded-2xl w-full'>
@@ -23,12 +22,11 @@ export default function LoginScreen() {
           </View>
 
           <View className='bg-accent p-3 rounded-2xl w-full mt-10'>
-            <TextInput className='color-secondary' selectionColor={'#112D4E'} placeholder="E-mail" placeholderTextColor={'#3F72AF'}></TextInput>
+            <TextInput secureTextEntry={true} className='color-secondary' selectionColor={'#112D4E'} placeholder="Password" placeholderTextColor={'#3F72AF'}></TextInput>
           </View>
         </View>
-    
+
       </View>
-    
 
     </View>
   )
