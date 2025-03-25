@@ -1,33 +1,86 @@
-import { View, Text, Image, TextInput, ImageBackground } from 'react-native'
-import React from 'react'
+import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React from 'react';
+import DividerWithText from '../components/DividerWithText';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+// tailwind
+import "../css/global.css";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   return (
-    // logo
-    <View className="bg-background h-full w-full">
-      <Image className="h-[350px] w-[350px] absolute top-10 left-1/2 -translate-x-1/2" source={require('../img/logo-transparent.png')} />
+    <KeyboardAvoidingView
+      className="flex-1"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground className='absolute w-full h-full' source={require('../img/background.png')} resizeMode='cover'>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
+            {/* Back button */}
+            <TouchableOpacity
+              className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full'
+              onPress={() => navigation.goBack()}
+            >
+              <Text className='text-4xl text-secondary font-extrabold'>{`<`}</Text>
+            </TouchableOpacity>
 
-      {/* title */}
-      <View className='h-full w-full flex justify-around pt-10 pb-10'>
-        <View className='flex items-center'>
-          <Text className='font-bold tracking-wider text-5xl text-secondary'>Login</Text>
-        </View>
+            {/* Logo and Welcome Text */}
+            <View className='flex-1 justify-center items-center'>
+              <Image className="size-64" source={require('../img/logo-transparent.png')} />
+              <Text className="text-primary text-6xl font-bold mb-12">Welcome Back</Text>
+            </View>
 
+            {/* Form Inputs */}
+            <View className='flex-2 justify-center items-center'>
+              <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
+                <Icon className='flex-4 p-2' color={'#112D4E'} name="user" size={24} />
+                <TextInput
+                  className='flex-1 color-secondary'
+                  selectionColor={'#112D4E'}
+                  placeholder="E-mail"
+                  placeholderTextColor={'#3F72AF'}
+                />
+              </View>
+              <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
+                <Icon className='flex-4 p-2' color={'#112D4E'} name="lock" size={24} />
+                <TextInput
+                  secureTextEntry={true}
+                  className='flex-1 color-secondary'
+                  selectionColor={'#112D4E'}
+                  placeholder="Password"
+                  placeholderTextColor={'#3F72AF'}
+                />
+              </View>
+            </View>
 
-        {/* form */}
-        <View className='flex items-center mx-4 space-y-4'>
-          <View className='bg-accent p-3 rounded-2xl w-full'>
-            <TextInput className='color-secondary' selectionColor={'#112D4E'} placeholder="E-mail" placeholderTextColor={'#3F72AF'}></TextInput>
-          </View>
+            {/* Forgot Password */}
+            <View className='flex-row items-end justify-end m-4 mr-10'>
+              <TouchableOpacity>
+                <Text className='text-primary font-bold'>Forgot password?</Text>
+              </TouchableOpacity>
+            </View>
 
-          <View className='bg-accent p-3 rounded-2xl w-full mt-10'>
-            <TextInput secureTextEntry={true} className='color-secondary' selectionColor={'#112D4E'} placeholder="Password" placeholderTextColor={'#3F72AF'}></TextInput>
-          </View>
-        </View>
+            {/* Login and Social Buttons */}
+            <View className='flex-2 items-center justify-center'>
+              <TouchableOpacity
+                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                <Text className='text-accent font-bold text-lg'>Log In</Text>
+              </TouchableOpacity>
 
-      </View>
+              <Text className="text-primary font-bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
-    </View>
-  )
+              <TouchableOpacity
+                className='m-5 border-2 items-center justify-center rounded-full w-80 h-12'
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                <Icon className='flex-4' name="google" size={24} />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+  );
 }
