@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
 
-          {/* ✅ Fiksna pozadina */}
+          {/* Background */}
           <ImageBackground 
             source={require('../img/background3.png')} 
             resizeMode="cover"
@@ -23,16 +23,13 @@ export default function LoginScreen({ navigation }) {
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
             {/* Back button */}
-            <TouchableOpacity
-              className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full'
-              onPress={() => navigation.goBack()}
-            >
+            <TouchableOpacity className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full' onPress={() => navigation.goBack()}>
               <View>
                 <Icon name="angle-left" size={30} color="#3F72AF" />
               </View>
             </TouchableOpacity>
 
-            {/* Logo i Welcome Text */}
+            {/* Logo and Welcome Text */}
             <View className='flex-1 justify-center items-center'>
               <Image className="size-64" source={require('../img/logo-transparent.png')} />
               <Text className="text-primary text-6xl font-poppins_bold py-1 px-2 text-center mb-12">Welcome Back</Text>
@@ -68,10 +65,10 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* Login i Social Buttons */}
+            {/* Login and Google button */}
             <View className='flex-2 items-center justify-center'>
-              <TouchableOpacity
-                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
+              <TouchableOpacity 
+                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12' 
                 onPress={() => navigation.navigate("LoginScreen")}
               >
                 <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
@@ -79,10 +76,7 @@ export default function LoginScreen({ navigation }) {
 
               <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
-              <TouchableOpacity
-                className='m-5 border-2 items-center justify-center rounded-full w-80 h-12'
-                onPress={() => navigation.navigate("LoginScreen")}
-              >
+              <TouchableOpacity className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={() => navigation.navigate("LoginScreen")}>
                 <Icon className='flex-4' name="google" size={24} />
               </TouchableOpacity>
             </View>

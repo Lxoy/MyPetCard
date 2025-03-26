@@ -14,14 +14,14 @@ export default function SignupScreen({navigation}) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
           
-          {/* ✅ Fiksna pozadina */}
+          {/* Background */}
           <ImageBackground 
             source={require('../img/background3.png')} 
             resizeMode="cover"
             style={{ position: 'absolute', width: '100%', height: '100%' }} 
           />
 
-          {/* ✅ Sadržaj aplikacije */}
+          {/* Content */}
           <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
               {/* Back button */}
               <TouchableOpacity
@@ -46,10 +46,21 @@ export default function SignupScreen({navigation}) {
                   <TextInput
                     className='flex-1 color-secondary'
                     selectionColor={'#112D4E'}
+                    placeholder="Username"
+                    placeholderTextColor={'#3F72AF'}
+                  />
+                </View>
+                <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
+                  <Icon className='flex-4 p-2' color={'#112D4E'} name="envelope" size={20} />
+                  <TextInput
+                    keyboardType="email-address" 
+                    className='flex-1 color-secondary'
+                    selectionColor={'#112D4E'}
                     placeholder="E-mail"
                     placeholderTextColor={'#3F72AF'}
                   />
                 </View>
+                
                 <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
                   <Icon className='flex-4 p-2' color={'#112D4E'} name="lock" size={24} />
                   <TextInput
@@ -62,7 +73,7 @@ export default function SignupScreen({navigation}) {
                 </View>
               </View>
 
-              {/* Login and Social Buttons */}
+              {/* Login and Google button */}
               <View className='flex-2 items-center justify-center'>
                 <TouchableOpacity
                   className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
@@ -74,7 +85,7 @@ export default function SignupScreen({navigation}) {
                 <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
   
                 <TouchableOpacity
-                  className='m-5 border-2 items-center justify-center rounded-full w-80 h-12'
+                  className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12'
                   onPress={() => navigation.navigate("SignUpScreen")}
                 >
                   <Icon className='flex-4' name="google" size={24} />
