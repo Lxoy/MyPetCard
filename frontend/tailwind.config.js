@@ -10,6 +10,14 @@ module.exports = {
           secondary: "#112D4E", // A deep navy blue
           accent: "#DBE2EF",    // A light grayish-blue
           background: "#F9F7F7" // A soft off-white
+        },
+
+        fontFamily: {
+          poppins_bold: ['Poppins-Bold'],
+          poppins_extra_bold: ['Poppins-ExtraBold'],
+          poppins_regular: ['Poppins-Regular'],
+          poppins_italic:['Poppins-Italic'],
+          poppins_bold_italic:['Poppins-BoldItalic']
         }
       },
     },

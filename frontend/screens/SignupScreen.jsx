@@ -7,26 +7,36 @@ import "../css/global.css";
 
 export default function SignupScreen({navigation}) {
   return (
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ImageBackground className='absolute w-full h-full' source={require('../img/background3.png')} resizeMode='cover'>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          
+          {/* ✅ Fiksna pozadina */}
+          <ImageBackground 
+            source={require('../img/background3.png')} 
+            resizeMode="cover"
+            style={{ position: 'absolute', width: '100%', height: '100%' }} 
+          />
+
+          {/* ✅ Sadržaj aplikacije */}
+          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
               {/* Back button */}
               <TouchableOpacity
                 className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full'
                 onPress={() => navigation.goBack()}
               >
-                <Text className='text-4xl text-secondary font-extrabold'>{`<`}</Text>
+                <View>
+                  <Icon name="angle-left" size={30} color="#3F72AF" />
+                </View>
               </TouchableOpacity>
   
               {/* Logo and Welcome Text */}
               <View className='flex-1 justify-center items-center'>
                 <Image className="size-64" source={require('../img/logo-transparent.png')} />
-                <Text className="text-primary text-6xl font-bold mb-12">Create Account</Text>
+                <Text className="text-primary text-6xl font-poppins_bold text-center py-1 mb-12">Create Account</Text>
               </View>
   
               {/* Form Inputs */}
@@ -58,10 +68,10 @@ export default function SignupScreen({navigation}) {
                   className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
                   onPress={() => navigation.navigate("SignUpScreen")}
                 >
-                  <Text className='text-accent font-bold text-lg'>Sign Up</Text>
+                  <Text className='text-accent font-poppins_bold text-lg'>Sign Up</Text>
                 </TouchableOpacity>
   
-                <Text className="text-primary font-bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
+                <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
   
                 <TouchableOpacity
                   className='m-5 border-2 items-center justify-center rounded-full w-80 h-12'
@@ -71,8 +81,9 @@ export default function SignupScreen({navigation}) {
                 </TouchableOpacity>
               </View>
             </ScrollView>
-          </ImageBackground>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    );
+
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+  );
 }

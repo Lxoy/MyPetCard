@@ -1,6 +1,5 @@
 import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React from 'react';
-import DividerWithText from '../components/DividerWithText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // tailwind
@@ -9,31 +8,40 @@ import "../css/global.css";
 export default function LoginScreen({ navigation }) {
   return (
     <KeyboardAvoidingView
-      className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground className='absolute w-full h-full' source={require('../img/background.png')} resizeMode='cover'>
+        <View style={{ flex: 1 }}>
+
+          {/* ✅ Fiksna pozadina */}
+          <ImageBackground 
+            source={require('../img/background3.png')} 
+            resizeMode="cover"
+            style={{ position: 'absolute', width: '100%', height: '100%' }} 
+          />
+
           <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
             {/* Back button */}
             <TouchableOpacity
               className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full'
               onPress={() => navigation.goBack()}
             >
-              <Text className='text-4xl text-secondary font-extrabold'>{`<`}</Text>
+              <View>
+                <Icon name="angle-left" size={30} color="#3F72AF" />
+              </View>
             </TouchableOpacity>
 
-            {/* Logo and Welcome Text */}
+            {/* Logo i Welcome Text */}
             <View className='flex-1 justify-center items-center'>
               <Image className="size-64" source={require('../img/logo-transparent.png')} />
-              <Text className="text-primary text-6xl font-bold mb-12">Welcome Back</Text>
+              <Text className="text-primary text-6xl font-poppins_bold py-1 px-2 text-center mb-12">Welcome Back</Text>
             </View>
 
             {/* Form Inputs */}
             <View className='flex-2 justify-center items-center'>
               <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
-                <Icon className='flex-4 p-2' color={'#112D4E'} name="user" size={24} />
+                <Icon className='p-2' color={'#112D4E'} name="user" size={24} />
                 <TextInput
                   className='flex-1 color-secondary'
                   selectionColor={'#112D4E'}
@@ -42,7 +50,7 @@ export default function LoginScreen({ navigation }) {
                 />
               </View>
               <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
-                <Icon className='flex-4 p-2' color={'#112D4E'} name="lock" size={24} />
+                <Icon className='p-2' color={'#112D4E'} name="lock" size={24} />
                 <TextInput
                   secureTextEntry={true}
                   className='flex-1 color-secondary'
@@ -54,22 +62,22 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             {/* Forgot Password */}
-            <View className='flex-row items-end justify-end m-4 mr-10'>
+            <View className='flex-row items-end justify-end m-2 mr-10'>
               <TouchableOpacity>
-                <Text className='text-primary font-bold'>Forgot password?</Text>
+                <Text className='text-primary font-poppins_bold'>Forgot password?</Text>
               </TouchableOpacity>
             </View>
 
-            {/* Login and Social Buttons */}
+            {/* Login i Social Buttons */}
             <View className='flex-2 items-center justify-center'>
               <TouchableOpacity
                 className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
                 onPress={() => navigation.navigate("LoginScreen")}
               >
-                <Text className='text-accent font-bold text-lg'>Log In</Text>
+                <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
               </TouchableOpacity>
 
-              <Text className="text-primary font-bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
+              <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
               <TouchableOpacity
                 className='m-5 border-2 items-center justify-center rounded-full w-80 h-12'
@@ -79,7 +87,7 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
           </ScrollView>
-        </ImageBackground>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
