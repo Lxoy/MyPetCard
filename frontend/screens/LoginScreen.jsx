@@ -1,11 +1,14 @@
-import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import React from 'react';
+import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // tailwind
 import "../css/global.css";
+import { AuthContext } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }) {
+  const {login} = useContext(AuthContext);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -13,6 +16,7 @@ export default function LoginScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
+          <StatusBar barStyle="light-content" backgroundColor='black' />
 
           {/* Background */}
           <ImageBackground 
@@ -69,7 +73,7 @@ export default function LoginScreen({ navigation }) {
             <View className='flex-2 items-center justify-center'>
               <TouchableOpacity 
                 className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12' 
-                onPress={() => navigation.navigate("LoginScreen")}
+                onPress={() => {login()}}
               >
                 <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
               </TouchableOpacity>

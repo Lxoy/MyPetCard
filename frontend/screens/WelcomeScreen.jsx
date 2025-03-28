@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { View, Text, ImageBackground, TouchableOpacity, StatusBar, Image } from 'react-native'
 import React from 'react'
 
 // tailwind
@@ -7,6 +7,7 @@ import "../css/global.css";
 export default function WelcomeScreen({ navigation }) {
     return (
         <ImageBackground className='flex-1' source={require('../img/background.png')} resizeMode='fill'>
+            <StatusBar barStyle="light-content" backgroundColor='black' />
             <View className='flex-1 justify-end mb-14'>
                 <Image className='size-40 absolute top-0 left-0' source={require('../img/logo-transparent.png')} />
                 <Text className='text-primary text-6xl px-4 py-2 font-poppins_bold'>MyPetCard</Text>

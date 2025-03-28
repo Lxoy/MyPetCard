@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -14,6 +14,8 @@ export default function SignupScreen({navigation}) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
           
+        <StatusBar barStyle="light-content" backgroundColor='black' />
+
           {/* Background */}
           <ImageBackground 
             source={require('../img/background3.png')} 
