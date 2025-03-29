@@ -8,13 +8,13 @@ import { useFonts } from 'expo-font';
 import "../css/global.css";
 
 import { AuthContext } from '../context/AuthContext';
-import AuthStack from './AuthStack';
 import AppStack from './AppStack';
+import AuthStack from './AuthStack';
 
 const Stack = createNativeStackNavigator();
-
+``
 export default function AppNav() {
-    const { isLoading, userToken } = useContext(AuthContext);
+    const { isLoading, userToken, errorWhileLogin } = useContext(AuthContext);
 
     if (isLoading) {
         return (
@@ -27,7 +27,9 @@ export default function AppNav() {
 
     return (
         <NavigationContainer>
-            {userToken !== null ? <AppStack /> : <AuthStack />}
+            {
+                userToken !== null ? <AppStack /> : <AuthStack initialRoute= { errorWhileLogin ? "LoginScreen" : "WelcomeScreen" } />
+            }
         </NavigationContainer>
     );
 }

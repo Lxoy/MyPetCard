@@ -1,11 +1,24 @@
 import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // tailwind
 import "../css/global.css";
 
 export default function SignupScreen({navigation}) {
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const register = async () => {
+    if (!username || !email || !password) {
+      Alert.alert('Error', 'All fields are required!');
+      return;
+    }
+  }
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -50,6 +63,8 @@ export default function SignupScreen({navigation}) {
                     selectionColor={'#112D4E'}
                     placeholder="Username"
                     placeholderTextColor={'#3F72AF'}
+                    value={username}
+                    onChangeText={username_text => setUsername(username_text)}
                   />
                 </View>
                 <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
@@ -60,6 +75,8 @@ export default function SignupScreen({navigation}) {
                     selectionColor={'#112D4E'}
                     placeholder="E-mail"
                     placeholderTextColor={'#3F72AF'}
+                    value={email}
+                    onChangeText={email_text => setEmail(email_text)}
                   />
                 </View>
                 
@@ -71,6 +88,8 @@ export default function SignupScreen({navigation}) {
                     selectionColor={'#112D4E'}
                     placeholder="Password"
                     placeholderTextColor={'#3F72AF'}
+                    value={password}
+                    onChangeText={password_text => setPassword(password_text)}
                   />
                 </View>
               </View>
@@ -79,7 +98,7 @@ export default function SignupScreen({navigation}) {
               <View className='flex-2 items-center justify-center'>
                 <TouchableOpacity
                   className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
-                  onPress={() => navigation.navigate("SignUpScreen")}
+                  onPress={ register }
                 >
                   <Text className='text-accent font-poppins_bold text-lg'>Sign Up</Text>
                 </TouchableOpacity>
