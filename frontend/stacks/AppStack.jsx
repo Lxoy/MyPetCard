@@ -8,6 +8,7 @@ import MyPetsScreen from '../screens/MyPetsScreen';
 import ForumScreen from '../screens/ForumScreen';
 import VetsScreen from '../screens/VetsScreen';
 import MyProfileScreen from '../screens/MyProfileScreen';
+import { NavigationContainer } from '@react-navigation/native';
 
 // styles
 const tabBarOptions = {

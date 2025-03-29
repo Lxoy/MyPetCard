@@ -1,5 +1,5 @@
 import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // tailwind
@@ -7,7 +7,10 @@ import "../css/global.css";
 import { AuthContext } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }) {
-  const {login} = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
   return (
     <KeyboardAvoidingView
@@ -48,6 +51,8 @@ export default function LoginScreen({ navigation }) {
                   selectionColor={'#112D4E'}
                   placeholder="E-mail"
                   placeholderTextColor={'#3F72AF'}
+                  value={email}
+                  onChangeText={email_text => setEmail(email_text)}
                 />
               </View>
               <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
@@ -58,6 +63,8 @@ export default function LoginScreen({ navigation }) {
                   selectionColor={'#112D4E'}
                   placeholder="Password"
                   placeholderTextColor={'#3F72AF'}
+                  value={password}
+                  onChangeText={password_text => setPassword(password_text)}
                 />
               </View>
             </View>
@@ -73,7 +80,7 @@ export default function LoginScreen({ navigation }) {
             <View className='flex-2 items-center justify-center'>
               <TouchableOpacity 
                 className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12' 
-                onPress={() => {login()}}
+                onPress={() => {login(email, password)}}
               >
                 <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
               </TouchableOpacity>

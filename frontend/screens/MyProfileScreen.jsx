@@ -4,19 +4,19 @@ import { Button, FlatList, RefreshControl, ScrollView, SectionList, StyleSheet, 
 import { AuthContext } from '../context/AuthContext';
 
 export default function MyProfileScreen() {
-    const {logout} = useContext(AuthContext);
+    const { userData, logout } = useContext(AuthContext);
 
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                MyProfileScreen
+                Hello, {userData.username}
             </Text>
             <TouchableOpacity 
-                            className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12' 
-                            onPress={() => {logout()}}
-                          >
-                            <Text className='text-accent font-poppins_bold text-lg'>Log Out</Text>
-                          </TouchableOpacity>
+                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12' 
+                onPress={() => {logout()}}
+            >
+            <Text className='text-accent font-poppins_bold text-lg'>Log Out</Text>
+            </TouchableOpacity>
             
         </View>
     );

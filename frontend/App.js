@@ -8,7 +8,7 @@ import { useFonts } from 'expo-font';
 import "./css/global.css";
 
 import { AuthProvider } from './context/AuthContext';
-import NavApp from './stacks/AppNav'
+import AppNav from './stacks/AppNav'
 
 export default function App() {
 
@@ -23,7 +23,7 @@ export default function App() {
       if (!fontsLoaded) return null;
   return (
     <AuthProvider>
-      <NavApp />
+        <AppNav />
     </AuthProvider>
 
   );

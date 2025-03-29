@@ -27,11 +27,7 @@ export default function AppNav() {
 
     return (
         <NavigationContainer>
-            {userToken !== null ?
-                <AppStack />
-                :
-                <AuthStack />
-            }
+            {userToken !== null ? <AppStack /> : <AuthStack />}
         </NavigationContainer>
     );
 }
