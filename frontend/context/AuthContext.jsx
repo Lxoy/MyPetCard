@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { Alert } from 'react-native';
 import { BASE_URL, BASE_URL_EMULATOR } from '../config.js';
 
 export const AuthContext = createContext();
@@ -13,9 +12,13 @@ export const AuthProvider = ({ children }) => {
 
     const [errorWhileLogin, setErrorWhileLogin] = useState(false);
 
+    const [errorWhileLoginEmail, setErrorWhileLoginEmail] = useState(false);
+    const [errorWhileLoginPassword, setErrorWhileLoginPassword] = useState(false);
+
     const login = async (email, password) => {
         try {
             setIsLoading(true);
+
             const response = await axios.post(BASE_URL_EMULATOR + '/login', { email, password });
 
             const user = response.data.user;
@@ -30,10 +33,20 @@ export const AuthProvider = ({ children }) => {
             console.log(JSON.stringify(user));
         } catch (error) {
             setErrorWhileLogin(true);
+
+            if (error.response.data.error_msg === "User not found.") {
+                setErrorWhileLoginEmail(true);
+                throw new Error("E-mail doesn't exists.")
+            } else if (error.response.data.error_msg === "Invalid password.") {
+                setErrorWhileLoginPassword(true);
+                throw new Error("Invalid password.");
+            }
+ 
             // Alert.alert("Login Failed", "Invalid credentials or server issue.");
+        } finally {
+            setIsLoading(false);
         }
 
-        setIsLoading(false);
     };
 
     const logout = async () => {
@@ -74,7 +87,19 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken, userData, errorWhileLogin }}>
+        <AuthContext.Provider value={{ 
+            login, 
+            logout,
+            isLoading, 
+            userToken, 
+            userData,
+            errorWhileLogin, 
+            setErrorWhileLogin, 
+            errorWhileLoginEmail, 
+            setErrorWhileLoginEmail, 
+            errorWhileLoginPassword, 
+            setErrorWhileLoginPassword 
+        }}>
             {children}
         </AuthContext.Provider>
     );

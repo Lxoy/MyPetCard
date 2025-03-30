@@ -7,7 +7,7 @@
   import { AuthContext } from '../context/AuthContext';
 
   export default function LoginScreen({ navigation }) {
-    const { login } = useContext(AuthContext);
+    const { login, errorWhileLoginEmail, errorWhileLoginPassword, setErrorWhileLoginEmail, setErrorWhileLoginPassword } = useContext(AuthContext);
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -43,6 +43,9 @@
     const handleLogin = async () => {
       setErrorEmail("");
       setErrorPassword("");
+
+      setErrorWhileLoginEmail("");
+      setErrorWhileLoginPassword("");
   
       let valid = true;
   
@@ -75,7 +78,15 @@
       }
   
       if (valid) {
-        await login(email, password);
+        try {
+          await login(email, password);
+        } catch (error) {
+          if (error.message === "E-mail doesn't exists.") {
+            setErrorEmail(error.message);
+          } else if (error.message === "Invalid password.") {
+            setErrorPassword(error.message);
+          }
+        }
       }
     };
 
@@ -126,7 +137,11 @@
                 {/* Error handling e-mail */}
                 <View className='flex-row items-start justify-start w-96'>
                     {
-                      errorEmail !== "" && (<Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>)
+                      errorEmail !== "" ? (
+                        <Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>
+                      ) : errorWhileLoginEmail ? (
+                        <Text className="text-red-600 text-sm font-poppins_italic">This email does not exist.</Text>
+                      ) : null
                     }
                 </View>
                 
@@ -145,8 +160,12 @@
 
                 {/* Password handling e-mail */}
                 <View className='flex-row items-start justify-start w-96'>
-                    {
-                      errorPassword !== "" && (<Text className="text-red-600 text-sm font-poppins_italic">{errorPassword}</Text>)
+                {
+                      errorPassword !== "" ? (
+                        <Text className="text-red-600 text-sm font-poppins_italic">{errorPassword}</Text>
+                      ) : errorWhileLoginPassword ? (
+                        <Text className="text-red-600 text-sm font-poppins_italic">Incorrect password.</Text>
+                      ) : null
                     }
                 </View>
               </View>

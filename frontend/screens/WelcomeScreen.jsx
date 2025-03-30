@@ -1,10 +1,24 @@
-import { View, Text, ImageBackground, TouchableOpacity, StatusBar, Image } from 'react-native'
-import React from 'react'
+import { View, Text, ImageBackground, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useContext, useCallback } from 'react';
 
 // tailwind
 import "../css/global.css";
 
+import { AuthContext } from '../context/AuthContext';
+
 export default function WelcomeScreen({ navigation }) {
+
+    const { setErrorWhileLogin, setErrorWhileLoginEmail, setErrorWhileLoginPassword } = useContext(AuthContext);
+
+    // resetira errorWhileLogin kad se vrati na welcome page da nam nebi onaj error text ostajo cijelo vrijeme
+    useFocusEffect(
+        useCallback(() => {
+          setErrorWhileLogin(false);
+          setErrorWhileLoginEmail(false);
+          setErrorWhileLoginPassword(false);
+    }, []));
+
     return (
         <ImageBackground className='flex-1' source={require('../img/background.png')} resizeMode='fill'>
             <StatusBar barStyle="light-content" backgroundColor='black' />
