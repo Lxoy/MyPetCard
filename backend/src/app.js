@@ -22,19 +22,79 @@ app.use(express.json());
 app.post("/register", async (req, res) => {
     try {
         const { username, email, password } = req.body;
-    
+
+        // Provjera zauzetog emaila
+        const checkEmailSql = "SELECT id FROM users WHERE email = ?";
+        const emailResults = await new Promise((resolve, reject) => {
+            db.query(checkEmailSql, [email], (error, results) => {
+                if (error) reject(error);
+                resolve(results);
+            });
+        });
+
+        if (emailResults.length > 0) {
+            return res.status(409).json({ error_msg: "Email already in use" });
+        }
+
+        // Provjera zauzetog korisničkog imena
+        const checkUsernameSql = "SELECT id FROM users WHERE username = ?";
+        const usernameResults = await new Promise((resolve, reject) => {
+            db.query(checkUsernameSql, [username], (error, results) => {
+                if (error) reject(error);
+                resolve(results);
+            });
+        });
+
+        if (usernameResults.length > 0) {
+            return res.status(409).json({ error_msg: "Username already taken" });
+        }
+
+        // Hashiranje lozinke
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        db.query(sql, [username, email, hashedPassword], (error, result) => {
-            if (error) return res.status(500).json({ error_msg: "Error inserting user." });
-
-            res.status(201).json({ message: "User registered successfully!" });
+        // Kreiranje novog korisnika u bazi
+        const createUserSql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        const createUserResult = await new Promise((resolve, reject) => {
+            db.query(createUserSql, [username, email, hashedPassword], (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            });
         });
+
+        // Dohvaćanje podataka novog korisnika
+        const getUserSql = "SELECT id, username, email FROM users WHERE id = ?";
+        const userData = await new Promise((resolve, reject) => {
+            db.query(getUserSql, [createUserResult.insertId], (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            });
+        });
+
+        // Provjera postoji li korisnik i generiranje tokena
+        if (userData.length > 0) {
+            const user = userData[0];
+
+            // Generiraj JWT token
+            const token = jwt.sign(
+                { id: user.id, username: user.username, email: user.email },
+                SECRET_KEY,
+                { expiresIn: '30d' }
+            );
+
+            return res.status(201).json({
+                message: "User registered successfully!",
+                user: user,
+                token: token
+            });
+        } else {
+            return res.status(500).json({ error_msg: "Error retrieving user data after registration" });
+        }
     } catch (err) {
-        res.status(500).json({ error_msg: "Server error." });
+        console.error("Registration error:", err);
+        return res.status(500).json({ error_msg: "Internal server error" });
     }
 });
+
 
 // Login
 app.post("/login", async (req, res) => {

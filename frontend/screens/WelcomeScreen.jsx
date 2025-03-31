@@ -30,7 +30,7 @@ export default function WelcomeScreen({ navigation }) {
                     <TouchableOpacity className='bg-primary items-center justify-center rounded-full w-80 h-12' onPress={() => navigation.navigate("LoginScreen")}>
                         <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity className='m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={() => navigation.navigate("SignUpScreen")}>
+                    <TouchableOpacity className='m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={() => navigation.navigate("SignupScreen")}>
                         <Text className='text-primary font-poppins_bold text-lg'>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

@@ -14,7 +14,7 @@ import AuthStack from './AuthStack';
 const Stack = createNativeStackNavigator();
 ``
 export default function AppNav() {
-    const { isLoading, userToken, errorWhileLogin } = useContext(AuthContext);
+    const { isLoading, userToken, errorWhileLogin, errorWhileRegister } = useContext(AuthContext);
 
     if (isLoading) {
         return (
@@ -28,7 +28,12 @@ export default function AppNav() {
     return (
         <NavigationContainer>
             {
-                userToken !== null ? <AppStack /> : <AuthStack initialRoute= { errorWhileLogin ? "LoginScreen" : "WelcomeScreen" } />
+                userToken !== null ? <AppStack /> : <AuthStack initialRoute={ 
+                    errorWhileLogin ? "LoginScreen" : 
+                    errorWhileRegister ? "SignupScreen" : 
+                    "WelcomeScreen" 
+                } />
+                
             }
         </NavigationContainer>
     );

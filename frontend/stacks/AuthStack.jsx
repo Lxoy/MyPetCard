@@ -6,7 +6,7 @@ import "../css/global.css";
 
 // screens
 import LoginScreen from '../screens/LoginScreen';
-import SignUpScreen from '../screens/SignupScreen';
+import SignupScreen from '../screens/SignupScreen';
 import WelcomeScreen from '../screens/WelcomeScreen'
 
 const Stack = createNativeStackNavigator();
@@ -14,10 +14,15 @@ const Stack = createNativeStackNavigator();
 export default function AuthStack({initialRoute = "WelcomeScreen"}) {
     
     return (
-        <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
+        <Stack.Navigator  initialRouteName={initialRoute} 
+        screenOptions={{ 
+            headerShown: false,
+            animation: 'fade',
+            gestureEnabled: true
+        }}>
             <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+            <Stack.Screen name="SignupScreen" component={SignupScreen} />
         </Stack.Navigator>
     );
 }
