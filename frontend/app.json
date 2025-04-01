@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "mypetcard",
     "name": "frontend",
     "slug": "frontend",
     "version": "1.0.0",
@@ -20,11 +21,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.frontend"
+      "package": "com.mypetcard.frontend"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "frontend"
+    "scheme": "frontend",
+    "extra": {
+      "eas": {
+        "projectId": "14ff3199-a042-4e28-b53e-7b8673d546e7"
+      },
+      "googleClientId": "YOUR_ANDROID_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+    }
   }
 }

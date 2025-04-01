@@ -9,7 +9,14 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function WelcomeScreen({ navigation }) {
 
-    const { setErrorWhileLogin, setErrorWhileLoginEmail, setErrorWhileLoginPassword } = useContext(AuthContext);
+    const { 
+        setErrorWhileLogin,
+        setErrorWhileLoginEmail,
+        setErrorWhileLoginPassword,
+        setErrorWhileRegisterUsername,
+        setErrorWhileRegisterEmail,
+        setErrorWhileRegisterPassword,
+    } = useContext(AuthContext);
 
     // resetira errorWhileLogin kad se vrati na welcome page da nam nebi onaj error text ostajo cijelo vrijeme
     useFocusEffect(
@@ -17,6 +24,10 @@ export default function WelcomeScreen({ navigation }) {
           setErrorWhileLogin(false);
           setErrorWhileLoginEmail(false);
           setErrorWhileLoginPassword(false);
+
+          setErrorWhileRegisterUsername(false);
+          setErrorWhileRegisterEmail(false);
+          setErrorWhileRegisterPassword(false);
     }, []));
 
     return (

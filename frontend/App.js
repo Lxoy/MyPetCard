@@ -1,7 +1,6 @@
+// client ID: 429290716571-uml2b2bg2n16kjh9ks96t2h2id41j37q.apps.googleusercontent.com
+
 import * as React from 'react';
-import { StatusBar } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 
 // nativewind

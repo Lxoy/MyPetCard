@@ -1,14 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPaw, faHouseMedical, faUnderline, faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { faPaw, faHouseMedical, faAddressCard, faComments } from '@fortawesome/free-solid-svg-icons';
 
 // screens
 import MyPetsScreen from '../screens/MyPetsScreen';
 import ForumScreen from '../screens/ForumScreen';
 import VetsScreen from '../screens/VetsScreen';
 import MyProfileScreen from '../screens/MyProfileScreen';
-import { NavigationContainer } from '@react-navigation/native';
 
 // styles
 const tabBarOptions = {
@@ -24,7 +23,7 @@ const Tab = createBottomTabNavigator();
 const screens = [
     { name: "MyPets", component: MyPetsScreen, icon: faPaw },
     { name: "Vets", component: VetsScreen, icon: faHouseMedical },
-    { name: "Forum", component: ForumScreen, icon: faUnderline },
+    { name: "Forum", component: ForumScreen, icon: faComments },
     { name: "MyProfile", component: MyProfileScreen, icon: faAddressCard },
 ];
 

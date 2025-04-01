@@ -5,7 +5,15 @@ import { AuthContext } from '../context/AuthContext';
 import "../css/global.css";
 
 export default function SignupScreen({ navigation }) {
-    const { register, errorWhileRegisterUsername, errorWhileRegisterEmail, errorWhileRegisterPassword, setErrorWhileRegisterUsername, setErrorWhileRegisterEmail, setErrorWhileRegisterPassword } = useContext(AuthContext);
+    const { 
+        register, 
+        errorWhileRegisterUsername, 
+        errorWhileRegisterEmail, 
+        errorWhileRegisterPassword, 
+        setErrorWhileRegisterUsername, 
+        setErrorWhileRegisterEmail, 
+        setErrorWhileRegisterPassword
+    } = useContext(AuthContext);
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -13,6 +21,7 @@ export default function SignupScreen({ navigation }) {
 
     const [passwordValidation, setPasswordValidation] = useState(null);
 
+    // errors
     const [errorUsername, setErrorUsername] = useState('');
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
@@ -94,12 +103,14 @@ export default function SignupScreen({ navigation }) {
 
         // Email validation
         if (!email) {
-            setErrorEmail('Email is required');
+            setErrorEmail('Please enter your e-mail.');
             valid = false;
         } else if (!isEmailValid(email)) {
             setErrorEmail('Please enter a valid email address');
             valid = false;
         }
+
+
 
         // Password validation
         const validation = validatePassword(password);
