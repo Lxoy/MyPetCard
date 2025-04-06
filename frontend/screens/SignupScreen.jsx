@@ -3,15 +3,16 @@ import React, { useState, useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../context/AuthContext';
 import "../css/global.css";
+import CustomAlert from "../components/CustomAlert"
 
 export default function SignupScreen({ navigation }) {
-    const { 
-        register, 
-        errorWhileRegisterUsername, 
-        errorWhileRegisterEmail, 
-        errorWhileRegisterPassword, 
-        setErrorWhileRegisterUsername, 
-        setErrorWhileRegisterEmail, 
+    const {
+        register,
+        errorWhileRegisterUsername,
+        errorWhileRegisterEmail,
+        errorWhileRegisterPassword,
+        setErrorWhileRegisterUsername,
+        setErrorWhileRegisterEmail,
         setErrorWhileRegisterPassword
     } = useContext(AuthContext);
 
@@ -21,7 +22,11 @@ export default function SignupScreen({ navigation }) {
 
     const [passwordValidation, setPasswordValidation] = useState(null);
 
-    // errors
+    // Alert
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+    // Errors
     const [errorUsername, setErrorUsername] = useState('');
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
@@ -110,8 +115,6 @@ export default function SignupScreen({ navigation }) {
             valid = false;
         }
 
-
-
         // Password validation
         const validation = validatePassword(password);
         setPasswordValidation(validation);
@@ -120,24 +123,15 @@ export default function SignupScreen({ navigation }) {
             valid = false;
         }
 
-        if(valid){
+        if (valid) {
             try {
                 await register(username, email, password);
-                Alert.alert(
-                    'Registration Successful',
-                    `Account "${username}" was created successfully!`,
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                setUsername('');
-                                setEmail('');
-                                setPassword('');
-                                setPasswordValidation(null);
-                            }
-                        }
-                    ]
-                );
+                setAlertMessage(`Welcome "${username}"!`);
+                setShowAlert(true);
+                setUsername('');
+                setEmail('');
+                setPassword('');
+                setPasswordValidation(null);
             } catch (error) {
                 if (error.message.includes('Email')) {
                     setErrorWhileRegisterEmail(error.message);
@@ -145,8 +139,13 @@ export default function SignupScreen({ navigation }) {
                     setErrorWhileRegisterUsername(error.message);
                 } else if (error.message.includes('Password')) {
                     setErrorWhileRegisterPassword(error.message);
-                }else {
-                    Alert.alert('Registration Error', error.message || 'An error occurred during registration');
+                } else {
+                    setAlertMessage('An error occured during registration.');
+                    <CustomAlert
+                        visible={showAlert}
+                        message={alertMessage}
+                        onClose={() => setShowAlert(false)}
+                    />
                 }
             }
         }
@@ -202,14 +201,14 @@ export default function SignupScreen({ navigation }) {
 
                             {/* Error handling username */}
                             <View className='flex-row items-start justify-start w-96'>
-                                           {
-                                             errorUsername !== "" ? (
-                                               <Text className="text-red-600 text-sm font-poppins_italic">{errorUsername}</Text>
-                                             ) : errorWhileRegisterUsername ? (
-                                               <Text className="text-red-600 text-sm font-poppins_italic">This username already exists.</Text>
-                                             ) : null
-                                           }
-                                         </View>
+                                {
+                                    errorUsername !== "" ? (
+                                        <Text className="text-red-600 text-sm font-poppins_italic">{errorUsername}</Text>
+                                    ) : errorWhileRegisterUsername ? (
+                                        <Text className="text-red-600 text-sm font-poppins_italic">This username already exists.</Text>
+                                    ) : null
+                                }
+                            </View>
 
                             {/* Email Input */}
                             <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
@@ -226,15 +225,15 @@ export default function SignupScreen({ navigation }) {
                             </View>
 
                             {/* Error handling e-mail */}
-                                         <View className='flex-row items-start justify-start w-96'>
-                                           {
-                                             errorEmail !== "" ? (
-                                               <Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>
-                                             ) : errorWhileRegisterEmail ? (
-                                               <Text className="text-red-600 text-sm font-poppins_italic">This email already exists.</Text>
-                                             ) : null
-                                           }
-                                         </View>
+                            <View className='flex-row items-start justify-start w-96'>
+                                {
+                                    errorEmail !== "" ? (
+                                        <Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>
+                                    ) : errorWhileRegisterEmail ? (
+                                        <Text className="text-red-600 text-sm font-poppins_italic">This email already exists.</Text>
+                                    ) : null
+                                }
+                            </View>
 
                             {/* Password Input */}
                             <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
