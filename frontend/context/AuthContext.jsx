@@ -3,6 +3,13 @@ import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { BASE_URL, BASE_URL_EMULATOR } from '../config.js';
 
+import { GOOGLE_IOS_CLIENT_ID, GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } from '@env';
+
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+WebBrowser.maybeCompleteAuthSession();
+
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -45,6 +52,10 @@ export const AuthProvider = ({ children }) => {
             } else if (error.response.data.error_msg === "Invalid password.") {
                 setErrorWhileLoginPassword(true);
                 throw new Error("Invalid password.");
+            } else if (error.response.data.error_msg === "This account uses Google login. Use Google to sign in.") {
+                throw new Error("This account uses Google login. Use Google to sign in.")
+            } else {
+                throw new Error(error.response?.data?.message || "Login failed");
             }
         } finally {
             setIsLoading(false);
@@ -105,12 +116,12 @@ export const AuthProvider = ({ children }) => {
     
         } catch (error) {
             setErrorWhileRegister(true);
-            if (error.response && error.response.data.error_msg === "Email already in use") {
+            if (error.response.data.error_msg === "E-mail already in use.") {
                 setErrorWhileRegisterEmail(true);
                 throw new Error("Email already in use");
-            } else if (error.response && error.response.data.error_msg === "Username already taken") {
+            } else if (error.response.data.error_msg === "Username already taken") {
                 setErrorWhileRegisterUsername(true);
-                throw new Error("Username already taken");
+                throw new Error("Username already taken.");
             } else {
                 throw new Error(error.response?.data?.message || "Registration failed");
             }
@@ -118,13 +129,50 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
+
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        webClientId: GOOGLE_WEB_CLIENT_ID,
+        iosClientId: GOOGLE_IOS_CLIENT_ID,
+        androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+    });
     
+    const sendGoogleLoginToBackend = async (id_token) => {
+        try {
+            setIsLoading(true);
+            const response = await axios.post(BASE_URL_EMULATOR + "/login/google", { id_token });
     
+            console.log("Backend response:", response.data);
+            if (response.data.token) {
+                const token = response.data.token;
+                const user = response.data.user;
+                
+                setUserToken(token);
+                setUserData(user);
+    
+                await AsyncStorage.setItem('userToken', token);
+                await AsyncStorage.setItem('userData', JSON.stringify(user));
+
+                console.log("Google login successful:", user);
+            }
+        } catch (error) {
+            console.error("Error in backend Google login:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (response?.type === 'success') {
+            const { id_token } = response.params;
+            console.log('ID Token:', id_token);
+            sendGoogleLoginToBackend(id_token);
+        }
+    }, [response]);
 
     useEffect(() => {
         isLoggedIn();
     }, []);
-
+``
     return (
         <AuthContext.Provider value={{ 
             login, 
@@ -134,6 +182,7 @@ export const AuthProvider = ({ children }) => {
             userToken, 
             userData,
             errorWhileRegister,
+            setErrorWhileRegister,
             errorWhileRegisterUsername,
             setErrorWhileRegisterUsername,
             errorWhileRegisterEmail,
@@ -145,7 +194,8 @@ export const AuthProvider = ({ children }) => {
             errorWhileLoginEmail, 
             setErrorWhileLoginEmail, 
             errorWhileLoginPassword, 
-            setErrorWhileLoginPassword 
+            setErrorWhileLoginPassword,
+            promptAsync
         }}>
             {children}
         </AuthContext.Provider>

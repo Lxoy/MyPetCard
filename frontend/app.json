@@ -14,7 +14,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mypetcard.mypetcard"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,12 +27,16 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "frontend",
+    "scheme": "com.mypetcard.frontend",
     "extra": {
       "eas": {
         "projectId": "14ff3199-a042-4e28-b53e-7b8673d546e7"
       },
-      "googleClientId": "YOUR_ANDROID_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+      "googleClientId": {
+        "android": "429290716571-uml2b2bg2n16kjh9ks96t2h2id41j37q.apps.googleusercontent.com",
+        "ios": "429290716571-fvals58l0sli5itjqh5jqsld0u77ac3n.apps.googleusercontent.com",
+        "web": "429290716571-l4gn8hhjpnd2im9gv29dh55og3suptv0.apps.googleusercontent.com"
+      }
     }
   }
 }

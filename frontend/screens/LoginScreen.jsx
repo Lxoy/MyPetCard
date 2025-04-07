@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Alert, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -7,7 +7,7 @@ import "../css/global.css";
 import { AuthContext } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }) {
-  const { login, errorWhileLoginEmail, errorWhileLoginPassword, setErrorWhileLoginEmail, setErrorWhileLoginPassword } = useContext(AuthContext);
+  const { login, errorWhileLoginEmail, errorWhileLoginPassword, promptAsync } = useContext(AuthContext);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -38,6 +38,12 @@ export default function LoginScreen({ navigation }) {
       } catch (error) {
         if (error.message === "E-mail doesn't exists.") {
           setErrorEmail(error.message);
+        } else if (error.message === "This account uses Google login. Use Google to sign in.") {
+          Alert.alert(
+            "Google Login Required",
+            "This account is registered using Google. Please sign in with Google.",
+            [{ text: "OK" }]
+          );
         } else if (error.message === "Invalid password.") {
           setErrorPassword(error.message);
         }
@@ -143,7 +149,7 @@ export default function LoginScreen({ navigation }) {
 
               <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
-              <TouchableOpacity className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={() => promptAsync()}>
+              <TouchableOpacity className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={async () => await promptAsync() }>
                 <Icon className='flex-4' name="google" size={24} />
               </TouchableOpacity>
             </View>

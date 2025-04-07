@@ -1,5 +1,3 @@
-// client ID: 429290716571-uml2b2bg2n16kjh9ks96t2h2id41j37q.apps.googleusercontent.com
-
 import * as React from 'react';
 import { useFonts } from 'expo-font';
 
@@ -8,6 +6,10 @@ import "./css/global.css";
 
 import { AuthProvider } from './context/AuthContext';
 import AppNav from './stacks/AppNav'
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 export default function App() {
 
@@ -22,9 +24,10 @@ export default function App() {
       if (!fontsLoaded) return null;
       
   return (
-    <AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
         <AppNav />
-    </AuthProvider>
-
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }

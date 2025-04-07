@@ -28,6 +28,7 @@ const screens = [
 ];
 
 export default function AppStack() {
+
     return (
         <Tab.Navigator screenOptions={tabBarOptions}>
             {screens.map(({ name, component, icon }) => (

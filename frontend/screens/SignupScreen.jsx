@@ -6,14 +6,15 @@ import "../css/global.css";
 import CustomAlert from "../components/CustomAlert"
 
 export default function SignupScreen({ navigation }) {
-    const {
-        register,
-        errorWhileRegisterUsername,
-        errorWhileRegisterEmail,
-        errorWhileRegisterPassword,
-        setErrorWhileRegisterUsername,
-        setErrorWhileRegisterEmail,
-        setErrorWhileRegisterPassword
+    const { 
+        register, 
+        errorWhileRegisterUsername, 
+        errorWhileRegisterEmail, 
+        errorWhileRegisterPassword, 
+        setErrorWhileRegisterUsername, 
+        setErrorWhileRegisterEmail, 
+        setErrorWhileRegisterPassword,
+        promptAsync
     } = useContext(AuthContext);
 
     const [username, setUsername] = useState('');
@@ -281,7 +282,7 @@ export default function SignupScreen({ navigation }) {
 
                             <TouchableOpacity
                                 className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12'
-                                onPress={() => Alert.alert('Google Sign Up', 'Google sign up functionality')}
+                                onPress={async () => await promptAsync()}
                             >
                                 <Icon name="google" size={24} />
                             </TouchableOpacity>
