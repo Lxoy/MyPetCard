@@ -1,46 +1,70 @@
 import React from 'react';
+import { View, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPaw, faHouseMedical, faAddressCard, faComments } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHouse,
+} from '@fortawesome/free-solid-svg-icons';
 
-// screens
+import {
+    faNewspaper,
+    faComment,
+    faUser
+} from '@fortawesome/free-regular-svg-icons'
+
 import MyPetsScreen from '../screens/MyPetsScreen';
 import ForumScreen from '../screens/ForumScreen';
 import VetsScreen from '../screens/VetsScreen';
 import MyProfileScreen from '../screens/MyProfileScreen';
 
-// styles
-const tabBarOptions = {
-    headerShown: false,
-    tabBarStyle: { backgroundColor: '#3F72AF', height: 70, paddingBottom: 10, borderTopWidth: 0, elevation: 0 },
-    tabBarLabelStyle: { fontSize: 14, fontWeight: "bold" },
-    tabBarActiveTintColor: '#112D4E',
-    tabBarInactiveTintColor: '#DBE2EF',
-};
-
 const Tab = createBottomTabNavigator();
 
 const screens = [
-    { name: "MyPets", component: MyPetsScreen, icon: faPaw },
-    { name: "Vets", component: VetsScreen, icon: faHouseMedical },
-    { name: "Forum", component: ForumScreen, icon: faComments },
-    { name: "MyProfile", component: MyProfileScreen, icon: faAddressCard },
+  { name: 'MyPets', component: MyPetsScreen, icon: faHouse },
+  { name: 'Vets', component: VetsScreen, icon: faNewspaper },
+  { name: 'Forum', component: ForumScreen, icon: faComment },
+  { name: 'MyProfile', component: MyProfileScreen, icon: faUser },
 ];
 
-export default function AppStack() {
+const TabIcon = ({ icon, color, focused }) => (
+  <View className="relative items-center justify-center w-8 h-10">
+    <FontAwesomeIcon icon={icon} size={22} color={color} />
+    {focused && (
+      <View className="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-jetblack" />
+    )}
+  </View>
+);
 
-    return (
-        <Tab.Navigator screenOptions={tabBarOptions}>
-            {screens.map(({ name, component, icon }) => (
-                <Tab.Screen 
-                    key={name} 
-                    name={name} 
-                    component={component} 
-                    options={{
-                        tabBarIcon: ({ color, size }) => <FontAwesomeIcon icon={icon} size={size} color={color} />,
-                    }} 
-                />
-            ))}
-        </Tab.Navigator>
-    );
+export default function AppStack() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: '#2C2C2E',
+        tabBarInactiveTintColor: '#808080',
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          height: Platform.OS === 'ios' ? 65 : 55,
+          paddingBottom: Platform.OS === 'ios' ? 30 : 10,
+          paddingTop: 5,
+          borderTopWidth: 0.5,
+          borderTopColor: '#ddd',
+        },
+      }}
+    >
+      {screens.map(({ name, component, icon }) => (
+        <Tab.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon icon={icon} color={color} focused={focused} />
+            ),
+          }}
+        />
+      ))}
+    </Tab.Navigator>
+  );
 }

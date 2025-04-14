@@ -1,10 +1,10 @@
 import { View, Alert, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../context/AuthContext';
 
 // tailwind
 import "../css/global.css";
-import { AuthContext } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }) {
   const { login, errorWhileLoginEmail, errorWhileLoginPassword, promptAsync } = useContext(AuthContext);

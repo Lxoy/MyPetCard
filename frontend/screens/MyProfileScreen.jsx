@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, Image, ImageBackground, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, ImageBackground, TextInput, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/AuthContext';
 import CustomAlert from "../components/CustomAlert"
+
+// tailwind
+import "../css/global.css";
 
 export default function MyProfileScreen() {
     // Data
@@ -117,6 +120,7 @@ export default function MyProfileScreen() {
 
     return (
         <ImageBackground className='flex-1 flex-col' source={require('../img/background3.png')}>
+            <StatusBar barStyle="light-content" backgroundColor='black' />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View className='flex mt-4 items-center'>
                     {/* Screen title */}
@@ -165,6 +169,7 @@ export default function MyProfileScreen() {
                             editable={false}
                         />
                     </View>
+                    
                     {/* Password form*/}
                     <Text className='font-poppins_regular text-xl'>
                         New Password
