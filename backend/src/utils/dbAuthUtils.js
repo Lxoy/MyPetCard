@@ -21,7 +21,7 @@ export const checkUsername = (username) => {
 };
 
 export const getUserById = (id) => {
-  const getUserSql = "SELECT id, username, email FROM users WHERE id = ?";
+  const getUserSql = "SELECT * FROM users WHERE id = ?";
   return new Promise((resolve, reject) => {
       db.query(getUserSql, [id], (error, result) => {
           if (error) reject(error);
@@ -50,10 +50,10 @@ export const insertNewUser = (username, email, hashedPassword) => {
   });
 }
 
-export const insertNewUserGoogleLogin = (username, email, google_id) => {
-  const createUserSql = "INSERT INTO users (username, email, password, google_id, provider) VALUES (?, ?, NULL, ?,'google')";
+export const insertNewUserGoogleLogin = (username, first_name, last_name, email, google_id) => {
+  const createUserSql = "INSERT INTO users (username, email, first_name, last_name, password, google_id, provider) VALUES (?, ?, ?, ?, NULL, ?,'google')";
   return new Promise((resolve, reject) => {
-      db.query(createUserSql, [username, email, google_id], (error, result) => {
+      db.query(createUserSql, [username, email, first_name, last_name, google_id], (error, result) => {
           if (error) reject(error);
           resolve(result);
       });

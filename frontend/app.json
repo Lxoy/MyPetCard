@@ -1,15 +1,15 @@
 {
   "expo": {
     "owner": "mypetcard",
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "MyPetCard",
+    "slug": "mypetcard",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-1024x1024.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo-1242x2436.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,15 +19,15 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo-432x432-nobg.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mypetcard.frontend"
+      "package": "com.mypetcard.mypetcard"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "com.mypetcard.frontend",
+    "scheme": "com.mypetcard.mypetcard",
     "extra": {
       "eas": {
         "projectId": "14ff3199-a042-4e28-b53e-7b8673d546e7"

@@ -95,7 +95,7 @@ export const loginWithGoogle = async (req, res) => {
             ]
         });
 
-        const { email, name, sub } = ticket.getPayload();
+        const { email, name, sub, given_name, family_name } = ticket.getPayload();
 
         const userData = await checkEmail(email);
 
@@ -111,7 +111,7 @@ export const loginWithGoogle = async (req, res) => {
         } else {
             const username = await generateUniqueUsername(name);
 
-            await insertNewUserGoogleLogin(username, email, sub);
+            await insertNewUserGoogleLogin(username, given_name, family_name, email, sub);
 
             const newUserData = await getUserByEmail(email);
 

@@ -7,6 +7,7 @@ import { GOOGLE_IOS_CLIENT_ID, GOOGLE_ANDROID_CLIENT_ID, GOOGLE_WEB_CLIENT_ID } 
 
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
+import * as AuthSession from 'expo-auth-session';
 WebBrowser.maybeCompleteAuthSession();
 
 
@@ -134,6 +135,9 @@ export const AuthProvider = ({ children }) => {
         webClientId: GOOGLE_WEB_CLIENT_ID,
         iosClientId: GOOGLE_IOS_CLIENT_ID,
         androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+        redirectUri: AuthSession.makeRedirectUri({
+            scheme: 'com.mypetcard.mypetcard',  
+        })
     });
     
     const sendGoogleLoginToBackend = async (id_token) => {

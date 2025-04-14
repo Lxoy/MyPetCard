@@ -61,11 +61,11 @@ export default function LoginScreen({ navigation }) {
           <StatusBar barStyle="light-content" backgroundColor='black' />
 
           {/* Background */}
-          <ImageBackground
-            source={require('../img/background3.png')}
-            resizeMode="cover"
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
-          />
+            <ImageBackground
+              source={require('../img/background3.png')}
+              resizeMode="cover"
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
 
           <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
             {/* Back button */}
@@ -86,7 +86,7 @@ export default function LoginScreen({ navigation }) {
               <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
                 <Icon className='p-2' color={'#112D4E'} name="user" size={24} />
                 <TextInput
-                  className='flex-1 color-secondary'
+                  className='flex-1 color-secondary font-poppins_italic pt-1'
                   selectionColor={'#112D4E'}
                   placeholder="E-mail"
                   placeholderTextColor={'#3F72AF'}
@@ -110,7 +110,7 @@ export default function LoginScreen({ navigation }) {
                 <Icon className='p-2' color={'#112D4E'} name="lock" size={24} />
                 <TextInput
                   secureTextEntry={true}
-                  className='flex-1 color-secondary'
+                  className='flex-1 color-secondary font-poppins_italic pt-1'
                   selectionColor={'#112D4E'}
                   placeholder="Password"
                   placeholderTextColor={'#3F72AF'}
@@ -141,15 +141,15 @@ export default function LoginScreen({ navigation }) {
             {/* Login and Google button */}
             <View className='flex-2 items-center justify-center'>
               <TouchableOpacity
-                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
+                className='m-3 bg-primary items-center justify-center rounded-3xl w-96 h-14'
                 onPress={handleLogin}
               >
-                <Text className='text-accent font-poppins_bold text-lg'>Log In</Text>
+                <Text className='text-accent font-poppins_bold text-xl'>Log In</Text>
               </TouchableOpacity>
 
               <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
-              <TouchableOpacity className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12' onPress={async () => await promptAsync() }>
+              <TouchableOpacity className='bg-white m-3 border-2 items-center justify-center rounded-3xl w-96 h-14' onPress={async () => await promptAsync() }>
                 <Icon className='flex-4' name="google" size={24} />
               </TouchableOpacity>
             </View>

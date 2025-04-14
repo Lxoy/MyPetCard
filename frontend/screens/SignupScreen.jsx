@@ -182,16 +182,16 @@ export default function SignupScreen({ navigation }) {
                         {/* Logo and Welcome Text */}
                         <View className='flex-1 justify-center items-center'>
                             <Image className="size-64" source={require('../img/logo-transparent.png')} />
-                            <Text className="text-primary text-6xl font-poppins_bold text-center py-1 mb-12">Create Account</Text>
+                            <Text className="text-primary text-6xl font-poppins_bold text-center py-1 mb-10">Create Account</Text>
                         </View>
 
                         {/* Form Inputs */}
-                        <View className='flex-2 justify-center items-center mb-12'>
+                        <View className='flex-2 justify-center items-center mb-10'>
                             {/* Username Input */}
                             <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
                                 <Icon className='flex-4 p-2' color={'#112D4E'} name="user" size={24} />
                                 <TextInput
-                                    className='flex-1 color-secondary'
+                                    className='flex-1 color-secondary font-poppins_italic pt-1'
                                     selectionColor={'#112D4E'}
                                     placeholder="Username"
                                     placeholderTextColor={'#3F72AF'}
@@ -212,11 +212,11 @@ export default function SignupScreen({ navigation }) {
                             </View>
 
                             {/* Email Input */}
-                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
+                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-3'>
                                 <Icon className='flex-4 p-2' color={'#112D4E'} name="envelope" size={20} />
                                 <TextInput
                                     keyboardType="email-address"
-                                    className='flex-1 color-secondary'
+                                    className='flex-1 color-secondary font-poppins_italic pt-1'
                                     selectionColor={'#112D4E'}
                                     placeholder="E-mail"
                                     placeholderTextColor={'#3F72AF'}
@@ -237,11 +237,11 @@ export default function SignupScreen({ navigation }) {
                             </View>
 
                             {/* Password Input */}
-                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
+                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-3'>
                                 <Icon className='flex-4 p-2' color={'#112D4E'} name="lock" size={24} />
                                 <TextInput
                                     secureTextEntry={true}
-                                    className='flex-1 color-secondary'
+                                    className='flex-1 color-secondary font-poppins_italic pt-1'
                                     selectionColor={'#112D4E'}
                                     placeholder="Password"
                                     placeholderTextColor={'#3F72AF'}
@@ -270,10 +270,10 @@ export default function SignupScreen({ navigation }) {
                         {/* Sign Up and Google button */}
                         <View className='flex-2 items-center justify-center'>
                             <TouchableOpacity
-                                className='m-5 bg-primary items-center justify-center rounded-full w-80 h-12'
+                                className='m-3 bg-primary items-center justify-center rounded-3xl w-96 h-14'
                                 onPress={handleRegister}
                             >
-                                <Text className='text-accent font-poppins_bold text-lg'>
+                                <Text className='text-accent font-poppins_bold text-xl'>
                                     Sign Up
                                 </Text>
                             </TouchableOpacity>
@@ -281,7 +281,7 @@ export default function SignupScreen({ navigation }) {
                             <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
 
                             <TouchableOpacity
-                                className='bg-white m-5 border-2 items-center justify-center rounded-full w-80 h-12'
+                                className='bg-white m-3 border-2 items-center justify-center rounded-3xl w-96 h-14'
                                 onPress={async () => await promptAsync()}
                             >
                                 <Icon name="google" size={24} />
