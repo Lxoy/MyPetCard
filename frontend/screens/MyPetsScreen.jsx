@@ -7,7 +7,7 @@ import "../css/global.css";
 
 export default function MyPetsScreen() {
   return (
-    <View className='flex-1 flex-col bg-transparent'>
+    <View className='flex-1 flex-col bg-background'>
       <StatusBar barStyle="light-content" backgroundColor='black' />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className='flex mt-4 items-center'>
