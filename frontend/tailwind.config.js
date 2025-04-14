@@ -28,7 +28,16 @@ module.exports = {
         poppins_extra_bold: ['Poppins-ExtraBold'],
         poppins_regular: ['Poppins-Regular'],
         poppins_italic: ['Poppins-Italic'],
-        poppins_bold_italic: ['Poppins-BoldItalic']
+        poppins_bold_italic: ['Poppins-BoldItalic'],
+        sfpro_black_italic: ['SFPRODISPLAYBLACKITALIC'],
+        sfpro_bold: ['SFPRODISPLAYBOLD'],
+        sfpro_heavy_italic: ['SFPRODISPLAYHEAVYITALIC'],
+        sfpro_light_italic: ['SFPRODISPLAYLIGHTITALIC'],
+        sfpro_medium: ['SFPRODISPLAYMEDIUM'],
+        sfpro_regular: ['SFPRODISPLAYREGULAR'],
+        sfpro_semi_bold_italic: ['SFPRODISPLAYSEMIBOLDITALIC'],
+        sfpro_thin_italic: ['SFPRODISPLAYTHINITALIC'],
+        sfpro_ultra_light_italic: ['SFPRODISPLAYULTRALIGHTITALIC']
       }
     },
   },

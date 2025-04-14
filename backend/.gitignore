@@ -72,3 +72,6 @@ Thumbs.db
 # TypeScript build output
 dist/
 build/
+
+
+database.js

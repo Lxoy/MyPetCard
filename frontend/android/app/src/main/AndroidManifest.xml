@@ -24,8 +24,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="frontend"/>
-        <data android:scheme="com.mypetcard.frontend"/>
+        <data android:scheme="com.mypetcard.mypetcard"/>
+        <data android:scheme="com.mypetcard.mypetcard"/>
       </intent-filter>
     </activity>
   </application>
