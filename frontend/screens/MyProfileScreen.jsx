@@ -1,15 +1,16 @@
-import React, { useState, useContext } from 'react';
-import { Text, View, Image, ImageBackground, TextInput, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Text, View, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGem, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { faLanguage, faEraser, faLock, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faLanguage, faEraser, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../context/AuthContext';
 import CustomAlert from "../components/CustomAlert"
 
 // tailwind
 import "../css/global.css";
 
-export default function MyProfileScreen() {
+export default function MyProfileScreen({navigation}) {
+
     // Data
     const { userData, logout } = useContext(AuthContext);
 
@@ -125,7 +126,7 @@ export default function MyProfileScreen() {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {/* Title */}
                 <View className="mt-4 items-center">
-                    <Text className="font-poppins_regular text-2xl text-text">
+                    <Text className="font-sfpro_regular text-2xl text-text">
                         My Profile
                     </Text>
                 </View>
@@ -149,10 +150,10 @@ export default function MyProfileScreen() {
 
                     {/* User info */}
                     <View className="flex-1 justify-center">
-                        <Text className="text-xl font-poppins_regular text-text">
+                        <Text className="text-xl font-sfpro_regular text-text">
                             {userData.username}
                         </Text>
-                        <Text className="text-base font-poppins_regular text-text mb-1">
+                        <Text className="text-base font-sfpro_regular text-text mb-1">
                             {userData.email}
                         </Text>
                     </View>
@@ -164,21 +165,21 @@ export default function MyProfileScreen() {
 
                     {/* Buttons Group 1 */}
                     <View className="my-2">
-                        <ProfileButton icon={faPenToSquare} label="Edit Data" onPress={logout} />
-                        <ProfileButton icon={faLanguage} label="Language" onPress={logout} />
-                        <ProfileButton icon={faGem} label="Subscription" onPress={logout} />
+                        <ProfileButton icon={faPenToSquare} label="Edit Data" onPress={() => navigation.navigate('AccountSettings')} />
+                        <ProfileButton icon={faLanguage} label="Language"  onPress={() => navigation.navigate('LanguageSettings')} />
+                        <ProfileButton icon={faGem} label="Subscription" onPress={() => navigation.navigate('Subscription')} />
                     </View>
 
                     <View className="w-[90%] border-black" style={{ borderWidth: 0.75 }} />
 
                     {/* Buttons Group 2 */}
                     <View className="my-2">
-                        <ProfileButton icon={faAngleLeft} label="Log Out" onPress={logout} />
+                        <ProfileButton icon={faAngleLeft} label="Log Out" onPress={logout}  />
                         <ProfileButton
                             icon={faEraser}
                             label="Delete Account"
-                            onPress={logout}
-                            labelClass="text-error font-poppins_bold"
+                            onPress={() => navigation.navigate('AccountDeletion')}
+                            labelClass="text-error"
                             iconColor="#D0021B"
                         />
                     </View>
@@ -204,7 +205,7 @@ const ProfileButton = ({ icon, label, onPress, labelClass = 'text-text font-popp
             <FontAwesomeIcon icon={icon} size={24} color={iconColor} />
         </View>
         <View style={{ flex: 2 }} className="justify-center pl-4">
-            <Text className={`${labelClass} text-xl`}>
+            <Text className={`${labelClass} text-2xl font-sfpro_regular`}>
                 {label}
             </Text>
         </View>
