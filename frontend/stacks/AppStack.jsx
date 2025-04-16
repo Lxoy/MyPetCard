@@ -48,7 +48,7 @@ const TabIcon = ({ icon, color, focused }) => (
     <View className='relative items-center justify-center w-16 h-11'>
         <FontAwesomeIcon icon={icon} size={22} color={color} />
         {focused && (
-            <View className="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-text" />
+            <View className="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-jetblack" />
 
         )}
     </View>
@@ -69,8 +69,6 @@ export default function AppStack() {
                     height: Platform.OS === 'ios' ? 65 : 55,
                     paddingBottom: Platform.OS === 'ios' ? 30 : 10,
                     paddingTop: 5,
-                    borderTopWidth: 0.5,
-                    borderTopColor: '#ddd',
                     elevation: 0, // Remove shadow on Android
                     shadowColor: 'transparent', // Remove shadow on iOS
                     shadowOpacity: 0,
@@ -79,9 +77,8 @@ export default function AppStack() {
                 },
             }}
         >
-
+            
         {
-        
             screens.map(({ name, component, icon }) => (
                 <Tab.Screen
                     key={name}

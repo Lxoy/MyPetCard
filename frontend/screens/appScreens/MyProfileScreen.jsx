@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGem, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { faLanguage, faEraser, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faLanguage, faEraser, faArrowRightFromBracket, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../context/AuthContext';
 import CustomAlert from "../../components/CustomAlert"
 
@@ -160,21 +160,20 @@ export default function MyProfileScreen({navigation}) {
                 </View>
 
                 {/* Options Section */}
-                <View className="items-center justify-center mt-8 space-y-4">
-                    <View className="w-[90%] border-black" style={{ borderWidth: 0.75 }} />
-
+                <View className="items-center justify-center mt-8">
+                   
                     {/* Buttons Group 1 */}
-                    <View className="my-2">
+                    <View className="my-3">
                         <ProfileButton icon={faPenToSquare} label="Edit Data" onPress={() => navigation.navigate('AccountSettings')} />
                         <ProfileButton icon={faLanguage} label="Language"  onPress={() => navigation.navigate('LanguageSettings')} />
-                        <ProfileButton icon={faGem} label="Subscription" onPress={() => navigation.navigate('Subscription')} />
+                        <ProfileButton icon={faGem} label="Subscription" labelClass="text-primary" iconColor="#4A90E2" onPress={() => navigation.navigate('Subscription')} />
                     </View>
 
                     <View className="w-[90%] border-black" style={{ borderWidth: 0.75 }} />
 
                     {/* Buttons Group 2 */}
-                    <View className="my-2">
-                        <ProfileButton icon={faAngleLeft} label="Log Out" onPress={logout}  />
+                    <View className="my-3">
+                        <ProfileButton icon={faArrowRightFromBracket} label="Log Out" onPress={logout}  />
                         <ProfileButton
                             icon={faEraser}
                             label="Delete Account"
@@ -198,16 +197,17 @@ export default function MyProfileScreen({navigation}) {
 
 const ProfileButton = ({ icon, label, onPress, labelClass = 'text-text font-poppins_regular', iconColor = '#000000' }) => (
     <TouchableOpacity
-        className="flex-row items-center justify-start w-80 h-12 px-4 my-1"
+        className="flex-row items-center justify-start w-80 h-12"
         onPress={onPress}
     >
-        <View style={{ flex: 1 }} className="items-start justify-center">
-            <FontAwesomeIcon icon={icon} size={24} color={iconColor} />
-        </View>
-        <View style={{ flex: 2 }} className="justify-center pl-4">
-            <Text className={`${labelClass} text-2xl font-sfpro_regular`}>
+        <View style={{ flex: 1 }} className="flex-row gap-4 items-center">
+            <FontAwesomeIcon icon={icon} size={20} color={iconColor} />
+            <Text className={`${labelClass} text-xl font-sfpro_regular`}>
                 {label}
             </Text>
+        </View>
+        <View style={{ flex: 1 }} className="justify-center items-end">
+            <FontAwesomeIcon icon={faAngleRight} size={20} color={iconColor} />
         </View>
     </TouchableOpacity>
 );
