@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {View,  ScrollView, ImageBackground, StatusBar, TouchableOpacity, Text } from 'react-native';
-import PetCard from '../components/PetCard';
+import PetCard from '../../components/PetCard';
 
 // tailwind
-import "../css/global.css";
+import "../../css/global.css";
 
 export default function MyPetsScreen() {
   return (
@@ -16,7 +16,7 @@ export default function MyPetsScreen() {
             My Pets
           </Text>
         </View>
-        <PetCard name={"Buco"} type={"Dog"} breed={"Pekingese"} imageUrl={require("../img/Pekingese-1.jpg")} />
+        <PetCard name={"Buco"} type={"Dog"} breed={"Pekingese"} imageUrl={require("../../img/Pekingese-1.jpg")} />
         <PetCard />
         <PetCard />
         <PetCard />

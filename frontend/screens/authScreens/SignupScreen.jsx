@@ -1,9 +1,9 @@
 import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import React, { useState, useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { AuthContext } from '../context/AuthContext';
-import "../css/global.css";
-import CustomAlert from "../components/CustomAlert"
+import { AuthContext } from '../../context/AuthContext';
+import "../../css/global.css";
+import CustomAlert from "../../components/CustomAlert"
 
 export default function SignupScreen({ navigation }) {
     const { 
@@ -164,7 +164,7 @@ export default function SignupScreen({ navigation }) {
 
                     {/* Background */}
                     <ImageBackground
-                        source={require('../img/background3.png')}
+                        source={require('../../img/background3.png')}
                         resizeMode="cover"
                         style={{ position: 'absolute', width: '100%', height: '100%' }}
                     />
@@ -181,7 +181,7 @@ export default function SignupScreen({ navigation }) {
 
                         {/* Logo and Welcome Text */}
                         <View className='flex-1 justify-center items-center'>
-                            <Image className="size-64" source={require('../img/logo-transparent.png')} />
+                            <Image className="size-64" source={require('../../img/logo-transparent.png')} />
                             <Text className="text-primary text-6xl font-poppins_bold text-center py-1 mb-10">Create Account</Text>
                         </View>
 

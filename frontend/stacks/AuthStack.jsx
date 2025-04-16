@@ -5,9 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import "../css/global.css";
 
 // screens
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
-import WelcomeScreen from '../screens/WelcomeScreen'
+import LoginScreen from '../screens/authScreens/LoginScreen';
+import SignupScreen from '../screens/authScreens/SignupScreen';
+import WelcomeScreen from '../screens/authScreens/WelcomeScreen'
 
 const Stack = createNativeStackNavigator();
 

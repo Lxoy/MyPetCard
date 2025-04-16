@@ -3,11 +3,11 @@ import { Text, View, Image, TouchableOpacity, ScrollView, StatusBar } from 'reac
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGem, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { faLanguage, faEraser, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../context/AuthContext';
-import CustomAlert from "../components/CustomAlert"
+import { AuthContext } from '../../context/AuthContext';
+import CustomAlert from "../../components/CustomAlert"
 
 // tailwind
-import "../css/global.css";
+import "../../css/global.css";
 
 export default function MyProfileScreen({navigation}) {
 
@@ -137,7 +137,7 @@ export default function MyProfileScreen({navigation}) {
                     <View className="flex-1 items-center">
                         <Image
                             className="size-32 rounded-full"
-                            source={require('../img/logo.png')}
+                            source={require('../../img/logo.png')}
                             style={{
                                 shadowColor: '#000',
                                 shadowOffset: { width: 0, height: 4 },

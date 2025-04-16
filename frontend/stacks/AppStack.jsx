@@ -13,14 +13,16 @@ import {
     faUser
 } from '@fortawesome/free-regular-svg-icons'
 
-import MyPetsScreen from '../screens/MyPetsScreen';
-import ForumScreen from '../screens/ForumScreen';
-import VetsScreen from '../screens/VetsScreen';
-import MyProfileScreen from '../screens/MyProfileScreen';
-import AccountDeletionScreen from '../screens/AccountDeletionScreen';
-import AccountSettingsScreen from '../screens/AccountSettingsScreen';
-import SubscriptionScreen from '../screens/SubscriptionScreen';
-import LanguageSettingsScreen from '../screens/LanguageSettingsScreen';
+import { useNavigation } from '@react-navigation/native';
+
+import MyPetsScreen from '../screens/appScreens/MyPetsScreen';
+import ForumScreen from '../screens/appScreens/ForumScreen';
+import VetsScreen from '../screens/appScreens/VetsScreen';
+import MyProfileScreen from '../screens/appScreens/MyProfileScreen';
+import AccountDeletionScreen from '../screens/appScreens/AccountDeletionScreen';
+import AccountSettingsScreen from '../screens/appScreens/AccountSettingsScreen';
+import SubscriptionScreen from '../screens/appScreens/SubscriptionScreen';
+import LanguageSettingsScreen from '../screens/appScreens/LanguageSettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -53,6 +55,8 @@ const TabIcon = ({ icon, color, focused }) => (
 );
 
 export default function AppStack() {
+    const navigation = useNavigation();
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -75,7 +79,10 @@ export default function AppStack() {
                 },
             }}
         >
-            {screens.map(({ name, component, icon }) => (
+
+        {
+        
+            screens.map(({ name, component, icon }) => (
                 <Tab.Screen
                     key={name}
                     name={name}
@@ -85,8 +92,20 @@ export default function AppStack() {
                             <TabIcon icon={icon} color={color} focused={focused} />
                         ),
                     }}
-                />
-            ))}
+                    {...(name === "MyProfile"
+                        ? {
+                            listeners: {
+                                tabPress: e => {
+                                    e.preventDefault();
+                                    navigation.navigate('MyProfile', {
+                                        screen: 'MyProfileMain',
+                                    });
+                                },
+                            },
+                        }
+                    : {})}
+        />
+    ))}
         </Tab.Navigator>
     );
 }

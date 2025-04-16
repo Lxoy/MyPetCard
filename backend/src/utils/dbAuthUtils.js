@@ -59,3 +59,34 @@ export const insertNewUserGoogleLogin = (username, first_name, last_name, email,
       });
   });
 }
+
+export const updateUserInfo = (userId, updatedFields) => {
+  const allowedFields = [ 'username', 'email', 'first_name', 'last_name', 'phone_number' ];
+  const setParts = [];
+  const values = [];
+
+  allowedFields.forEach(field => {
+    const value = updatedFields[field];
+    if (value !== undefined && value !== null) {
+      setParts.push(`${field} = ?`);
+      values.push(value);
+    }
+  });
+
+  if (setParts.length === 0) {
+    return Promise.resolve({ message: 'No data for update.' });
+  }
+
+  const setClause = setParts.join(', ');
+  const updateSql = `UPDATE users SET ${setClause} WHERE id = ?`;
+  values.push(userId);
+
+  return new Promise((resolve, reject) => {
+    db.query(updateSql, values, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+};
+
+

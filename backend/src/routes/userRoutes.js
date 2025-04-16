@@ -2,9 +2,12 @@ import { Router } from "express";
 
 const router = Router();
 
-// controller
-import { editData } from '../controllers/editDataController.js';
+// middleware
+import { verifyToken } from '../middlewares/authMiddleware.js';
 
-router.patch("/edit", editData);
+// controller
+import { updateUser } from '../controllers/userController.js';
+
+router.patch("/user/edit", verifyToken, updateUser);
 
 export default router;

@@ -3,9 +3,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useContext, useCallback } from 'react';
 
 // tailwind
-import "../css/global.css";
+import "../../css/global.css";
 
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function WelcomeScreen({ navigation }) {
 
@@ -31,10 +31,10 @@ export default function WelcomeScreen({ navigation }) {
     }, []));
 
     return (
-        <ImageBackground className='flex-1' source={require('../img/background.png')} resizeMode='fill'>
+        <ImageBackground className='flex-1' source={require('../../img/background.png')} resizeMode='fill'>
             <StatusBar barStyle="light-content" backgroundColor='black' />
             <View className='flex-1 justify-end mb-14'>
-                <Image className='size-40 absolute top-0 left-0' source={require('../img/logo-transparent.png')} />
+                <Image className='size-40 absolute top-0 left-0' source={require('../../img/logo-transparent.png')} />
                 <Text className='text-primary text-6xl px-4 py-2 font-poppins_bold'>MyPetCard</Text>
                 <Text className='text-secondary text-xl px-4 mb-14 font-poppins_bold_italic'>All Your Pet’s Info, One Tap Away!</Text>
                 <View className='items-center'>
