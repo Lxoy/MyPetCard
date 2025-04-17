@@ -16,6 +16,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import MyPetsScreen from '../screens/appScreens/MyPetsScreen';
+import NewPetScreen from '../screens/appScreens/NewPetScreen';
 import ForumScreen from '../screens/appScreens/ForumScreen';
 import VetsScreen from '../screens/appScreens/VetsScreen';
 import MyProfileScreen from '../screens/appScreens/MyProfileScreen';
@@ -26,6 +27,13 @@ import LanguageSettingsScreen from '../screens/appScreens/LanguageSettingsScreen
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const MyPetStack = () => (
+    <Stack.Navigator initialRouteName="MyPetsMain" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="MyPetsMain" component={MyPetsScreen} />
+        <Stack.Screen name="NewPet" component={NewPetScreen} />
+    </Stack.Navigator>
+);
 
 const MyProfileStack = () => (
     <Stack.Navigator initialRouteName="MyProfileMain" screenOptions={{ headerShown: false }}>
@@ -38,7 +46,7 @@ const MyProfileStack = () => (
 );
 
 const screens = [
-    { name: 'MyPets', component: MyPetsScreen, icon: faHouse },
+    { name: 'MyPets', component: MyPetStack, icon: faHouse },
     { name: 'Vets', component: VetsScreen, icon: faNewspaper },
     { name: 'Forum', component: ForumScreen, icon: faComment },
     { name: 'MyProfile', component: MyProfileStack, icon: faUser },
@@ -69,8 +77,8 @@ export default function AppStack() {
                     height: Platform.OS === 'ios' ? 65 : 55,
                     paddingBottom: Platform.OS === 'ios' ? 30 : 10,
                     paddingTop: 5,
-                    elevation: 0, // Remove shadow on Android
-                    shadowColor: 'transparent', // Remove shadow on iOS
+                    elevation: 0, 
+                    shadowColor: 'transparent',
                     shadowOpacity: 0,
                     shadowOffset: { width: 0, height: 0 },
                     shadowRadius: 0,
@@ -89,6 +97,19 @@ export default function AppStack() {
                             <TabIcon icon={icon} color={color} focused={focused} />
                         ),
                     }}
+                    {...(name === "MyPets"
+                        ? {
+                            listeners: {
+                                tabPress: e => {
+                                    e.preventDefault();
+                                    navigation.navigate('MyPets', {
+                                        screen: 'MyPetsMain',
+                                    });
+                                },
+                            },
+                        }
+                    : {})}
+
                     {...(name === "MyProfile"
                         ? {
                             listeners: {
