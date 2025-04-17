@@ -16,7 +16,7 @@ export default function MyProfileScreen({navigation}) {
 
     // Username & email & password
     const [username, setUsername] = useState(userData.username);
-    const [ email, setEmail ] = useState(userData.email)
+    const [email, setEmail ] = useState(userData.email)
     const [password, setPassword] = useState('');
 
 
@@ -119,8 +119,16 @@ export default function MyProfileScreen({navigation}) {
             setErrorPassword('');
             setAlertMessage('Changes saved successfully!');
             setShowAlert(true);
-        }
+        }   
     };
+
+    useEffect(() => {
+        if (userData) {
+          setUsername(userData.username);
+          setEmail(userData.email);
+        }
+      }, [userData]);
+      
 
     return (
         <View className="flex-1 flex-col bg-secondary">

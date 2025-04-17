@@ -85,7 +85,7 @@ export default function AccountSettingsScreen({ navigation }) {
 
       
       const updatedUser = response.data.user;
-      setUserData(JSON.stringify(updatedUser));
+      setUserData(updatedUser);
       await AsyncStorage.setItem('userData', JSON.stringify(updatedUser)); 
 
       if (response.status === 200) {
