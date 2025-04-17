@@ -90,3 +90,14 @@ export const updateUserInfo = (userId, updatedFields) => {
 };
 
 
+export const insertNewPet = (name, species, breed, gender, date_of_birth, ownerId) => {
+  const insertSql = "INSERT INTO pets (name, species, breed, gender, date_of_birth, owner_id) VALUES (?, ?, ?, ?, ?, ?)";
+  
+  return new Promise((resolve, reject) => {
+    db.query(insertSql, [name, species, breed, gender, date_of_birth, ownerId], (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+};
+

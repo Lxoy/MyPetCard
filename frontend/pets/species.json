@@ -1,0 +1,95 @@
+[
+    {
+      "species": "pas",
+      "breeds": [
+        "Labrador retriver",
+        "Njemački ovčar",
+        "Zlatni retriver",
+        "Francuski buldog",
+        "Čivava",
+        "Beagle",
+        "Pudla",
+        "Yorkshire terijer"
+      ]
+    },
+    {
+      "species": "macka",
+      "breeds": [
+        "Perzijska mačka",
+        "Maine Coon",
+        "Britanska kratkodlaka",
+        "Sijamska mačka",
+        "Ragdoll",
+        "Ruska plava",
+        "Sfinks",
+        "Norveška šumska mačka"
+      ]
+    },
+    {
+      "species": "zec",
+      "breeds": [
+        "Nizozemski patuljasti",
+        "Mini Lop",
+        "Lionhead",
+        "Rex",
+        "Američki činčila",
+        "Angora zec",
+        "Kalifornijski zec"
+      ]
+    },
+    {
+      "species": "hrcak",
+      "breeds": [
+        "Zlatni hrčak (sirijski)",
+        "Džungarski hrčak",
+        "Roborovski hrčak",
+        "Kineski hrčak",
+        "Ruski patuljasti hrčak"
+      ]
+    },
+    {
+      "species": "mis",
+      "breeds": [
+        "Domaći miš",
+        "Fancy miš",
+        "Satenski miš",
+        "Dumbo miš"
+      ]
+    },
+    {
+      "species": "papiga",
+      "breeds": [
+        "Tigrica (budgerigar)",
+        "Nimfa (cockatiel)",
+        "Žako (afrički sivi)",
+        "Amazonac",
+        "Ara",
+        "Senegal papiga",
+        "Kakariki",
+        "Monk papiga (quaker)"
+      ]
+    },
+    {
+      "species": "kanarinac",
+      "breeds": [
+        "Pjevni kanarinac",
+        "Gloster kanarinac",
+        "Border kanarinac",
+        "Fife Fancy",
+        "Norwich kanarinac",
+        "Red Factor kanarinac"
+      ]
+    },
+    {
+      "species": "kornjaca",
+      "breeds": [
+        "Crvenouha kornjača (vodena)",
+        "Žutouha kornjača",
+        "Grčka kornjača",
+        "Hermanova kornjača (kopnena)",
+        "Ruska kornjača",
+        "Afrička oklopna kornjača (sulcata)"
+      ]
+    }
+  ]
+  

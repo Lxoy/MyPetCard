@@ -39,3 +39,7 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ error_msg: "Internal server error" });
     }
 };
+
+export const uploadPhoto = async (req, res) => {
+    
+}
