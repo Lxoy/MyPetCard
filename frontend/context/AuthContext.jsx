@@ -185,6 +185,7 @@ export const AuthProvider = ({ children }) => {
             isLoading, 
             userToken, 
             userData,
+            setUserData,
             errorWhileRegister,
             setErrorWhileRegister,
             errorWhileRegisterUsername,

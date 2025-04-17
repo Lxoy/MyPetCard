@@ -12,11 +12,13 @@ import "../../css/global.css";
 export default function MyProfileScreen({navigation}) {
 
     // Data
-    const { userData, logout } = useContext(AuthContext);
+    const { userData, logout } = useContext(AuthContext);   
 
-    // Username & password
+    // Username & email & password
     const [username, setUsername] = useState(userData.username);
+    const [ email, setEmail ] = useState(userData.email)
     const [password, setPassword] = useState('');
+
 
     // Password boolean
     const [passwordValidation, setPasswordValidation] = useState();
@@ -151,10 +153,10 @@ export default function MyProfileScreen({navigation}) {
                     {/* User info */}
                     <View className="flex-1 justify-center">
                         <Text className="text-xl font-sfpro_regular text-text">
-                            {userData.username}
+                            {username}
                         </Text>
                         <Text className="text-base font-sfpro_regular text-text mb-1">
-                            {userData.email}
+                            {email}
                         </Text>
                     </View>
                 </View>

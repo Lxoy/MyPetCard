@@ -4,9 +4,13 @@ import { faChevronLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../context/AuthContext';
 import { StatusBar, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
+
 export default function AccountSettingsScreen({ navigation }) {
 
-  const { userData } = useContext(AuthContext);
+  const { userData, setUserData } = useContext(AuthContext);
 
   const [username, setUsername] = useState(userData.username);
   const [firstName, setFirstName] = useState(userData.first_name);
@@ -50,6 +54,56 @@ export default function AccountSettingsScreen({ navigation }) {
       setErrorPhoneNumber('');
     }
   };
+
+  const editData = async () => {
+    try {
+      setErrorUsername("");
+      setErrorFirstName("");
+      setErrorLastName("");
+      setErrorPhoneNumber("");
+
+      if (!username || username.length < 3) {
+        setErrorUsername("Username must be at least 3 characters");
+        return;
+      }
+
+      const payload = {
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+      };
+
+      let token = await AsyncStorage.getItem('userToken')
+      console.log(token);
+      const response = await axios.patch(BASE_URL_EMULATOR + '/user/edit', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ` + token 
+        },
+      });
+
+      
+      const updatedUser = response.data.user;
+      setUserData(JSON.stringify(updatedUser));
+      await AsyncStorage.setItem('userData', JSON.stringify(updatedUser)); 
+
+      if (response.status === 200) {
+        alert("User updated successfully!");
+      } else {
+        alert("Update failed. Please try again.");
+      }
+    } catch (error) {
+      // samo jedan error za username already in use
+      if (error.response?.data?.error_msg) {
+        alert(error.response.data.error_msg);
+      } else {
+        alert("An unexpected error occurred.");
+      }
+      console.error("Axios error:", error);
+    }
+  };
+
   
 
   return (
@@ -67,6 +121,7 @@ export default function AccountSettingsScreen({ navigation }) {
 
         <TouchableOpacity
           className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
+          onPress={editData}
         >
           <FontAwesomeIcon icon={faCheck} size={18} color="#4A90E2" />
         </TouchableOpacity>
