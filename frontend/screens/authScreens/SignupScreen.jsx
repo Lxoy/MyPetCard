@@ -4,15 +4,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../context/AuthContext';
 import "../../css/global.css";
 import CustomAlert from "../../components/CustomAlert"
+import TextInputField from '../../components/TextInputField';
 
 export default function SignupScreen({ navigation }) {
-    const { 
-        register, 
-        errorWhileRegisterUsername, 
-        errorWhileRegisterEmail, 
-        errorWhileRegisterPassword, 
-        setErrorWhileRegisterUsername, 
-        setErrorWhileRegisterEmail, 
+    const {
+        register,
+        errorWhileRegisterUsername,
+        errorWhileRegisterEmail,
+        errorWhileRegisterPassword,
+        setErrorWhileRegisterUsername,
+        setErrorWhileRegisterEmail,
         setErrorWhileRegisterPassword,
         promptAsync
     } = useContext(AuthContext);
@@ -32,10 +33,36 @@ export default function SignupScreen({ navigation }) {
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
 
+    const handleUsernameChange = (value) => {
+        setUsername(value);
+        if (!value) {
+            setErrorUsername('Username is required');
+        } else if (value.length < 3) {
+            setErrorUsername('Username must be at least 3 characters');
+        } else {
+            setErrorUsername('');
+        }
+    };
+
     const isEmailValid = (email) => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regex.test(email);
     }
+
+    const handleEmailChange = (value) => {
+        setEmail(value);
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (value.includes('@') && value.length > 8) {
+            if (!regex.test(value)) {
+                setErrorEmail('Invalid email format');
+            } else {
+                setErrorEmail('');
+            }
+        } else {
+            setErrorEmail('');
+        }
+    };
 
     const passwordRules = {
         minLength: {
@@ -92,10 +119,6 @@ export default function SignupScreen({ navigation }) {
     };
 
     const handleRegister = async () => {
-        setErrorUsername('');
-        setErrorEmail('');
-        setErrorPassword('');
-
         let valid = true;
 
         // Username validation
@@ -127,26 +150,19 @@ export default function SignupScreen({ navigation }) {
         if (valid) {
             try {
                 await register(username, email, password);
-                setAlertMessage(`Welcome "${username}"!`);
-                setShowAlert(true);
                 setUsername('');
                 setEmail('');
                 setPassword('');
                 setPasswordValidation(null);
             } catch (error) {
-                if (error.message.includes('Email')) {
+                if (error.message === "E-mail already in use.") {
                     setErrorWhileRegisterEmail(error.message);
-                } else if (error.message.includes('Username')) {
+                } else if (error.message === "Username already taken.") {
                     setErrorWhileRegisterUsername(error.message);
-                } else if (error.message.includes('Password')) {
-                    setErrorWhileRegisterPassword(error.message);
+                    setErrorUsername('')
                 } else {
                     setAlertMessage('An error occured during registration.');
-                    <CustomAlert
-                        visible={showAlert}
-                        message={alertMessage}
-                        onClose={() => setShowAlert(false)}
-                    />
+
                 }
             }
         }
@@ -159,15 +175,8 @@ export default function SignupScreen({ navigation }) {
             style={{ flex: 1 }}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
+                <View className='bg-secondary' style={{ flex: 1 }}>
                     <StatusBar barStyle="light-content" backgroundColor='black' />
-
-                    {/* Background */}
-                    <ImageBackground
-                        source={require('../../img/background3.png')}
-                        resizeMode="cover"
-                        style={{ position: 'absolute', width: '100%', height: '100%' }}
-                    />
 
                     {/* Content */}
                     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
@@ -180,111 +189,67 @@ export default function SignupScreen({ navigation }) {
                         </TouchableOpacity>
 
                         {/* Logo and Welcome Text */}
-                        <View className='flex-1 justify-center items-center'>
-                            <Image className="size-64" source={require('../../img/logo-transparent.png')} />
-                            <Text className="text-primary text-6xl font-poppins_bold text-center py-1 mb-10">Create Account</Text>
+                        <View className='flex-1 justify-center items-center gap-4'>
+                            <Image className="size-40 rounded-full p-4" source={require('../../img/logo-transparent1.png')} />
+                            <Text className="text-midnightblue text-6xl font-sfpro_bold text-center">Create{'\n'}Account</Text>
                         </View>
+                        <TextInputField
+                            label="Username"
+                            placeholder="Username"
+                            helper="Enter your username"
+                            value={username}
+                            error={errorUsername || errorWhileRegisterUsername}
+                            action={handleUsernameChange}
+                            size={30} />
 
-                        {/* Form Inputs */}
-                        <View className='flex-2 justify-center items-center mb-10'>
-                            {/* Username Input */}
-                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
-                                <Icon className='flex-4 p-2' color={'#112D4E'} name="user" size={24} />
-                                <TextInput
-                                    className='flex-1 color-secondary font-poppins_italic pt-1'
-                                    selectionColor={'#112D4E'}
-                                    placeholder="Username"
-                                    placeholderTextColor={'#3F72AF'}
-                                    value={username}
-                                    onChangeText={setUsername}
-                                />
-                            </View>
+                        <TextInputField
+                            label="E-mail"
+                            placeholder="E-mail"
+                            helper="Enter your email"
+                            value={email}
+                            error={errorEmail || errorWhileRegisterEmail}
+                            action={handleEmailChange}
+                            size={30} />
 
-                            {/* Error handling username */}
-                            <View className='flex-row items-start justify-start w-96'>
-                                {
-                                    errorUsername !== "" ? (
-                                        <Text className="text-red-600 text-sm font-poppins_italic">{errorUsername}</Text>
-                                    ) : errorWhileRegisterUsername ? (
-                                        <Text className="text-red-600 text-sm font-poppins_italic">This username already exists.</Text>
-                                    ) : null
-                                }
-                            </View>
-
-                            {/* Email Input */}
-                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-3'>
-                                <Icon className='flex-4 p-2' color={'#112D4E'} name="envelope" size={20} />
-                                <TextInput
-                                    keyboardType="email-address"
-                                    className='flex-1 color-secondary font-poppins_italic pt-1'
-                                    selectionColor={'#112D4E'}
-                                    placeholder="E-mail"
-                                    placeholderTextColor={'#3F72AF'}
-                                    value={email}
-                                    onChangeText={setEmail}
-                                />
-                            </View>
-
-                            {/* Error handling e-mail */}
-                            <View className='flex-row items-start justify-start w-96'>
-                                {
-                                    errorEmail !== "" ? (
-                                        <Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>
-                                    ) : errorWhileRegisterEmail ? (
-                                        <Text className="text-red-600 text-sm font-poppins_italic">This email already exists.</Text>
-                                    ) : null
-                                }
-                            </View>
-
-                            {/* Password Input */}
-                            <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-3'>
-                                <Icon className='flex-4 p-2' color={'#112D4E'} name="lock" size={24} />
-                                <TextInput
-                                    secureTextEntry={true}
-                                    className='flex-1 color-secondary font-poppins_italic pt-1'
-                                    selectionColor={'#112D4E'}
-                                    placeholder="Password"
-                                    placeholderTextColor={'#3F72AF'}
-                                    value={password}
-                                    onChangeText={handlePasswordChange}
-                                />
-                            </View>
-                            {errorPassword ? <Text className="text-red-500 text-sm mt-1 w-80">{errorPassword}</Text> : null}
-                            {errorWhileRegisterPassword ? <Text className="text-red-500 text-sm mt-1 w-80">{errorWhileRegisterPassword}</Text> : null}
-
-                            {/* Password Requirements */}
-                            {passwordValidation && (
-                                <View className="w-80 mt-2">
-                                    {Object.entries(passwordValidation.results).map(([ruleName, rule]) => (
-                                        <Text
-                                            key={ruleName}
-                                            className={`text-xs ${rule.valid ? 'text-green-500' : 'text-gray-500'}`}
-                                        >
-                                            {rule.valid ? '✓' : '•'} {rule.description}
-                                        </Text>
-                                    ))}
-                                </View>
-                            )}
-                        </View>
+                        <TextInputField
+                            label="Password"
+                            placeholder="Password"
+                            helper="Enter your password"
+                            value={password}
+                            error={errorPassword || errorWhileRegisterPassword}
+                            action={handlePasswordChange}
+                            size={30}
+                            secureTextEntry={true} 
+                            passwordValidation={passwordValidation}
+                            passwordRules={passwordRules}/>
 
                         {/* Sign Up and Google button */}
-                        <View className='flex-2 items-center justify-center'>
-                            <TouchableOpacity
-                                className='m-3 bg-primary items-center justify-center rounded-3xl w-96 h-14'
-                                onPress={handleRegister}
-                            >
-                                <Text className='text-accent font-poppins_bold text-xl'>
+                        <View className='flex-2 items-center justify-center gap-2'>
+                            <TouchableOpacity className='bg-midnightblue items-center justify-center rounded-2xl w-80 h-14 shadow-md' style={{
+                                shadowColor: '#000',
+                                shadowOffset: { width: 0, height: 6 },
+                                shadowOpacity: 0.1,
+                                shadowRadius: 10,
+                                elevation: 8,
+                            }} onPress={handleRegister}>
+                                <Text className='text-secondary font-poppins_bold text-xl'>
                                     Sign Up
                                 </Text>
                             </TouchableOpacity>
 
-                            <Text className="text-primary font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
-
+                            <Text className="text-midnightblue font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
                             <TouchableOpacity
-                                className='bg-white m-3 border-2 items-center justify-center rounded-3xl w-96 h-14'
+                                className='items-center justify-center rounded-2xl w-80 h-14 border border-1 bg-secondary'
+                                style={{
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 3 },
+                                    shadowOpacity: 0.05,
+                                    shadowRadius: 6,
+                                    elevation: 3,
+                                }}
                                 onPress={async () => await promptAsync()}
                             >
-                                <Icon name="google" size={24} />
+                                <Icon name="google" size={24} color={"#003366"} />
                             </TouchableOpacity>
                         </View>
                     </ScrollView>

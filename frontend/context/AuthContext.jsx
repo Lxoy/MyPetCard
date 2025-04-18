@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
             if (error.response.data.error_msg === "E-mail already in use.") {
                 setErrorWhileRegisterEmail(true);
                 throw new Error("Email already in use");
-            } else if (error.response.data.error_msg === "Username already taken") {
+            } else if (error.response.data.error_msg === "Username already taken.") {
                 setErrorWhileRegisterUsername(true);
                 throw new Error("Username already taken.");
             } else {
