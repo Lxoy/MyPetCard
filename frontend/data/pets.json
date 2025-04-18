@@ -1,6 +1,6 @@
 [
     {
-      "species": "pas",
+      "species": "Pas",
       "breeds": [
         "Labrador retriver",
         "Njemački ovčar",
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "species": "macka",
+      "species": "Macka",
       "breeds": [
         "Perzijska mačka",
         "Maine Coon",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "species": "zec",
+      "species": "Zec",
       "breeds": [
         "Nizozemski patuljasti",
         "Mini Lop",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "species": "hrcak",
+      "species": "Hrcak",
       "breeds": [
         "Zlatni hrčak (sirijski)",
         "Džungarski hrčak",
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "species": "mis",
+      "species": "Mis",
       "breeds": [
         "Domaći miš",
         "Fancy miš",
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "species": "papiga",
+      "species": "Papiga",
       "breeds": [
         "Tigrica (budgerigar)",
         "Nimfa (cockatiel)",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "species": "kanarinac",
+      "species": "Kanarinac",
       "breeds": [
         "Pjevni kanarinac",
         "Gloster kanarinac",
@@ -81,7 +81,7 @@
       ]
     },
     {
-      "species": "kornjaca",
+      "species": "Kornjaca",
       "breeds": [
         "Crvenouha kornjača (vodena)",
         "Žutouha kornjača",

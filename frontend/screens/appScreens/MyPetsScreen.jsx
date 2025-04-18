@@ -8,7 +8,6 @@ import "../../css/global.css";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function MyPetsScreen({ navigation }) {
-  // Dummy podaci (kasnije ćeš tu imati fetchane ili spremljene ljubimce)
   const [pets, setPets] = useState([
     { id: 1, name: 'Buco', type: 'Dog', breed: 'Pekingese', gender: 'Male', imageUrl: require("../../img/Pekingese-1.jpg") },
     { id: 2, name: 'Luna', type: 'Cat', breed: 'Persian', gender: 'Female', imageUrl: require("../../img/Pekingese-1.jpg") }, // privremeno ista slika

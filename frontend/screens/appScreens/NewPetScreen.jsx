@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, TextInput, StatusBar, TouchableOpacity, Text, Image, Button, Modal } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck, faCamera, faMars } from '@fortawesome/free-solid-svg-icons';
+import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
+
+import petData from '../../data/pets.json';
 
 // tailwind
 import "../../css/global.css";
@@ -14,8 +19,21 @@ export default function NewPetScreen({ navigation }) {
     const [selectedBreed, setSelectedBreed] = useState(null);
     const [selectedDate, setSelectedDate] = useState("");
     const [gender, setGender] = useState("Male");
-    const [date, setDate] = useState(new Date());
-    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        setSelectedBreed(null);
+    }, [selectedSpecies]);
+
+    const speciesItems = petData.map(species => ({
+        label: species.species,
+        value: species.species
+      }));
+    
+      const breedItems = selectedSpecies ? petData.find(s => s.species === selectedSpecies)?.breeds.map(breed => ({
+            label: breed,
+            value: breed
+        })) || []
+        : [];
 
     const handleDateChange = (date) => {
         const formattedDate = date.toLocaleDateString('hr-HR');
@@ -25,8 +43,8 @@ export default function NewPetScreen({ navigation }) {
     // Popis podataka za FlatList
     const data = [
         { id: '1', component: <InputField label="Name" placeholder="Name" helper="Enter pet's name" size={30} /> },
-        { id: '2', component: <DropDownField label="Species" placeholder="Species" helper="Pick pet's species" selectedValue={selectedSpecies} setSelectedValue={setSelectedSpecies} /> },
-        { id: '3', component: <DropDownField label="Breed" placeholder="Breed" helper="Pick pet's species" selectedValue={selectedBreed} setSelectedValue={setSelectedBreed} /> },
+        { id: '2', component: <DropDownField label="Species" placeholder="Species" helper="Pick pet's species" selectedValue={selectedSpecies} setSelectedValue={setSelectedSpecies} items={speciesItems} /> },
+        { id: '3', component: <DropDownField label="Breed" placeholder="Breed" helper="Pick pet's species" selectedValue={selectedBreed} setSelectedValue={setSelectedBreed} items={breedItems} disabled={!selectedSpecies} /> },
         { id: '4', component: <DatePickerField label="Birthday" placeholder="Date" helper="Enter pet's birthday" action={handleDateChange} value={selectedDate} /> },
         { id: '5', component: <TouchField label="Gender" value={gender} helper="Choose gender" action={setGender}/> }
     ];
@@ -51,6 +69,7 @@ export default function NewPetScreen({ navigation }) {
 
                         <TouchableOpacity
                             className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
+                            onPress={handleAddNewPet}
                         >
                             <FontAwesomeIcon icon={faCheck} size={18} color="#4A90E2" />
                         </TouchableOpacity>
@@ -120,13 +139,13 @@ const InputField = ({ label, placeholder, value, helper, size, action, error }) 
     );
 };
 
-const DropDownField = ({ label, placeholder, selectedValue, setSelectedValue, helper, error }) => {
+const DropDownField = ({ label, placeholder, selectedValue, setSelectedValue, helper, error, items = [] }) => {
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        { label: 'Option 3', value: 'option3' },
-    ]);
+    const [internalItems, setInternalItems] = useState(items);
+
+    useEffect(() => {
+        setInternalItems(items);
+    }, [items]);
 
     return (
         <View className="w-full px-6 mb-4">
@@ -145,7 +164,7 @@ const DropDownField = ({ label, placeholder, selectedValue, setSelectedValue, he
                 setValue={setSelectedValue}
                 items={items}
                 containerStyle={{
-                    paddingBottom: open ? 100 : 0,
+                    paddingBottom: open ? 200 : 0,
                 }}
                 placeholder={placeholder}
                 onOpen={() => setOpen(true)}
@@ -223,45 +242,44 @@ const DatePickerField = ({ label, placeholder, value, helper, action, error }) =
     );
 };
 
-const TouchField = ({ label, placeholder, value, helper, size, action, error }) => {
+const TouchField = ({ label, placeholder, value, helper, action, error }) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [clicked, setIsClicked] = useState(false);
 
-    const handleGender = () => {
-        if (clicked) {
-            action("Male");
-        } else {
-            action("Female");
-        }
-        setIsClicked(!clicked);
+    const handleToggle = () => {
+        const newGender = value === 'Male' ? 'Female' : 'Male';
+        action(newGender);
+        setIsFocused(true);
     };
 
     return (
         <View className="w-full px-6 mb-4">
             {/* Label */}
-            <Text className={`text-base mb-1 font-medium ${isFocused ? 'text-primary' : 'text-jetblack'}`}>{label}</Text>
+            <Text className={`text-base mb-1 font-medium ${isFocused ? 'text-primary' : 'text-jetblack'}`}>
+                {label}
+            </Text>
 
-            {/* Input */}
+            {/* Touchable Box */}
             <TouchableOpacity
-                className={`w-full bg-white rounded-xl px-4 py-2 text-base text-gray-900 shadow-sm border justify-center ${error
+                onPress={handleToggle}
+                className={`w-full bg-white rounded-xl px-4 py-2 shadow-sm border justify-center ${error
                     ? 'border-error'
                     : isFocused
                         ? 'border-primary'
                         : 'border-lightgrey'
                     }`}
-                onPress={() => { handleGender(); setIsFocused(true); }}
-
             >
-                <Text className={`${value ? 'text-gray-900' : 'text-darkgrey'}`}>
-                    {value ? value : placeholder}
-                    <FontAwesomeIcon icon={faMars} size={14} color="#003366" />
+                <Text className={`${value ? 'text-gray-900' : 'text-darkgrey'} text-base`}>
+                    {value || placeholder}
                 </Text>
-
             </TouchableOpacity>
 
-            {/* Helper + Character Count */}
+            {/* Helper Text */}
             <View className="flex-row justify-between mt-1 px-1">
-                <Text className="text-xs text-darkgrey">{helper}</Text>
+                {!error ? (
+                    <Text className="text-xs text-darkgrey">{helper}</Text>
+                ) : (
+                    <Text className="text-xs text-error">{error}</Text>
+                )}
             </View>
         </View>
     );

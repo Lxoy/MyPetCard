@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../context/AuthContext';
 
+
 // tailwind
 import "../../css/global.css";
 
