@@ -101,3 +101,14 @@ export const insertNewPet = (name, species, breed, gender, date_of_birth, ownerI
   });
 };
 
+export const getPetsByOwnerId = (ownerId) => {
+  const getPetsSql = "SELECT * FROM pets WHERE owner_id = ?";
+  
+  return new Promise((resolve, reject) => {
+    db.query(getPetsSql, [ownerId], (error, results) => {
+      if (error) return reject(error);
+      resolve(results); // vraća sve ljubimce koji pripadaju vlasniku
+    });
+  });
+};
+
