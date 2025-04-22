@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StatusBar, TouchableOpacity, Text, Image } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft, faCheck, faCamera, faMars } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 import { InputField } from '../../components/newPetFormComponents/InputField';
 import { DropDownField } from '../../components/newPetFormComponents/DropDownField';
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
 import { TouchField } from '../../components/newPetFormComponents/TouchField';
+
+import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
+import defaultImg from '../../img/default-pet.jpg';
+import { handleCamera, handleGallery, handleRemove } from '../../components/img_menu/OptionsHandling';
 
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +27,8 @@ export default function NewPetScreen({ navigation }) {
     const [selectedBreed, setSelectedBreed] = useState(null);
     const [selectedDate, setSelectedDate] = useState("");
     const [gender, setGender] = useState("Male");
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [image, setImage] = useState(null);
 
     const speciesItems = petData.map(species => ({
         label: species.species,
@@ -41,7 +47,6 @@ export default function NewPetScreen({ navigation }) {
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
-    
 
     const data = [
         { id: '1', component: <InputField label="Name" placeholder="Name" helper="Enter pet's name" size={30} value={name} action={e => setName(e)}  /> },
@@ -52,23 +57,31 @@ export default function NewPetScreen({ navigation }) {
     ];
 
     const handleSubmit = async () => {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-
-        const petData = {
-            name: name.trim(),
-            species: selectedSpecies,
-            breed: selectedBreed,
-            gender,
-            date_of_birth: formattedDate
-        };
-    
         try {
-            
-            let token = await AsyncStorage.getItem('userToken')
-            const response = await axios.post(BASE_URL_EMULATOR + '/user/pets/add', petData, {
+            const token = await AsyncStorage.getItem('userToken');
+            const formData = new FormData();
+    
+            formData.append('name', name.trim());
+            formData.append('species', selectedSpecies);
+            formData.append('breed', selectedBreed);
+            formData.append('gender', gender);
+            formData.append('date_of_birth', selectedDate.toISOString().split('T')[0]);
+    
+            if (image) {
+                const uriParts = image.split('.');
+                const fileType = uriParts[uriParts.length - 1];
+    
+                formData.append('image', {
+                    uri: image,
+                    type: `image/${fileType}`,
+                    name: `photo.${fileType}`,
+                });
+            }
+    
+            const response = await axios.post(`${BASE_URL_EMULATOR}/user/pets/add`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data',
                 }
             });
     
@@ -76,11 +89,13 @@ export default function NewPetScreen({ navigation }) {
                 alert(response.data.success_msg);
                 navigation.goBack();
             }
+            
         } catch (error) {
-            console.error("Error sending pet data:", error);
-            alert("Error adding pet.");
+            console.error("Upload failed:", error);
+            alert("Failed to add pet.");
         }
     };
+    
     
 
     return (
@@ -123,17 +138,24 @@ export default function NewPetScreen({ navigation }) {
                                         shadowRadius: 6,
                                         elevation: 5,
                                     }}
-                                    source={require('../../img/default-pet.jpg')}
+                                    source={image ? { uri: image } : defaultImg }
                                 />
                                 <TouchableOpacity
                                     className="absolute bottom-2 right-2 bg-accent p-2 rounded-full shadow-md"
+                                    onPress={() => setMenuVisible(true)}
                                 >
                                     <FontAwesomeIcon icon={faCamera} size={18} color="#003366" />
                                 </TouchableOpacity>
                             </View>
                         </View>
-
-                    </>
+                        
+                        <ChooseMenu
+                            visible={menuVisible}
+                            onClose={() => setMenuVisible(false)}
+                            onCamera={() => handleCamera(setImage, setMenuVisible)}
+                            onGallery={() => handleGallery(setImage, setMenuVisible)}
+                            onRemove={() => handleRemove(setImage, setMenuVisible)} />
+                    </>                
                 }
             />
         </View>

@@ -4,7 +4,7 @@ import { getPetsByOwnerId } from '../utils/dbAuthUtils.js';
 export const addPetData = async (req, res) => {
     const { name, species, breed, gender, date_of_birth } = req.body;
     const ownerId = req.user.id; 
-    const imageUrl = req.file ? `./uploads/pets/${req.file.filename}` : null;
+    const imageUrl = req.file ? `/uploads/pets/${req.file.filename}` : null;
 
     
     if (!name || !species || !breed || !gender || !date_of_birth == null) {
@@ -12,7 +12,7 @@ export const addPetData = async (req, res) => {
     }
     
     try {
-        const insertedPet = await insertNewPet(name, species, breed, gender, date_of_birth, ownerId);
+        const insertedPet = await insertNewPet(name, species, breed, gender, date_of_birth, ownerId, imageUrl);
     
         if (insertedPet.affectedRows > 0) {
             return res.status(201).json({ success_msg: "Pet added successfully!" });

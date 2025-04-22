@@ -1,10 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGem, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { faGem, faPenToSquare, faCamera } from '@fortawesome/free-regular-svg-icons'
 import { faLanguage, faEraser, faArrowRightFromBracket, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../context/AuthContext';
-import CustomAlert from "../../components/CustomAlert"
+import CustomAlert from "../../components/CustomAlert";
+import { handleCamera, handleGallery, handleRemove } from '../../components/img_menu/OptionsHandling';
+
+import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
+import noImgUser from '../../img/no-profile.png';
+
+
 
 // tailwind
 import "../../css/global.css";
@@ -30,6 +36,12 @@ export default function MyProfileScreen({navigation}) {
     // Errors
     const [errorUsername, setErrorUsername] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
+
+    // Image menu
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [image, setImage] = useState(null);
+
+    
 
     // List of password rules
     const passwordRules = {
@@ -145,17 +157,22 @@ export default function MyProfileScreen({navigation}) {
                 <View className="flex-row mt-8 px-4">
                     {/* User image */}
                     <View className="flex-1 items-center">
-                        <Image
-                            className="size-32 rounded-full"
-                            source={require('../../img/logo.png')}
-                            style={{
-                                shadowColor: '#000',
-                                shadowOffset: { width: 0, height: 4 },
-                                shadowOpacity: 0.1,
-                                shadowRadius: 6,
-                                elevation: 5,
-                            }}
-                        />
+                        <TouchableOpacity
+                            className="bg-accent rounded-full shadow-md"
+                            onPress={() => setMenuVisible(true)}
+                        >
+                            <Image
+                                className="size-32 rounded-full"
+                                source={image ? { uri: image } : noImgUser }
+                                style={{
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 4 },
+                                    shadowOpacity: 0.1,
+                                    shadowRadius: 6,
+                                    elevation: 5,
+                                }}
+                            />                            
+                        </TouchableOpacity>
                     </View>
 
                     {/* User info */}
@@ -200,6 +217,14 @@ export default function MyProfileScreen({navigation}) {
                     message={alertMessage}
                     onClose={() => setShowAlert(false)}
                 />
+
+                <ChooseMenu
+                    visible={menuVisible}
+                    onClose={() => setMenuVisible(false)}
+                    onCamera={() => handleCamera(setImage, setMenuVisible)}
+                    onGallery={() => handleGallery(setImage, setMenuVisible)}
+                    onRemove={() => handleRemove(setImage, setMenuVisible)} />
+                    
             </ScrollView>
         </View>
     );

@@ -28,6 +28,14 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "com.mypetcard.mypetcard",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos."
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "14ff3199-a042-4e28-b53e-7b8673d546e7"

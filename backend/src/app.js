@@ -1,4 +1,5 @@
-import express from 'express'; // Corrected import
+import express from 'express'; 
+import path from 'path';
 
 const app = express();
 
@@ -9,7 +10,15 @@ import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import petsRouter from './routes/petsRoutes.js';
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Middleware
+app.use('/uploads/pets', express.static(path.join(__dirname, '../uploads/pets')));
+
 app.use(cors());
 app.use(express.json());
 

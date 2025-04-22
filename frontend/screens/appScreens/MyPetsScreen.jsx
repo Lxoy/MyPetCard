@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, FlatList, StatusBar, TouchableOpacity, Text } from 'react-native';
 import PetCard from '../../components/PetCard';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -11,14 +12,12 @@ import axios from 'axios';
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default function MyPetsScreen({ navigation }) {
   const [pets, setPets] = useState([]);
   const [emptyError, setEmptyError] = useState('');
 
   const fetchPets = async () => {
     try {
-
       const token = await AsyncStorage.getItem('userToken');
       const response = await axios.get(BASE_URL_EMULATOR + '/user/pets', {
         headers: {
@@ -31,18 +30,20 @@ export default function MyPetsScreen({ navigation }) {
         setEmptyError('');
         setPets(response.data.pets);
       }
+
     } catch (error) {
-      if (error.response.data.error_msg === "No pets added.") {
+      if (error.response?.data?.error_msg === "No pets added.") {
         setPets([]);
         setEmptyError(error.response.data.error_msg);
       }
     }
   };
-  
 
-  useEffect(() => { 
-    fetchPets();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchPets();
+    }, [])
+  );
 
   return (
     <View className='flex-1 bg-background'>
@@ -57,8 +58,8 @@ export default function MyPetsScreen({ navigation }) {
 
       {emptyError ? (
         <View className="flex-1 justify-center items-center mt-4">
-        <Text className="font-sfpro_regular text-text">{emptyError}</Text>
-      </View>
+          <Text className="font-sfpro_regular text-text">{emptyError}</Text>
+        </View>
       ) : (
         <FlatList
           data={pets}
@@ -69,7 +70,7 @@ export default function MyPetsScreen({ navigation }) {
               type={item.type}
               breed={item.breed}
               gender={item.gender}
-              imageUrl={item.imageUrl}
+              imageUrl={BASE_URL_EMULATOR + item.photo_url}
             />
           )}
           contentContainerStyle={{ paddingBottom: 100 }}
