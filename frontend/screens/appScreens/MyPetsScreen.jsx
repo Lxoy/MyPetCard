@@ -29,6 +29,7 @@ export default function MyPetsScreen({ navigation }) {
       if (response.status === 200) {
         setEmptyError('');
         setPets(response.data.pets);
+        console.log("Photo URL:", response.data.pets.map(p => p.photo_url));
       }
 
     } catch (error) {
@@ -70,7 +71,7 @@ export default function MyPetsScreen({ navigation }) {
               type={item.type}
               breed={item.breed}
               gender={item.gender}
-              imageUrl={BASE_URL_EMULATOR + item.photo_url}
+              imageUrl={item.photo_url ? { uri: BASE_URL_EMULATOR + item.photo_url } : defaultImg}
             />
           )}
           contentContainerStyle={{ paddingBottom: 100 }}

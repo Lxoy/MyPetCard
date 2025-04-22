@@ -17,10 +17,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Middleware
-app.use('/uploads/pets', express.static(path.join(__dirname, '../uploads/pets')));
-
 app.use(cors());
 app.use(express.json());
+app.use('/uploads/pets', express.static(path.join(__dirname, '../uploads/pets')));
 
 // Register
 app.use(authRouter);
