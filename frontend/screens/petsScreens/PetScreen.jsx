@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, StatusBar, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, StatusBar, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCakeCandles, faCamera, faGear, faMarsAndVenus, faDna, faCircle, faDroplet, faWeightScale, faAngleRight, faEraser, faBowlFood, faFile, faSyringe, faDisease, faFileCirclePlus, faNoteSticky, faMicrochip } from '@fortawesome/free-solid-svg-icons';
-
-import { InputField } from '../../components/newPetFormComponents/InputField';
-import { DropDownField } from '../../components/newPetFormComponents/DropDownField';
-import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
-import { TouchField } from '../../components/newPetFormComponents/TouchField';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
 import defaultImg from '../../img/default-pet.jpg';
@@ -17,8 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 
-import petData from '../../data/pets.json';
-
 // tailwind
 import "../../css/global.css";
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
@@ -27,23 +21,12 @@ export default function PetScreen({ navigation }) {
     const route = useRoute();
 
     const { id } = route.params;    
-    const [name, setName] = useState("");
-    const [selectedSpecies, setSelectedSpecies] = useState(null);
-    const [selectedBreed, setSelectedBreed] = useState(null);
-    const [selectedDate, setSelectedDate] = useState("");
-    const [gender, setGender] = useState("Male");
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
     const [pet, setPet] = useState([]);
-
-    const speciesItems = petData.map(species => ({
-        label: species.species,
-        value: species.species
-    }));
     
     const fetchPet = async () => {
         try {
-            console.log(`${BASE_URL_EMULATOR}/user/pets/${id}`);
             const token = await AsyncStorage.getItem('userToken');
             const res = await axios.get(`${BASE_URL_EMULATOR}/user/pets/${id}`, {
                 headers: {
@@ -51,61 +34,19 @@ export default function PetScreen({ navigation }) {
                 }
             });
             setPet(res.data.pet);
-            console.log(res.data.pet)
         } catch (err) {
             console.error("Failed to fetch pet:", err);
         } finally {
             setLoading(false);
         }
-    };
+    };;
 
-    useEffect(() => {
-        fetchPet();
-    }, [id]);
+    useFocusEffect(
+        useCallback(() => {
+            fetchPet();
+        }, [])
+    );
 
-    useEffect(() => {
-        setSelectedBreed(null);
-    }, [selectedSpecies]);
-
-    const handleSubmit = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const formData = new FormData();
-
-            formData.append('name', name.trim());
-            formData.append('species', selectedSpecies);
-            formData.append('breed', selectedBreed);
-            formData.append('gender', gender);
-            formData.append('date_of_birth', selectedDate.toISOString().split('T')[0]);
-
-            if (image) {
-                const uriParts = image.split('.');
-                const fileType = uriParts[uriParts.length - 1];
-
-                formData.append('image', {
-                    uri: image,
-                    type: `image/${fileType}`,
-                    name: `photo.${fileType}`,
-                });
-            }
-
-            const response = await axios.post(`${BASE_URL_EMULATOR}/user/pets/add`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
-
-            if (response.data.success_msg) {
-                alert(response.data.success_msg);
-                navigation.goBack();
-            }
-
-        } catch (error) {
-            console.error("Upload failed:", error);
-            alert("Failed to add pet.");
-        }
-    };
 
     return (
         <View className="flex-1 bg-secondary">
@@ -149,7 +90,7 @@ export default function PetScreen({ navigation }) {
                 <View className="mx-4 mt-4 p-4 bg-white rounded-3xl shadow-md">
                     <View className="flex-row justify-between items-center mb-4">
                         <Text className="text-lg font-sfpro_semibold text-jetblack">General Information</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails', { id })}>
                             <FontAwesomeIcon icon={faGear} size={20} color="#2C2C2E" />
                         </TouchableOpacity>
 

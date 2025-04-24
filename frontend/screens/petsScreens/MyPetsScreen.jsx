@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, FlatList, StatusBar, TouchableOpacity, Text } from 'react-native';
 import PetCard from '../../components/PetCard';

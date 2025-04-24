@@ -1,7 +1,7 @@
 import { insertNewPet } from '../utils/dbAuthUtils.js';
 import { getPetsByOwnerId } from '../utils/dbAuthUtils.js';
+import { updatePetData } from '../utils/dbAuthUtils.js';
 import { getPetById } from '../utils/dbAuthUtils.js';
-
 
 export const addPetData = async (req, res) => {
     const { name, species, breed, gender, date_of_birth } = req.body;
@@ -27,6 +27,35 @@ export const addPetData = async (req, res) => {
     }
 };
 
+export const addDetailsPetData = async (req, res) => {
+    const { color, weight_kg, microchip_number, adoption_date, neutered } = req.body;
+    const ownerId = req.user.id; 
+    const petId = req.params.id;
+
+    console.log(req.body);
+    
+    try {
+        const updatedFields = {};
+        if (color !== undefined) updatedFields.color = color;
+        if (weight_kg !== undefined) updatedFields.weight_kg = weight_kg;
+        if (microchip_number !== undefined) updatedFields.microchip_number = microchip_number;
+        if (adoption_date !== undefined) updatedFields.adoption_date = adoption_date;
+        if (neutered !== undefined) updatedFields.neutered = neutered;
+
+        if (Object.keys(updatedFields).length === 0) {
+            return res.status(400).json({ error_msg: "No data provided to update." });
+        }
+
+        await updatePetData(ownerId, petId, updatedFields);
+
+        const updatedPet = await getPetById(petId, ownerId);
+        res.status(200).json({ success_msg: "Pet updated successfully!", pet: updatedPet[0] });
+    
+    } catch (error) {
+        console.error("Update pet error:", error);
+        return res.status(500).json({ error_msg: "Server error while adding pet." });
+    }
+};
 
 export const getPetsByOwner = async (req, res) => {
     const ownerId = req.user.id;

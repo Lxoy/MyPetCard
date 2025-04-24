@@ -13,38 +13,23 @@ import { handleCamera, handleGallery, handleRemove } from '../../components/img_
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
 
-
-import petData from '../../data/pets.json';
 
 // tailwind
 import "../../css/global.css";
 
 export default function PetDetailsScreen({ navigation }) {
-    const [name, setName] = useState("");
+    const route = useRoute();
+    const { id } = route.params; 
+    
     const [color, setColor] = useState("");
     const [weight, setWeight] = useState("");
     const [microchipNumber, setMicrochipNumber] = useState("");
-    const [selectedSpecies, setSelectedSpecies] = useState(null);
-    const [selectedBreed, setSelectedBreed] = useState(null);
     const [selectedDate, setSelectedDate] = useState("");
-    const [gender, setGender] = useState("Male");
+    const [neutered, setNeutered] = useState();
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
-
-    const speciesItems = petData.map(species => ({
-        label: species.species,
-        value: species.species
-    }));
-
-    useEffect(() => {
-        setSelectedBreed(null);
-    }, [selectedSpecies]);
-    
-    const breedItems = selectedSpecies ? petData.find(s => s.species === selectedSpecies)?.breeds.map(breed => ({
-        label: breed,
-        value: breed
-    })) || [] : [];
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -56,33 +41,21 @@ export default function PetDetailsScreen({ navigation }) {
         { id: '3', component: <InputField label="Microchip Number" placeholder="#" helper="Enter pet's microchip number" size={15} value={microchipNumber} action={e => setMicrochipNumber(e)}  /> },
         { id: '4', component: <DatePickerField label="Adoption Date" placeholder="Date" helper="Enter pet's adoption date" action={handleDateChange} value={selectedDate} /> },
     ];
-
+    
     const handleSubmit = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
-            const formData = new FormData();
-    
-            formData.append('name', name.trim());
-            formData.append('species', selectedSpecies);
-            formData.append('breed', selectedBreed);
-            formData.append('gender', gender);
-            formData.append('date_of_birth', selectedDate.toISOString().split('T')[0]);
-    
-            if (image) {
-                const uriParts = image.split('.');
-                const fileType = uriParts[uriParts.length - 1];
-    
-                formData.append('image', {
-                    uri: image,
-                    type: `image/${fileType}`,
-                    name: `photo.${fileType}`,
-                });
-            }
-    
-            const response = await axios.post(`${BASE_URL_EMULATOR}/user/pets/add`, formData, {
+            const data = {
+                color,
+                weight_kg: weight,
+                microchip_number: microchipNumber,
+                adoption_date: selectedDate.toISOString().split('T')[0],
+                neutered: neutered,
+            };
+              
+            const response = await axios.patch(`${BASE_URL_EMULATOR}/user/pets/${id}/add_details`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
                 }
             });
     
@@ -97,7 +70,9 @@ export default function PetDetailsScreen({ navigation }) {
         }
     };
     
-    
+    useEffect(() => {
+        console.log(route.params);
+    },[])
 
     return (
         <View className="flex-1 bg-secondary">
@@ -112,7 +87,7 @@ export default function PetDetailsScreen({ navigation }) {
                         {/* Back Button */}
                         <TouchableOpacity
                             className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
-                            onPress={() => navigation.goBack()}
+                            onPress={() => navigation.navigate("Pet")}
                         >
                             <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
                         </TouchableOpacity>

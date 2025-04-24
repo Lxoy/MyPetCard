@@ -89,7 +89,6 @@ export const updateUserInfo = (userId, updatedFields) => {
   });
 };
 
-
 export const insertNewPet = (name, species, breed, gender, date_of_birth, ownerId, imageUrl) => {
   const insertSql = "INSERT INTO pets (name, species, breed, gender, date_of_birth, owner_id, photo_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
   
@@ -107,7 +106,7 @@ export const getPetsByOwnerId = (ownerId) => {
   return new Promise((resolve, reject) => {
     db.query(getPetsSql, [ownerId], (error, results) => {
       if (error) return reject(error);
-      resolve(results); // vraća sve ljubimce koji pripadaju vlasniku
+      resolve(results);
     });
   });
 };
@@ -119,6 +118,39 @@ export const getPetById = (petId, ownerId) => {
     db.query(sql, [petId, ownerId], (error, results) => {
       if (error) return reject(error);
       resolve(results[0]); 
+    });
+  });
+};
+
+export const updatePetData = (userId, ownerId, updatedFields) => {
+  const allowedFields = [ 'color', 'weight_kg', 'microchip_number', 'adoption_date', 'neutered' ];
+  const setParts = [];
+  const values = [];
+
+  allowedFields.forEach(field => {
+    const value = updatedFields[field];
+    if (value !== undefined && value !== null) {
+      setParts.push(`${field} = ?`);
+      values.push(value);
+    }
+  });
+
+  if (setParts.length === 0) {
+    return Promise.resolve({ message: 'No data for update.' });
+  }
+
+  
+  const setClause = setParts.join(', ');
+  console.log(setClause);
+  const updateSql = `UPDATE pets SET ${setClause} WHERE id = ? AND owner_id = ?`;
+  values.push(parseInt(userId));
+  values.push(parseInt(ownerId));
+
+  console.log(values);
+  return new Promise((resolve, reject) => {
+    db.query(updateSql, values, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
     });
   });
 };
