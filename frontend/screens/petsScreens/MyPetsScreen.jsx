@@ -11,6 +11,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import defaultImg from '../../img/default-pet.jpg';
 
 export default function MyPetsScreen({ navigation }) {
   const [pets, setPets] = useState([]);

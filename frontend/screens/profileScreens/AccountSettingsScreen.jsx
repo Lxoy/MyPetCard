@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import { StatusBar, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -116,14 +116,14 @@ export default function AccountSettingsScreen({ navigation }) {
           className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
           onPress={() => navigation.goBack()}
         >
-          <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
+          <FontAwesomeIcon icon={faChevronLeft} size={18} color="#007AFF" />
         </TouchableOpacity>
 
         <TouchableOpacity
           className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
           onPress={editData}
         >
-          <FontAwesomeIcon icon={faCheck} size={18} color="#4A90E2" />
+          <FontAwesomeIcon icon={faCheck} size={18} color="#007AFF" />
         </TouchableOpacity>
 
         {/* Title */}

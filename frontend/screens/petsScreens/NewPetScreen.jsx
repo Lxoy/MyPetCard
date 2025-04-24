@@ -3,6 +3,7 @@ import { View, FlatList, StatusBar, TouchableOpacity, Text, Image } from 'react-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
+import TextInputField from '../../components/TextInputField.jsx';
 import { InputField } from '../../components/newPetFormComponents/InputField';
 import { DropDownField } from '../../components/newPetFormComponents/DropDownField';
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
@@ -30,6 +31,8 @@ export default function NewPetScreen({ navigation }) {
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
 
+    const [errorName, setErrorName] = useState("");
+
     const speciesItems = petData.map(species => ({
         label: species.species,
         value: species.species
@@ -44,12 +47,31 @@ export default function NewPetScreen({ navigation }) {
         value: breed
     })) || [] : [];
 
+    const handleNameChange = (value) => {
+        setName(value);
+        if (!value) {
+            setErrorName('Name is required');
+        } else if (value.length < 2) {
+            setErrorName('Name must be at least 3 characters');
+        } else {
+            setErrorName('');
+        }
+    };
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
     const data = [
-        { id: '1', component: <InputField label="Name" placeholder="Name" helper="Enter pet's name" size={30} value={name} action={e => setName(e)}  /> },
+        { id: '1', component: <TextInputField
+            label="Name"
+            placeholder="Name"
+            helper="Enter pet's name"
+            value={name}
+            size={30}
+            action={handleNameChange}
+            error={errorName}
+          /> },
         { id: '2', component: <DropDownField label="Species" placeholder="Species" helper="Pick pet's species" selectedValue={selectedSpecies} setSelectedValue={setSelectedSpecies} items={speciesItems} /> },
         { id: '3', component: <DropDownField label="Breed" placeholder="Breed" helper="Pick pet's species" selectedValue={selectedBreed} setSelectedValue={setSelectedBreed} items={breedItems} disabled={!selectedSpecies} /> },
         { id: '4', component: <DatePickerField label="Birthday" placeholder="Date" helper="Enter pet's birthday" action={handleDateChange} value={selectedDate} /> },

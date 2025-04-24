@@ -1,0 +1,263 @@
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, StatusBar, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronLeft, faCakeCandles, faCamera, faGear, faMarsAndVenus, faDna, faCircle, faDroplet, faWeightScale, faAngleRight, faEraser, faBowlFood, faFile, faSyringe, faDisease, faFileCirclePlus, faNoteSticky, faMicrochip } from '@fortawesome/free-solid-svg-icons';
+
+import { InputField } from '../../components/newPetFormComponents/InputField';
+import { DropDownField } from '../../components/newPetFormComponents/DropDownField';
+import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
+import { TouchField } from '../../components/newPetFormComponents/TouchField';
+
+import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
+import defaultImg from '../../img/default-pet.jpg';
+import { handleCamera, handleGallery, handleRemove } from '../../components/img_menu/OptionsHandling';
+
+import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+import petData from '../../data/pets.json';
+
+// tailwind
+import "../../css/global.css";
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+
+export default function PetScreen({ navigation }) {
+    const [name, setName] = useState("");
+    const [selectedSpecies, setSelectedSpecies] = useState(null);
+    const [selectedBreed, setSelectedBreed] = useState(null);
+    const [selectedDate, setSelectedDate] = useState("");
+    const [gender, setGender] = useState("Male");
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [image, setImage] = useState(null);
+
+    const speciesItems = petData.map(species => ({
+        label: species.species,
+        value: species.species
+    }));
+
+    useEffect(() => {
+        setSelectedBreed(null);
+    }, [selectedSpecies]);
+
+    const breedItems = selectedSpecies ? petData.find(s => s.species === selectedSpecies)?.breeds.map(breed => ({
+        label: breed,
+        value: breed
+    })) || [] : [];
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const data = [
+        { id: '1', component: <InputField label="Name" placeholder="Name" helper="Enter pet's name" size={30} value={name} action={e => setName(e)} /> },
+        { id: '2', component: <DropDownField label="Species" placeholder="Species" helper="Pick pet's species" selectedValue={selectedSpecies} setSelectedValue={setSelectedSpecies} items={speciesItems} /> },
+        { id: '3', component: <DropDownField label="Breed" placeholder="Breed" helper="Pick pet's species" selectedValue={selectedBreed} setSelectedValue={setSelectedBreed} items={breedItems} disabled={!selectedSpecies} /> },
+        { id: '4', component: <DatePickerField label="Birthday" placeholder="Date" helper="Enter pet's birthday" action={handleDateChange} value={selectedDate} /> },
+        { id: '5', component: <TouchField label="Gender" value={gender} helper="Choose gender" action={setGender} /> }
+    ];
+
+    const handleSubmit = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const formData = new FormData();
+
+            formData.append('name', name.trim());
+            formData.append('species', selectedSpecies);
+            formData.append('breed', selectedBreed);
+            formData.append('gender', gender);
+            formData.append('date_of_birth', selectedDate.toISOString().split('T')[0]);
+
+            if (image) {
+                const uriParts = image.split('.');
+                const fileType = uriParts[uriParts.length - 1];
+
+                formData.append('image', {
+                    uri: image,
+                    type: `image/${fileType}`,
+                    name: `photo.${fileType}`,
+                });
+            }
+
+            const response = await axios.post(`${BASE_URL_EMULATOR}/user/pets/add`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+
+            if (response.data.success_msg) {
+                alert(response.data.success_msg);
+                navigation.goBack();
+            }
+
+        } catch (error) {
+            console.error("Upload failed:", error);
+            alert("Failed to add pet.");
+        }
+    };
+
+    return (
+        <View className="flex-1 bg-secondary">
+            <StatusBar barStyle="light-content" backgroundColor="black" />
+
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                {/* Back Button */}
+                <TouchableOpacity
+                    className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
+                    onPress={() => navigation.goBack()}
+                >
+                    <FontAwesomeIcon icon={faChevronLeft} size={18} color="#007AFF" />
+                </TouchableOpacity>
+
+                {/* Title */}
+                <View className="mt-6 items-center">
+                    <Text className="font-sfpro_regular text-2xl text-text">Pet name</Text>
+                </View>
+
+                <View className="mt-4 items-center">
+                    <View className="relative">
+                        <Image
+                            className="size-36 rounded-full shadow-black shadow-md"
+                            style={{
+                                shadowColor: '#000',
+                                shadowOffset: { width: 0, height: 4 },
+                                shadowOpacity: 0.1,
+                                shadowRadius: 6,
+                                elevation: 5,
+                            }}
+                            source={image ? { uri: image } : defaultImg}
+                        />
+                        <TouchableOpacity
+                            className="absolute bottom-2 right-2 bg-accent p-2 rounded-full shadow-md"
+                        >
+                            <FontAwesomeIcon icon={faCamera} size={18} color="#003366" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View className="mx-4 mt-4 p-4 bg-white rounded-3xl shadow-md">
+                    <View className="flex-row justify-between items-center mb-4">
+                        <Text className="text-lg font-sfpro_semibold text-jetblack">General Information</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails')}>
+                            <FontAwesomeIcon icon={faGear} size={20} color="#2C2C2E" />
+                        </TouchableOpacity>
+
+                    </View>
+
+                    <View className="border-b border-gray-200 mb-2" />
+
+                    {/* Breed */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faDna} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Breed</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">Pekinezer</Text>
+                    </View>
+
+                    {/* Gender */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faMarsAndVenus} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Gender</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">Male</Text>
+                    </View>
+
+                    {/* Date of Birth */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faCakeCandles} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Date of Birth</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">31.03.2024</Text>
+                    </View>
+
+                    {/* Color */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faDroplet} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Color</Text>
+                        </View>
+                        <FontAwesomeIcon icon={faCircle} size={24} color="#003366" />
+                    </View>
+
+                    {/* Weight */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faWeightScale} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Weight</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">12kg</Text>
+                    </View>
+
+                    {/* Weight */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faMicrochip} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Microchip Number</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">#</Text>
+                    </View>
+
+                    {/* Adoption Date */}
+                    <View className="flex-row items-center justify-between py-3">
+                        <View className="flex-row items-center gap-1">
+                            <FontAwesomeIcon icon={faCalendar} size={20} color="#003366" />
+                            <Text className="text-base font-sfpro_regular text-jetblack">Adoption Date</Text>
+                        </View>
+                        <Text className="text-base font-sfpro_regular text-text">31.03.2024</Text>
+                    </View>
+                </View>
+
+                <View className="mx-4 my-2 p-2 bg-secondary rounded-3xl shadow-md">
+                    <View className="items-center justify-center">
+
+                        {/* Buttons Group 1 */}
+                        <View className="my-3">
+                            <ProfileButton icon={faBowlFood} label="Nutrition" />
+                            <ProfileButton icon={faSyringe} label="Vaccination" />
+                            <ProfileButton icon={faDisease} label="Allergy" />
+                            <ProfileButton icon={faFile} label="Files" />
+                            <ProfileButton icon={faNoteSticky} label="Notes" />
+                        </View>
+
+                        <View className="w-[90%] border-black" style={{ borderWidth: 0.5 }} />
+
+                        {/* Buttons Group 2 */}
+                        <View className="my-3">
+                            <ProfileButton icon={faFileCirclePlus} label="Generete file" />
+                            <ProfileButton
+                                icon={faEraser}
+                                label="Delete Pet"
+                                labelClass="text-error"
+                                iconColor="#D0021B"
+                            />
+                        </View>
+                    </View>
+                </View>
+
+
+            </ScrollView>
+        </View>
+    );
+}
+
+const ProfileButton = ({ icon, label, onPress, labelClass = 'text-text font-sfpro_regular', iconColor = '#003366' }) => (
+    <TouchableOpacity
+        className="flex-row items-center justify-start w-full h-12 rounded-xl px-4 active:bg-gray-100"
+        activeOpacity={0.7}
+        onPress={onPress}
+    >
+        <View style={{ flex: 1 }} className="flex-row gap-4 items-center">
+            <FontAwesomeIcon icon={icon} size={20} color={iconColor} />
+            <Text className={`${labelClass} text-base font-sfpro_regular`}>
+                {label}
+            </Text>
+        </View>
+        <View style={{ flex: 1 }} className="justify-center items-end">
+            <FontAwesomeIcon icon={faAngleRight} size={20} color={iconColor} />
+        </View>
+    </TouchableOpacity>
+);

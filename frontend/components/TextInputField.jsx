@@ -58,20 +58,21 @@ export default function TextInputField({ label, placeholder, value, helper, size
             {/* Helper + Character Count */}
             <View className="flex-row justify-between mt-1 px-1">
                 {!error ? <Text className="text-xs text-darkgrey">{helper}</Text> : <Text className="text-xs text-error">{error}</Text>}
-                {label !== 'Phone Number' && <Text className="text-xs text-darkgrey">{value.length}/{size}</Text>}
+                {(label !== 'Phone Number' && label !== 'Color') && <Text className="text-xs text-darkgrey">{value.length}KURAC/{size}</Text>}
             </View>
+            
             {label === "Password" && passwordValidation && (
-    <View className="mt-2">
-        {Object.entries(passwordValidation.results).map(([ruleName, rule]) => (
-            <Text
-                key={ruleName}
-                className={`text-xs ${rule.valid ? 'text-green-500' : 'text-gray-500'}`}
-            >
-                {rule.valid ? '✓' : '•'} {rule.description}
-            </Text>
-        ))}
-    </View>
-)}
+                <View className="mt-2">
+                    {Object.entries(passwordValidation.results).map(([ruleName, rule]) => (
+                        <Text
+                            key={ruleName}
+                            className={`text-xs ${rule.valid ? 'text-green-500' : 'text-gray-500'}`}
+                        >
+                            {rule.valid ? '✓' : '•'} {rule.description}
+                        </Text>
+                    ))}
+                </View>
+            )}
         </View>
     );
 }

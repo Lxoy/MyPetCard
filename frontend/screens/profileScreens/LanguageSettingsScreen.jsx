@@ -54,7 +54,7 @@ export default function LanguageSettingsScreen({ navigation }) {
           className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
           onPress={() => navigation.goBack()}
         >
-          <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
+          <FontAwesomeIcon icon={faChevronLeft} size={18} color="#007AFF" />
         </TouchableOpacity>
 
         {/* Title */}

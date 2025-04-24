@@ -15,23 +15,27 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 
-import MyPetsScreen from '../screens/appScreens/MyPetsScreen';
-import NewPetScreen from '../screens/appScreens/NewPetScreen';
+import MyPetsScreen from '../screens/petsScreens/MyPetsScreen';
+import NewPetScreen from '../screens/petsScreens/NewPetScreen';
+import PetScreen from '../screens/petsScreens/PetScreen';
+import PetDetailsScreen from '../screens/petsScreens/PetDetailsScreen';
 import ForumScreen from '../screens/appScreens/ForumScreen';
 import VetsScreen from '../screens/appScreens/VetsScreen';
-import MyProfileScreen from '../screens/appScreens/MyProfileScreen';
-import AccountDeletionScreen from '../screens/appScreens/AccountDeletionScreen';
-import AccountSettingsScreen from '../screens/appScreens/AccountSettingsScreen';
-import SubscriptionScreen from '../screens/appScreens/SubscriptionScreen';
-import LanguageSettingsScreen from '../screens/appScreens/LanguageSettingsScreen';
+import MyProfileScreen from '../screens/profileScreens/MyProfileScreen';
+import AccountSettingsScreen from '../screens/profileScreens/AccountSettingsScreen';
+import AccountDeletionScreen from '../screens/profileScreens/AccountDeletionScreen';
+import SubscriptionScreen from '../screens/profileScreens/SubscriptionScreen';
+import LanguageSettingsScreen from '../screens/profileScreens/LanguageSettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MyPetStack = () => (
-    <Stack.Navigator initialRouteName="MyPetsMain" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Pet" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MyPetsMain" component={MyPetsScreen} />
         <Stack.Screen name="NewPet" component={NewPetScreen} />
+        <Stack.Screen name="Pet" component={PetScreen}/>
+        <Stack.Screen name="PetDetails" component={PetDetailsScreen} />
     </Stack.Navigator>
 );
 
