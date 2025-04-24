@@ -15,6 +15,7 @@ import { handleCamera, handleGallery, handleRemove } from '../../components/img_
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
 
 import petData from '../../data/pets.json';
 
@@ -23,6 +24,9 @@ import "../../css/global.css";
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 export default function PetScreen({ navigation }) {
+    const route = useRoute();
+
+    const { id } = route.params;    
     const [name, setName] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState(null);
     const [selectedBreed, setSelectedBreed] = useState(null);
@@ -30,11 +34,34 @@ export default function PetScreen({ navigation }) {
     const [gender, setGender] = useState("Male");
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
+    const [pet, setPet] = useState([]);
 
     const speciesItems = petData.map(species => ({
         label: species.species,
         value: species.species
     }));
+    
+    const fetchPet = async () => {
+        try {
+            console.log(`${BASE_URL_EMULATOR}/user/pets/${id}`);
+            const token = await AsyncStorage.getItem('userToken');
+            const res = await axios.get(`${BASE_URL_EMULATOR}/user/pets/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setPet(res.data.pet);
+            console.log(res.data.pet)
+        } catch (err) {
+            console.error("Failed to fetch pet:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPet();
+    }, [id]);
 
     useEffect(() => {
         setSelectedBreed(null);
@@ -112,7 +139,7 @@ export default function PetScreen({ navigation }) {
 
                 {/* Title */}
                 <View className="mt-6 items-center">
-                    <Text className="font-sfpro_regular text-2xl text-text">Pet name</Text>
+                    <Text className="font-sfpro_regular text-2xl text-text">{pet.name}</Text>
                 </View>
 
                 <View className="mt-4 items-center">

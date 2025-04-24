@@ -112,3 +112,16 @@ export const getPetsByOwnerId = (ownerId) => {
   });
 };
 
+export const getPetById = (petId, ownerId) => {
+  const sql = "SELECT * FROM pets WHERE id = ? AND owner_id = ?";
+  
+  return new Promise((resolve, reject) => {
+    db.query(sql, [petId, ownerId], (error, results) => {
+      if (error) return reject(error);
+      resolve(results[0]); 
+    });
+  });
+};
+
+
+

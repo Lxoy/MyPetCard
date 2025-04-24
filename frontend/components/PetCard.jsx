@@ -2,11 +2,14 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleInfo, faVenus, faVenusMars, faMars } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
 
 // tailwind
 import "../css/global.css";
 
-export default function PetCard({ name, breed, gender, imageUrl }) {
+export default function PetCard({id, name, breed, gender, imageUrl }) {
+
+    const navigation = useNavigation();
 
     const genderIcon = {
         Male: faMars,
@@ -18,8 +21,11 @@ export default function PetCard({ name, breed, gender, imageUrl }) {
         Female: "#FF69B4"
     };
 
+
     return (
-        <TouchableOpacity className='mx-4 my-3 rounded-lg shadow-lg shadow-midnightblue'>
+        <TouchableOpacity className='mx-4 my-3 rounded-lg shadow-lg shadow-midnightblue'
+            onPress={() =>{ console.log('Pet ID:', id); navigation.navigate('Pet', { id })}}
+        >
             <View className='absolute inset-0 ' />
             <View className='flex-1 rounded-3xl py-1 flex-row items-center bg-secondary'>
                 <View className='rounded-full'>

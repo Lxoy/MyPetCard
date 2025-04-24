@@ -31,7 +31,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MyPetStack = () => (
-    <Stack.Navigator initialRouteName="Pet" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="MyPetsMain" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MyPetsMain" component={MyPetsScreen} />
         <Stack.Screen name="NewPet" component={NewPetScreen} />
         <Stack.Screen name="Pet" component={PetScreen}/>

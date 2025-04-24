@@ -68,6 +68,7 @@ export default function MyPetsScreen({ navigation }) {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <PetCard
+              id={item.id}
               name={item.name}
               type={item.type}
               breed={item.breed}

@@ -1,5 +1,7 @@
 import { insertNewPet } from '../utils/dbAuthUtils.js';
 import { getPetsByOwnerId } from '../utils/dbAuthUtils.js';
+import { getPetById } from '../utils/dbAuthUtils.js';
+
 
 export const addPetData = async (req, res) => {
     const { name, species, breed, gender, date_of_birth } = req.body;
@@ -42,3 +44,23 @@ export const getPetsByOwner = async (req, res) => {
         return res.status(500).json({ error_msg: "Server error while fetching pets." });
     }
 };
+
+
+export const getPetDetails = async (req, res) => {
+    const petId = req.params.id;
+    const ownerId = req.user.id;
+
+    try {
+        const pet = await getPetById(petId, ownerId);
+
+        if (!pet) {
+            return res.status(404).json({ error_msg: "Pet not found." });
+        }
+
+        return res.status(200).json({ pet });
+    } catch (error) {
+        console.error("Error fetching pet:", error);
+        return res.status(500).json({ error_msg: "Server error while fetching pet." });
+    }
+};
+

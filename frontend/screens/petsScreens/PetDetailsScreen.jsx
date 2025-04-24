@@ -14,6 +14,7 @@ import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
+
 import petData from '../../data/pets.json';
 
 // tailwind
