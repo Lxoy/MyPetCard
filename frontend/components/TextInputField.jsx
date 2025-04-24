@@ -58,7 +58,7 @@ export default function TextInputField({ label, placeholder, value, helper, size
             {/* Helper + Character Count */}
             <View className="flex-row justify-between mt-1 px-1">
                 {!error ? <Text className="text-xs text-darkgrey">{helper}</Text> : <Text className="text-xs text-error">{error}</Text>}
-                {(label !== 'Phone Number' && label !== 'Color') && <Text className="text-xs text-darkgrey">{value.length}KURAC/{size}</Text>}
+                {(label !== 'Phone Number' && label !== 'Color') && <Text className="text-xs text-darkgrey">{value.length}/{size}</Text>}
             </View>
             
             {label === "Password" && passwordValidation && (

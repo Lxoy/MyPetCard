@@ -1,3 +1,5 @@
+import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
@@ -20,7 +22,7 @@ export const TouchField = ({ label, placeholder, value, helper, action, error })
             {/* Touchable Box */}
             <TouchableOpacity
                 onPress={handleToggle}
-                className={`w-full bg-white rounded-xl px-4 py-2 shadow-sm border justify-center ${error
+                className={`w-full bg-white rounded-xl px-4 py-2 shadow-sm border items-center flex-row gap-1 ${error
                     ? 'border-error'
                     : isFocused
                         ? 'border-primary'
@@ -30,6 +32,7 @@ export const TouchField = ({ label, placeholder, value, helper, action, error })
                 <Text className={`${value ? 'text-gray-900' : 'text-darkgrey'} text-base`}>
                     {value || placeholder}
                 </Text>
+                <FontAwesomeIcon icon={value == "Male" ? faMars : faVenus} color={value == "Male" ? "#4A90E2" : "#FF69B4"} size={18} />
             </TouchableOpacity>
 
             {/* Helper Text */}

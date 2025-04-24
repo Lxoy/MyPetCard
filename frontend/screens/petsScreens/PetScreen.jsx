@@ -67,23 +67,6 @@ export default function PetScreen({ navigation }) {
         setSelectedBreed(null);
     }, [selectedSpecies]);
 
-    const breedItems = selectedSpecies ? petData.find(s => s.species === selectedSpecies)?.breeds.map(breed => ({
-        label: breed,
-        value: breed
-    })) || [] : [];
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const data = [
-        { id: '1', component: <InputField label="Name" placeholder="Name" helper="Enter pet's name" size={30} value={name} action={e => setName(e)} /> },
-        { id: '2', component: <DropDownField label="Species" placeholder="Species" helper="Pick pet's species" selectedValue={selectedSpecies} setSelectedValue={setSelectedSpecies} items={speciesItems} /> },
-        { id: '3', component: <DropDownField label="Breed" placeholder="Breed" helper="Pick pet's species" selectedValue={selectedBreed} setSelectedValue={setSelectedBreed} items={breedItems} disabled={!selectedSpecies} /> },
-        { id: '4', component: <DatePickerField label="Birthday" placeholder="Date" helper="Enter pet's birthday" action={handleDateChange} value={selectedDate} /> },
-        { id: '5', component: <TouchField label="Gender" value={gender} helper="Choose gender" action={setGender} /> }
-    ];
-
     const handleSubmit = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -180,7 +163,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faDna} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Breed</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">Pekinezer</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.breed}</Text>
                     </View>
 
                     {/* Gender */}
@@ -189,7 +172,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faMarsAndVenus} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Gender</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">Male</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.gender}</Text>
                     </View>
 
                     {/* Date of Birth */}
@@ -198,7 +181,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faCakeCandles} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Date of Birth</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">31.03.2024</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.date_of_birth ? new Date(pet.date_of_birth).toLocaleDateString('hr-HR') : "/"}</Text>
                     </View>
 
                     {/* Color */}
@@ -216,7 +199,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faWeightScale} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Weight</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">12kg</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.weight_kg || "/"}</Text>
                     </View>
 
                     {/* Weight */}
@@ -225,7 +208,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faMicrochip} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Microchip Number</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">#</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.microchip_number || "#"}</Text>
                     </View>
 
                     {/* Adoption Date */}

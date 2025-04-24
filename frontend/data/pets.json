@@ -1,95 +1,94 @@
 [
-    {
-      "species": "Pas",
-      "breeds": [
-        "Labrador retriver",
-        "Njemački ovčar",
-        "Zlatni retriver",
-        "Francuski buldog",
-        "Čivava",
-        "Beagle",
-        "Pudla",
-        "Yorkshire terijer"
-      ]
-    },
-    {
-      "species": "Macka",
-      "breeds": [
-        "Perzijska mačka",
-        "Maine Coon",
-        "Britanska kratkodlaka",
-        "Sijamska mačka",
-        "Ragdoll",
-        "Ruska plava",
-        "Sfinks",
-        "Norveška šumska mačka"
-      ]
-    },
-    {
-      "species": "Zec",
-      "breeds": [
-        "Nizozemski patuljasti",
-        "Mini Lop",
-        "Lionhead",
-        "Rex",
-        "Američki činčila",
-        "Angora zec",
-        "Kalifornijski zec"
-      ]
-    },
-    {
-      "species": "Hrcak",
-      "breeds": [
-        "Zlatni hrčak (sirijski)",
-        "Džungarski hrčak",
-        "Roborovski hrčak",
-        "Kineski hrčak",
-        "Ruski patuljasti hrčak"
-      ]
-    },
-    {
-      "species": "Mis",
-      "breeds": [
-        "Domaći miš",
-        "Fancy miš",
-        "Satenski miš",
-        "Dumbo miš"
-      ]
-    },
-    {
-      "species": "Papiga",
-      "breeds": [
-        "Tigrica (budgerigar)",
-        "Nimfa (cockatiel)",
-        "Žako (afrički sivi)",
-        "Amazonac",
-        "Ara",
-        "Senegal papiga",
-        "Kakariki",
-        "Monk papiga (quaker)"
-      ]
-    },
-    {
-      "species": "Kanarinac",
-      "breeds": [
-        "Pjevni kanarinac",
-        "Gloster kanarinac",
-        "Border kanarinac",
-        "Fife Fancy",
-        "Norwich kanarinac",
-        "Red Factor kanarinac"
-      ]
-    },
-    {
-      "species": "Kornjaca",
-      "breeds": [
-        "Crvenouha kornjača (vodena)",
-        "Žutouha kornjača",
-        "Grčka kornjača",
-        "Hermanova kornjača (kopnena)",
-        "Ruska kornjača",
-        "Afrička oklopna kornjača (sulcata)"
-      ]
-    }
-  ]
-  
+  {
+    "species": "Dog",
+    "breeds": [
+      "Labrador Retriever",
+      "German Shepherd",
+      "Golden Retriever",
+      "French Bulldog",
+      "Chihuahua",
+      "Beagle",
+      "Poodle",
+      "Yorkshire Terrier"
+    ]
+  },
+  {
+    "species": "Cat",
+    "breeds": [
+      "Persian Cat",
+      "Maine Coon",
+      "British Shorthair",
+      "Siamese Cat",
+      "Ragdoll",
+      "Russian Blue",
+      "Sphynx",
+      "Norwegian Forest Cat"
+    ]
+  },
+  {
+    "species": "Rabbit",
+    "breeds": [
+      "Netherland Dwarf",
+      "Mini Lop",
+      "Lionhead",
+      "Rex",
+      "American Chinchilla",
+      "Angora Rabbit",
+      "Californian Rabbit"
+    ]
+  },
+  {
+    "species": "Hamster",
+    "breeds": [
+      "Golden Hamster (Syrian)",
+      "Djungarian Hamster",
+      "Roborovski Hamster",
+      "Chinese Hamster",
+      "Russian Dwarf Hamster"
+    ]
+  },
+  {
+    "species": "Mouse",
+    "breeds": [
+      "House Mouse",
+      "Fancy Mouse",
+      "Satin Mouse",
+      "Dumbo Mouse"
+    ]
+  },
+  {
+    "species": "Parrot",
+    "breeds": [
+      "Budgerigar",
+      "Cockatiel",
+      "African Grey (Timneh/Congo)",
+      "Amazon Parrot",
+      "Macaw",
+      "Senegal Parrot",
+      "Kakariki",
+      "Monk Parakeet (Quaker)"
+    ]
+  },
+  {
+    "species": "Canary",
+    "breeds": [
+      "Song Canary",
+      "Gloster Canary",
+      "Border Canary",
+      "Fife Fancy",
+      "Norwich Canary",
+      "Red Factor Canary"
+    ]
+  },
+  {
+    "species": "Turtle",
+    "breeds": [
+      "Red-Eared Slider (Aquatic)",
+      "Yellow-Eared Slider",
+      "Greek Tortoise",
+      "Hermann's Tortoise (Land)",
+      "Russian Tortoise",
+      "African Spurred Tortoise (Sulcata)"
+    ]
+  }
+]
