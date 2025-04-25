@@ -20,11 +20,11 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 export default function PetScreen({ navigation }) {
     const route = useRoute();
 
-    const { id } = route.params;    
+    const { id } = route.params;
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
     const [pet, setPet] = useState([]);
-    
+
     const fetchPet = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -90,7 +90,7 @@ export default function PetScreen({ navigation }) {
                 <View className="mx-4 mt-4 p-4 bg-white rounded-3xl shadow-md">
                     <View className="flex-row justify-between items-center mb-4">
                         <Text className="text-lg font-sfpro_semibold text-jetblack">General Information</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails', { id })}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails', { id: id, name: pet.name })}>
                             <FontAwesomeIcon icon={faGear} size={20} color="#2C2C2E" />
                         </TouchableOpacity>
 
@@ -113,7 +113,11 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faMarsAndVenus} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Gender</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">{pet.gender}</Text>
+                        <Text className={`text-base font-sfpro_regular ${pet.gender === 'Male' ? 'text-[#4A90E2]' : 'text-[#FF69B4]'}`}>
+                            {pet.gender}
+                        </Text>
+
+
                     </View>
 
                     {/* Date of Birth */}
@@ -131,7 +135,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faDroplet} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Color</Text>
                         </View>
-                        <FontAwesomeIcon icon={faCircle} size={24} color="#003366" />
+                        <FontAwesomeIcon icon={faCircle} size={24} color={pet.color || "#D3D3D3"} />
                     </View>
 
                     {/* Weight */}
@@ -140,7 +144,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faWeightScale} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Weight</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">{pet.weight_kg || "/"}</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.weight_kg || "-"}</Text>
                     </View>
 
                     {/* Weight */}
@@ -149,7 +153,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faMicrochip} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Microchip Number</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">{pet.microchip_number || "#"}</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.microchip_number || "-"}</Text>
                     </View>
 
                     {/* Adoption Date */}
@@ -158,7 +162,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faCalendar} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Adoption Date</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">31.03.2024</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.adoption_date || "-"}</Text>
                     </View>
                 </View>
 

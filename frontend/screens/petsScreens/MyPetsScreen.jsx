@@ -60,7 +60,7 @@ export default function MyPetsScreen({ navigation }) {
 
       {emptyError ? (
         <View className="flex-1 justify-center items-center mt-4">
-          <Text className="font-sfpro_regular text-text">{emptyError}</Text>
+          <Text className="text-base font-sfpro_regular text-text">{emptyError}</Text>
         </View>
       ) : (
         <FlatList

@@ -5,6 +5,7 @@ import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/f
 
 import { InputField } from '../../components/newPetFormComponents/InputField';
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
+import TextInputField from '../../components/TextInputField.jsx';
 
 import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
 import defaultImg from '../../img/default-pet.jpg';
@@ -18,11 +19,12 @@ import { useRoute } from '@react-navigation/native';
 
 // tailwind
 import "../../css/global.css";
+import { useFocusEffect } from 'expo-router';
 
 export default function PetDetailsScreen({ navigation }) {
     const route = useRoute();
-    const { id } = route.params; 
-    
+    const { id, name } = route.params;
+
     const [color, setColor] = useState("");
     const [weight, setWeight] = useState("");
     const [microchipNumber, setMicrochipNumber] = useState("");
@@ -31,14 +33,32 @@ export default function PetDetailsScreen({ navigation }) {
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState(null);
 
+    const [errorWeight, setErrorWeight] = useState("");
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
 
+    const handleWeightChange = (value) => {
+        setWeight(value);
+    
+        const isValidFormat = /^[0-9]*\.?[0-9]*$/.test(value);
+    
+        if (
+            value.length > 5 || 
+            !isValidFormat ||
+            parseFloat(value) > 999
+        ) {
+            setErrorWeight("Weight must be a number between 0 and 999 (use . for decimal)");
+        } else {
+            setErrorWeight(null);
+        }
+    };
+
     const data = [
-        { id: '1', component: <InputField label="Color" placeholder="#000000" helper="Enter pet's HEX color" value={color} action={e => setColor(e)}  />},
-        { id: '2', component: <InputField label="Weight" placeholder="Weight" helper="Enter pet's weight" size={30} value={weight} action={e => setWeight(e)}  /> },
-        { id: '3', component: <InputField label="Microchip Number" placeholder="#" helper="Enter pet's microchip number" size={15} value={microchipNumber} action={e => setMicrochipNumber(e)}  /> },
+        { id: '1', component: <TextInputField label="Color" placeholder="#000000" helper="Enter pet's HEX color" value={color} action={e => setColor(e)}  />},
+        { id: '2', component: <TextInputField label="Weight" placeholder="Weight" helper="Enter pet's weight (kg)" size={5} value={weight} action={handleWeightChange} error={errorWeight} /> },
+        { id: '3', component: <TextInputField label="Microchip Number" placeholder="Number" helper="Enter pet's microchip number" size={15} value={microchipNumber} action={e => setMicrochipNumber(e)}  /> },
         { id: '4', component: <DatePickerField label="Adoption Date" placeholder="Date" helper="Enter pet's adoption date" action={handleDateChange} value={selectedDate} /> },
     ];
     
@@ -49,7 +69,7 @@ export default function PetDetailsScreen({ navigation }) {
                 color,
                 weight_kg: weight,
                 microchip_number: microchipNumber,
-                adoption_date: selectedDate.toISOString().split('T')[0],
+                adoption_date: selectedDate? selectedDate.toISOString().split('T')[0] : null,
                 neutered: neutered,
             };
               
@@ -87,7 +107,7 @@ export default function PetDetailsScreen({ navigation }) {
                         {/* Back Button */}
                         <TouchableOpacity
                             className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
-                            onPress={() => navigation.navigate("Pet")}
+                            onPress={() => navigation.navigate("Pet", {id})}
                         >
                             <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
                         </TouchableOpacity>
@@ -101,7 +121,7 @@ export default function PetDetailsScreen({ navigation }) {
 
                         {/* Title */}
                         <View className="mt-4 items-center">
-                            <Text className="font-sfpro_regular text-2xl text-text">New Pet</Text>
+                            <Text className="font-sfpro_regular text-2xl text-text">{name}</Text>
                         </View>
                         <View className="mt-2"/>
                         <ChooseMenu

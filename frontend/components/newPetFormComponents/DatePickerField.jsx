@@ -1,3 +1,5 @@
+import { faAngleUp, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, Button } from "react-native";
 import DatePicker from 'react-native-date-picker';
@@ -14,14 +16,21 @@ export const DatePickerField = ({ label, placeholder, value, helper, action, err
         setIsFocused(false);
     };
 
+    const handleCancel = () => {
+        setOpen(false);
+        setIsFocused(false);
+    };
+
     return (
         <View className="w-full px-6 mb-4">
             {/* Label */}
-            <Text className={`text-base mb-1 font-medium ${isFocused ? 'text-primary' : 'text-jetblack'}`}>{label}</Text>
+            <Text className={`text-base mb-1 font-medium ${isFocused ? 'text-primary' : 'text-jetblack'}`}>
+                {label}
+            </Text>
 
             {/* Input */}
             <TouchableOpacity
-                className={`w-full bg-white rounded-xl px-4 py-2 text-base text-gray-900 shadow-sm border ${error
+                className={`w-full bg-white rounded-2xl px-4 py-3 text-base text-gray-900 border ${error
                     ? 'border-error'
                     : isFocused
                         ? 'border-primary'
@@ -32,20 +41,34 @@ export const DatePickerField = ({ label, placeholder, value, helper, action, err
                 <Text className={`${value ? 'text-gray-900' : 'text-darkgrey'}`}>
                     {value ? value.toLocaleDateString('hr-HR') : placeholder}
                 </Text>
-
             </TouchableOpacity>
-            <Modal visible={open} transparent animationType="slide">
-                <View className="flex-1 justify-center items-center bg-black/50">
-                    <View className="bg-white rounded-xl p-6">
+
+
+            <Modal visible={open} animationType="slide" transparent>
+                <View className="flex-1 justify-end bg-black/50">
+                    <View className="bg-white rounded-t-2xl px-6 pt-4 pb-6">
+                        {/* Top buttons */}
+                        <View className="flex-row justify-between mb-4">
+                            <TouchableOpacity onPress={handleCancel}>
+                                <FontAwesomeIcon icon={faAngleUp} size={20} color="#007AFF"/>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleConfirm}>
+                                <FontAwesomeIcon icon={faCheck} size={20} color="#007AFF"/>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Date Picker */}
                         <DatePicker
                             date={date}
                             onDateChange={setDate}
                             mode="date"
+                            locale="en-GB"
+                            fadeToColor="none"
                         />
-                        <Button title="Done" onPress={handleConfirm} />
                     </View>
                 </View>
             </Modal>
+
             {/* Helper + Character Count */}
             <View className="flex-row justify-between mt-1 px-1">
                 {!error ? <Text className="text-xs text-darkgrey">{helper}</Text> : <Text className="text-xs text-error">{error}</Text>}
