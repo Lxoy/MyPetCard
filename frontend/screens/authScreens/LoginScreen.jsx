@@ -1,7 +1,9 @@
-import { View, Alert, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Alert, Text, Image, TextInput, SafeAreaView, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../context/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 // tailwind
@@ -58,119 +60,116 @@ export default function LoginScreen({ navigation }) {
       style={{ flex: 1 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <SafeAreaView className="flex-1 bg-white">
           <StatusBar barStyle="light-content" backgroundColor='black' />
 
-          {/* Background */}
-          <ImageBackground
-            source={require('../../img/background3.png')}
-            resizeMode="cover"
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
-          />
+          <View className="flex-1 justify-center items-center">
 
-          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
             {/* Back button */}
-            <TouchableOpacity className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full' onPress={() => navigation.navigate('WelcomeScreen')}>
-              <View>
-                <Icon name="angle-left" size={30} color="#3F72AF" />
-              </View>
+            <TouchableOpacity
+              className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
+              onPress={() => navigation.goBack()}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
             </TouchableOpacity>
 
-            {/* Logo and Welcome Text */}
-            <View className='flex-1 justify-center items-center'>
-              <Image className="size-64" source={require('../../img/logo-transparent.png')} />
-              <Text className="text-midnightblue text-6xl font-poppins_bold py-1 px-2 text-center mb-12">Welcome Back</Text>
-            </View>
+            <Image className='size-28' source={require('../../img/logo-transparent1.png')} />
+            <Text className='text-midnightblue text-4xl mt-4 px-4 py-2 font-sfpro_regular'>Welcome Back</Text>
 
-            {/* Form Inputs */}
-            <View className='flex-2 justify-center items-center'>
-              <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96'>
-                <Icon className='p-2' color={'#112D4E'} name="user" size={24} />
+            {/* Form */}
+            <View className="px-6 py-9 gap-4">
+              {/* Email Field */}
+              <View className="flex-row items-center bg-white px-4 py-4 rounded-2xl" style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                elevation: 8,
+              }}>
+                <Icon name="user" size={20} color="#6B7280" style={{ marginRight: 10 }} />
                 <TextInput
-                  className='flex-1 color-secondary font-poppins_italic pt-1'
-                  selectionColor={'#112D4E'}
+                  className="flex-1 text-gray-900 font-sfpro_regular"
                   placeholder="E-mail"
-                  placeholderTextColor={'#3F72AF'}
+                  placeholderTextColor="#A0AEC0"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  textContentType="emailAddress"
                   value={email}
-                  onChangeText={email_text => setEmail(email_text)}
+                  onChangeText={setEmail}
+                  selectionColor="#007AFF"
                 />
               </View>
+              {errorEmail !== "" && (
+                <Text className="text-red-600 text-sm ml-2">{errorEmail}</Text>
+              )}
+              {errorWhileLoginEmail && (
+                <Text className="text-red-600 text-sm ml-2">This email does not exist.</Text>
+              )}
 
-              {/* Error handling e-mail */}
-              <View className='flex-row items-start justify-start w-96'>
-                {
-                  errorEmail !== "" ? (
-                    <Text className="text-red-600 text-sm font-poppins_italic">{errorEmail}</Text>
-                  ) : errorWhileLoginEmail ? (
-                    <Text className="text-red-600 text-sm font-poppins_italic">This email does not exist.</Text>
-                  ) : null
-                }
-              </View>
-
-              <View className='flex-row justify-center items-center bg-accent p-3 rounded-2xl w-96 mt-4'>
-                <Icon className='p-2' color={'#112D4E'} name="lock" size={24} />
+              {/* Password Field */}
+              <View className="flex-row items-center bg-white px-4 py-4 rounded-2xl shadow-lg w-[80%]" style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                elevation: 8,
+              }}>
+                <Icon name="lock" size={20} color="#6B7280" style={{ marginRight: 10 }} />
                 <TextInput
-                  secureTextEntry={true}
-                  className='flex-1 color-secondary font-poppins_italic pt-1'
-                  selectionColor={'#112D4E'}
+                  secureTextEntry
+                  className="flex-1 text-gray-900 font-sfpro_regular"
                   placeholder="Password"
-                  placeholderTextColor={'#003366'}
+                  placeholderTextColor="#A0AEC0"
                   value={password}
-                  onChangeText={password_text => setPassword(password_text)}
+                  onChangeText={setPassword}
+                  selectionColor="#007AFF"
                 />
               </View>
+              {errorPassword !== "" && (
+                <Text className="text-red-600 text-sm ml-2">{errorPassword}</Text>
+              )}
+              {errorWhileLoginPassword && (
+                <Text className="text-red-600 text-sm ml-2">Incorrect password.</Text>
+              )}
 
-              {/* Password handling e-mail */}
-              <View className='flex-row items-start justify-start w-96'>
-                {
-                  errorPassword !== "" ? (
-                    <Text className="text-red-600 text-sm font-poppins_italic">{errorPassword}</Text>
-                  ) : errorWhileLoginPassword ? (
-                    <Text className="text-red-600 text-sm font-poppins_italic">Incorrect password.</Text>
-                  ) : null
-                }
+              {/* Forgot Password */}
+              <View className="flex-row justify-end">
+                <TouchableOpacity>
+                  <Text className="text-midnightblue font-sfpro_bold">Forgot password?</Text>
+                </TouchableOpacity>
               </View>
             </View>
+            {/* Login Button */}
+            <TouchableOpacity className='bg-midnightblue items-center justify-center rounded-2xl w-80 h-14 shadow-md' style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.08,
+              shadowRadius: 6,
+            }}
 
-            {/* Forgot Password */}
-            <View className='flex-row items-end justify-end m-2 mr-10'>
-              <TouchableOpacity>
-                <Text className='text-midnightblue font-poppins_bold'>Forgot password?</Text>
-              </TouchableOpacity>
-            </View>
+              onPress={handleLogin}>
+              <Text className='text-white font-poppins_bold text-lg'>Log In</Text>
+            </TouchableOpacity>
+            {/* Divider */}
+            <Text className="text-center text-jetblack my-2">────────  OR  ────────</Text>
+            {/* Google Login */}
+            <TouchableOpacity
+              className='items-center justify-center rounded-2xl w-80 h-14 bg-secondary border border-jetblack'
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 6,
+              }}
+              onPress={async () => await promptAsync()}
+            >
+              <Icon name="google" size={20} color="#003366" />
+            </TouchableOpacity>
 
-            {/* Login and Google button */}
-            <View className='flex-2 items-center justify-center gap-2'>
-              <TouchableOpacity className='bg-midnightblue items-center justify-center rounded-2xl w-80 h-14 shadow-md' style={{
-                                              shadowColor: '#000',
-                                              shadowOffset: { width: 0, height: 6 },
-                                              shadowOpacity: 0.1,
-                                              shadowRadius: 10,
-                                              elevation: 8,
-                                          }} 
-                onPress={handleLogin}
-              >
-                <Text className='text-secondary font-poppins_bold text-xl'>Log In</Text>
-              </TouchableOpacity>
-
-              <Text className="text-midnightblue font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
-
-              <TouchableOpacity
-                className='items-center justify-center rounded-2xl w-80 h-14 border border-1 bg-secondary'
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 3 },
-                  shadowOpacity: 0.05,
-                  shadowRadius: 6,
-                  elevation: 3,
-                }}
-                onPress={async () => await promptAsync()}>
-                <Icon className='flex-4' name="google" size={24} />
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </View>
+          </View>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
+

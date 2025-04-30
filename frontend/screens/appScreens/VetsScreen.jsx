@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 export default function VetsScreen() {
     const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
 
-    const { width } = Dimensions.get('window'); // Get screen width
+    const { width } = Dimensions.get('window');
 
     return (
         <View className="flex-1 flex-col bg-secondary">
