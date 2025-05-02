@@ -5,6 +5,11 @@ import { AuthContext } from '../../context/AuthContext';
 import "../../css/global.css";
 import CustomAlert from "../../components/CustomAlert"
 import TextInputField from '../../components/TextInputField';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronLeft, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import AuthInputField from '../../components/AuthInputField';
+import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
 
 export default function SignupScreen({ navigation }) {
     const {
@@ -176,83 +181,87 @@ export default function SignupScreen({ navigation }) {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View className='bg-secondary' style={{ flex: 1 }}>
-                    <StatusBar barStyle="light-content" backgroundColor='black' />
+                    <StatusBar barStyle="dark-content" backgroundColor="white" />
 
                     {/* Content */}
-                    <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingBottom: 20 }}>
+                    <View className="flex-1 justify-center items-center">
                         {/* Back button */}
                         <TouchableOpacity
-                            className='absolute top-5 left-5 bg-accent w-12 h-12 items-center justify-center rounded-full'
-                            onPress={() => navigation.navigate('WelcomeScreen')}
+                            className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
+                            onPress={() => navigation.goBack()}
                         >
-                            <Icon name="angle-left" size={30} color="#3F72AF" />
+                            <FontAwesomeIcon icon={faChevronLeft} size={18} color="#4A90E2" />
                         </TouchableOpacity>
 
-                        {/* Logo and Welcome Text */}
-                        <View className='flex-1 justify-center items-center gap-4'>
-                            <Image className="size-40 rounded-full p-4" source={require('../../img/logo-transparent1.png')} />
-                            <Text className="text-midnightblue text-6xl font-sfpro_bold text-center">Create{'\n'}Account</Text>
+                        <Image className='size-28' source={require('../../img/logo-transparent1.png')} />
+                        <Text className='text-midnightblue text-4xl mt-4 px-4 py-2 font-sfpro_regular'>Create Account</Text>
+
+                        {/* Form */}
+                        <View className="px-6 py-9 gap-4">
+
+                            <AuthInputField
+                                icon={faUser}
+                                placeholder="Username"
+                                error={errorUsername || errorWhileRegisterUsername}
+                                action={handleUsernameChange}
+                                textContentType="emailAddress"
+                                value={username}
+                            />
+
+                            <AuthInputField
+                                icon={faEnvelope}
+                                placeholder="E-mail"
+                                error={errorEmail || errorWhileRegisterEmail}
+                                keyboardType="email-address"
+                                action={handleEmailChange}
+                                textContentType="emailAddress"
+                                value={email}
+                            />
+
+                            {/* Password Field */}
+                            <AuthInputField
+                                icon={faLock}
+                                placeholder="Password"
+                                error={errorPassword || errorWhileRegisterPassword}
+                                action={handlePasswordChange}
+                                value={password}
+                                secureTextEntry={true}
+                                passwordValidation={passwordValidation}
+                                passwordRules={passwordRules}
+                            />
                         </View>
-                        <TextInputField
-                            label="Username"
-                            placeholder="Username"
-                            helper="Enter your username"
-                            value={username}
-                            error={errorUsername || errorWhileRegisterUsername}
-                            action={handleUsernameChange}
-                            size={30} />
 
-                        <TextInputField
-                            label="E-mail"
-                            placeholder="E-mail"
-                            helper="Enter your email"
-                            value={email}
-                            error={errorEmail || errorWhileRegisterEmail}
-                            action={handleEmailChange}
-                            size={30} />
 
-                        <TextInputField
-                            label="Password"
-                            placeholder="Password"
-                            helper="Enter your password"
-                            value={password}
-                            error={errorPassword || errorWhileRegisterPassword}
-                            action={handlePasswordChange}
-                            size={30}
-                            secureTextEntry={true} 
-                            passwordValidation={passwordValidation}
-                            passwordRules={passwordRules}/>
+                        {/* Login Button */}
+                        <TouchableOpacity className='bg-midnightblue items-center justify-center rounded-2xl w-80 h-14 shadow-md' style={{
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.08,
+                            shadowRadius: 6,
+                        }}
 
-                        {/* Sign Up and Google button */}
-                        <View className='flex-2 items-center justify-center gap-2'>
-                            <TouchableOpacity className='bg-midnightblue items-center justify-center rounded-2xl w-80 h-14 shadow-md' style={{
+                            onPress={handleRegister}>
+                            <Text className='text-secondary font-sfpro_bold text-xl'>
+                                Sign Up
+                            </Text>
+                        </TouchableOpacity>
+                        {/* Divider */}
+                        <Text className="text-center text-jetblack my-2 font-sfpro_regular">────────  OR  ────────</Text>
+                        {/* Google Login */}
+                        <TouchableOpacity
+                            className='items-center justify-center rounded-2xl w-80 h-14 bg-secondary border border-jetblack'
+                            style={{
                                 shadowColor: '#000',
-                                shadowOffset: { width: 0, height: 6 },
-                                shadowOpacity: 0.1,
-                                shadowRadius: 10,
-                                elevation: 8,
-                            }} onPress={handleRegister}>
-                                <Text className='text-secondary font-poppins_bold text-xl'>
-                                    Sign Up
-                                </Text>
-                            </TouchableOpacity>
+                                shadowOffset: { width: 0, height: 2 },
+                                shadowOpacity: 0.08,
+                                shadowRadius: 6,
+                            }}
+                            onPress={async () => await promptAsync()}
+                        >
+                            <FontAwesomeIcon icon={faGoogle} color="#003366" size={20} />
+                        </TouchableOpacity>
 
-                            <Text className="text-midnightblue font-poppins_bold">━━━━━━━━━━━━ OR ━━━━━━━━━━━━</Text>
-                            <TouchableOpacity
-                                className='items-center justify-center rounded-2xl w-80 h-14 border border-1 bg-secondary'
-                                style={{
-                                    shadowColor: '#000',
-                                    shadowOffset: { width: 0, height: 3 },
-                                    shadowOpacity: 0.05,
-                                    shadowRadius: 6,
-                                    elevation: 3,
-                                }}
-                                onPress={async () => await promptAsync()}
-                            >
-                                <Icon name="google" size={24} color={"#003366"} />
-                            </TouchableOpacity>
-                        </View>
-                    </ScrollView>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

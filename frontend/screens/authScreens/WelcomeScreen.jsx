@@ -32,7 +32,7 @@ export default function WelcomeScreen({ navigation }) {
 
     return (
         <View className='flex-1 bg-secondary'>
-            <StatusBar barStyle="light-content" backgroundColor='black' />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
             <View className="flex-1 justify-center items-center">
                 <Image className='size-44' source={require('../../img/logo-transparent1.png')} />
                 <Text className='text-midnightblue text-5xl mt-10 px-4 py-2 font-sfpro_regular'>MyPetCard</Text>
@@ -45,7 +45,7 @@ export default function WelcomeScreen({ navigation }) {
                 }}
 
                     onPress={() => navigation.navigate("LoginScreen")}>
-                    <Text className='text-white font-poppins_bold text-lg'>Log In</Text>
+                    <Text className='text-white font-sfpro_bold text-lg'>Log In</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     className='m-3 items-center justify-center rounded-2xl w-80 h-14 bg-secondary border border-jetblack'
@@ -57,7 +57,7 @@ export default function WelcomeScreen({ navigation }) {
                     }}
                     onPress={() => navigation.navigate("SignupScreen")}
                 >
-                    <Text className='text-midnightblue font-poppins_bold text-lg'>Sign Up</Text>
+                    <Text className='text-midnightblue font-sfpro_bold text-lg'>Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -3,14 +3,17 @@ import React, { useContext, useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 
 // tailwind
 import "../../css/global.css";
+import AuthInputField from '../../components/AuthInputField';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 export default function LoginScreen({ navigation }) {
-  const { login, errorWhileLoginEmail, errorWhileLoginPassword, promptAsync } = useContext(AuthContext);
+  const { login, errorWhileLoginEmail, errorWhileLoginPassword, setErrorWhileLoginEmail, setErrorWhileLoginPassword, promptAsync } = useContext(AuthContext);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -40,7 +43,7 @@ export default function LoginScreen({ navigation }) {
         await login(email, password);
       } catch (error) {
         if (error.message === "E-mail doesn't exists.") {
-          setErrorEmail(error.message);
+          setErrorWhileLoginEmail(error.message);
         } else if (error.message === "This account uses Google login. Use Google to sign in.") {
           Alert.alert(
             "Google Login Required",
@@ -48,7 +51,7 @@ export default function LoginScreen({ navigation }) {
             [{ text: "OK" }]
           );
         } else if (error.message === "Invalid password.") {
-          setErrorPassword(error.message);
+          setErrorWhileLoginPassword(error.message);
         }
       }
     }
@@ -61,8 +64,7 @@ export default function LoginScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView className="flex-1 bg-white">
-          <StatusBar barStyle="light-content" backgroundColor='black' />
-
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
           <View className="flex-1 justify-center items-center">
 
             {/* Back button */}
@@ -79,58 +81,25 @@ export default function LoginScreen({ navigation }) {
             {/* Form */}
             <View className="px-6 py-9 gap-4">
               {/* Email Field */}
-              <View className="flex-row items-center bg-white px-4 py-4 rounded-2xl" style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.1,
-                shadowRadius: 10,
-                elevation: 8,
-              }}>
-                <Icon name="user" size={20} color="#6B7280" style={{ marginRight: 10 }} />
-                <TextInput
-                  className="flex-1 text-gray-900 font-sfpro_regular"
-                  placeholder="E-mail"
-                  placeholderTextColor="#A0AEC0"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  textContentType="emailAddress"
-                  value={email}
-                  onChangeText={setEmail}
-                  selectionColor="#007AFF"
-                />
-              </View>
-              {errorEmail !== "" && (
-                <Text className="text-red-600 text-sm ml-2">{errorEmail}</Text>
-              )}
-              {errorWhileLoginEmail && (
-                <Text className="text-red-600 text-sm ml-2">This email does not exist.</Text>
-              )}
-
+              <AuthInputField
+              icon={faUser}
+              placeholder="E-mail"
+              error={errorEmail || errorWhileLoginEmail}
+              keyboardType="email-address"
+              action={setEmail}
+              textContentType="emailAddress"
+              value={email}
+              />
+             
               {/* Password Field */}
-              <View className="flex-row items-center bg-white px-4 py-4 rounded-2xl shadow-lg w-[80%]" style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.1,
-                shadowRadius: 10,
-                elevation: 8,
-              }}>
-                <Icon name="lock" size={20} color="#6B7280" style={{ marginRight: 10 }} />
-                <TextInput
-                  secureTextEntry
-                  className="flex-1 text-gray-900 font-sfpro_regular"
-                  placeholder="Password"
-                  placeholderTextColor="#A0AEC0"
-                  value={password}
-                  onChangeText={setPassword}
-                  selectionColor="#007AFF"
-                />
-              </View>
-              {errorPassword !== "" && (
-                <Text className="text-red-600 text-sm ml-2">{errorPassword}</Text>
-              )}
-              {errorWhileLoginPassword && (
-                <Text className="text-red-600 text-sm ml-2">Incorrect password.</Text>
-              )}
+              <AuthInputField
+              icon={faLock}
+              placeholder="Password"
+              error={errorPassword || errorWhileLoginPassword}
+              action={setPassword}
+              value={password}
+              secureTextEntry={true}
+              />
 
               {/* Forgot Password */}
               <View className="flex-row justify-end">
@@ -148,10 +117,10 @@ export default function LoginScreen({ navigation }) {
             }}
 
               onPress={handleLogin}>
-              <Text className='text-white font-poppins_bold text-lg'>Log In</Text>
+              <Text className='text-white font-sfpro_bold text-lg'>Log In</Text>
             </TouchableOpacity>
             {/* Divider */}
-            <Text className="text-center text-jetblack my-2">────────  OR  ────────</Text>
+            <Text className="text-center text-jetblack my-2 font-sfpro_regular">────────  OR  ────────</Text>
             {/* Google Login */}
             <TouchableOpacity
               className='items-center justify-center rounded-2xl w-80 h-14 bg-secondary border border-jetblack'
@@ -163,7 +132,7 @@ export default function LoginScreen({ navigation }) {
               }}
               onPress={async () => await promptAsync()}
             >
-              <Icon name="google" size={20} color="#003366" />
+              <FontAwesomeIcon icon={faGoogle} color="#003366" size={20}/>
             </TouchableOpacity>
 
           </View>
