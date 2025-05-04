@@ -3,11 +3,19 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleInfo, faVenus, faVenusMars, faMars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
 
 // tailwind
 import "../css/global.css";
 
-export default function PetCard({id, name, breed, gender, imageUrl }) {
+export default function PetCard({id, name, breed, gender, dateOfBirth, imageUrl }) {
+
+    const calculateAge = (value) => {
+        return dayjs().diff(dayjs(value), 'year');
+      };
+
+    const age = calculateAge(dateOfBirth);
+
 
     const navigation = useNavigation();
 
@@ -56,7 +64,7 @@ export default function PetCard({id, name, breed, gender, imageUrl }) {
                         <FontAwesomeIcon icon={gender ? genderIcon[gender] : faVenusMars} size={18} color={gender ? genderIconColor[gender] : "#000"} />
                     </View>
                     <Text className="color-text font-sfpro_regular text-sm">
-                        2 years old
+                        {age} years old
                     </Text>
                 </View>
                 <View className='absolute top-2 right-2'>

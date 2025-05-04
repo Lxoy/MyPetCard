@@ -5,10 +5,8 @@ import { Text, TextInput, View } from 'react-native';
 // tailwind
 import "../css/global.css";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
-export default function AuthInputField({ icon, placeholder, value, action, error, secureTextEntry, keyboardType, textContentType, passwordValidation, passwordRules}) {
+export default function AuthInputField({ icon, placeholder, value, action, error, secureTextEntry, keyboardType, textContentType, passwordValidation, passwordRules }) {
 
     return (
         <View>
@@ -19,7 +17,7 @@ export default function AuthInputField({ icon, placeholder, value, action, error
                 shadowRadius: 10,
                 elevation: 8,
             }}>
-                <FontAwesomeIcon icon={icon} color="#6B7280" size={16} style={{ marginRight: 10 }}/>
+                <FontAwesomeIcon icon={icon} color="#6B7280" size={16} style={{ marginRight: 10 }} />
                 <TextInput
                     className="flex-1 text-gray-900 font-sfpro_regular"
                     placeholder={placeholder}
@@ -37,17 +35,17 @@ export default function AuthInputField({ icon, placeholder, value, action, error
                 {!error ? null : <Text className="text-xs text-error">{error}</Text>}
             </View>
             {placeholder === "Password" && passwordValidation && (
-                            <View className="mt-2">
-                                {Object.entries(passwordValidation.results).map(([ruleName, rule]) => (
-                                    <Text
-                                        key={ruleName}
-                                        className={`text-xs ${rule.valid ? 'text-success' : 'text-darkgrey'}`}
-                                    >
-                                        {rule.valid ? '✓' : '•'} {rule.description}
-                                    </Text>
-                                ))}
-                            </View>
-                        )}
+                <View className="mt-2">
+                    {Object.entries(passwordValidation.results).map(([ruleName, rule]) => (
+                        <Text
+                            key={ruleName}
+                            className={`text-xs ${rule.valid ? 'text-success' : 'text-darkgrey'}`}
+                        >
+                            {rule.valid ? '✓' : '•'} {rule.description}
+                        </Text>
+                    ))}
+                </View>
+            )}
         </View>
 
     );

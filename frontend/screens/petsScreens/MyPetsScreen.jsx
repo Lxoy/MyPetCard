@@ -49,7 +49,7 @@ export default function MyPetsScreen({ navigation }) {
 
   return (
     <View className='flex-1 bg-background'>
-      <StatusBar barStyle="light-content" backgroundColor='black' />
+     <StatusBar barStyle="dark-content" backgroundColor="white" />
       
       <View className='flex my-4 items-center'>
         {/* Screen title */}
@@ -73,6 +73,7 @@ export default function MyPetsScreen({ navigation }) {
               type={item.type}
               breed={item.breed}
               gender={item.gender}
+              dateOfBirth={item.date_of_birth}
               imageUrl={item.photo_url ? { uri: BASE_URL_EMULATOR + item.photo_url } : defaultImg}
             />
           )}

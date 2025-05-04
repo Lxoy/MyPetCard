@@ -1,6 +1,5 @@
 import { View, Alert, Text, Image, TextInput, SafeAreaView, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
-import React, { useContext, useState, useEffect } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +10,7 @@ import { faChevronLeft, faLock, faUser } from '@fortawesome/free-solid-svg-icons
 import "../../css/global.css";
 import AuthInputField from '../../components/AuthInputField';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 export default function LoginScreen({ navigation }) {
   const { login, errorWhileLoginEmail, errorWhileLoginPassword, setErrorWhileLoginEmail, setErrorWhileLoginPassword, promptAsync } = useContext(AuthContext);
@@ -64,7 +64,7 @@ export default function LoginScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView className="flex-1 bg-white">
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
+          <StatusBar barStyle="dark-content" backgroundColor="white" />
           <View className="flex-1 justify-center items-center">
 
             {/* Back button */}
@@ -82,23 +82,23 @@ export default function LoginScreen({ navigation }) {
             <View className="px-6 py-9 gap-4">
               {/* Email Field */}
               <AuthInputField
-              icon={faUser}
-              placeholder="E-mail"
-              error={errorEmail || errorWhileLoginEmail}
-              keyboardType="email-address"
-              action={setEmail}
-              textContentType="emailAddress"
-              value={email}
+                icon={faEnvelope}
+                placeholder="E-mail"
+                error={errorEmail || errorWhileLoginEmail}
+                keyboardType="email-address"
+                action={setEmail}
+                textContentType="emailAddress"
+                value={email}
               />
-             
+
               {/* Password Field */}
               <AuthInputField
-              icon={faLock}
-              placeholder="Password"
-              error={errorPassword || errorWhileLoginPassword}
-              action={setPassword}
-              value={password}
-              secureTextEntry={true}
+                icon={faLock}
+                placeholder="Password"
+                error={errorPassword || errorWhileLoginPassword}
+                action={setPassword}
+                value={password}
+                secureTextEntry={true}
               />
 
               {/* Forgot Password */}
@@ -132,7 +132,7 @@ export default function LoginScreen({ navigation }) {
               }}
               onPress={async () => await promptAsync()}
             >
-              <FontAwesomeIcon icon={faGoogle} color="#003366" size={20}/>
+              <FontAwesomeIcon icon={faGoogle} color="#003366" size={20} />
             </TouchableOpacity>
 
           </View>

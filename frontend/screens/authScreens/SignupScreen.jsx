@@ -1,15 +1,12 @@
-import { View, Text, Image, TextInput, ImageBackground, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import React, { useState, useContext } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../context/AuthContext';
 import "../../css/global.css";
-import CustomAlert from "../../components/CustomAlert"
-import TextInputField from '../../components/TextInputField';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import AuthInputField from '../../components/AuthInputField';
-import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faUser, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 
 export default function SignupScreen({ navigation }) {
     const {

@@ -49,7 +49,7 @@ export default function MyProfileScreen({ navigation }) {
 
     return (
         <View className="flex-1 flex-col bg-secondary">
-            <StatusBar barStyle="light-content" backgroundColor="black" />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {/* Title */}
                 <View className="mt-4 items-center">
