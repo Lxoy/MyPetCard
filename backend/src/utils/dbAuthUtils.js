@@ -129,7 +129,7 @@ export const updatePetData = (userId, ownerId, updatedFields) => {
 
   allowedFields.forEach(field => {
     const value = updatedFields[field];
-    if (value !== undefined && value !== null) {
+    if (value !== undefined && value !== null && value !== '') {
       setParts.push(`${field} = ?`);
       values.push(value);
     }
@@ -143,8 +143,8 @@ export const updatePetData = (userId, ownerId, updatedFields) => {
   const setClause = setParts.join(', ');
   console.log(setClause);
   const updateSql = `UPDATE pets SET ${setClause} WHERE id = ? AND owner_id = ?`;
-  values.push(parseInt(userId));
   values.push(parseInt(ownerId));
+  values.push(parseInt(userId));
 
   console.log(values);
   return new Promise((resolve, reject) => {

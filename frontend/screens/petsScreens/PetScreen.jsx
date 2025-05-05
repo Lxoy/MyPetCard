@@ -21,8 +21,9 @@ export default function PetScreen({ navigation }) {
     const route = useRoute();
 
     const { id } = route.params;
+    
     const [menuVisible, setMenuVisible] = useState(false);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState();
     const [pet, setPet] = useState([]);
 
     const fetchPet = async () => {
@@ -30,21 +31,23 @@ export default function PetScreen({ navigation }) {
             const token = await AsyncStorage.getItem('userToken');
             const res = await axios.get(`${BASE_URL_EMULATOR}/user/pets/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 }
             });
             setPet(res.data.pet);
+            setImage(res.data.pet.photo_url)
         } catch (err) {
             console.error("Failed to fetch pet:", err);
         } finally {
             setLoading(false);
         }
-    };;
+    };
 
     useFocusEffect(
         useCallback(() => {
             fetchPet();
-        }, [])
+        }, [id])
     );
 
 
@@ -56,7 +59,7 @@ export default function PetScreen({ navigation }) {
                 {/* Back Button */}
                 <TouchableOpacity
                     className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/70 flex-row items-center justify-center shadow-sm"
-                    onPress={() => navigation.goBack()}
+                    onPress={() => navigation.navigate("MyPetsMain")}
                 >
                     <FontAwesomeIcon icon={faChevronLeft} size={18} color="#007AFF" />
                 </TouchableOpacity>
@@ -77,7 +80,7 @@ export default function PetScreen({ navigation }) {
                                 shadowRadius: 6,
                                 elevation: 5,
                             }}
-                            source={image ? { uri: image } : defaultImg}
+                            source={image ? { uri: BASE_URL_EMULATOR + image } : defaultImg}
                         />
                         <TouchableOpacity
                             className="absolute bottom-2 right-2 bg-accent p-2 rounded-full shadow-md"
@@ -90,7 +93,7 @@ export default function PetScreen({ navigation }) {
                 <View className="mx-4 mt-4 p-4 bg-white rounded-3xl shadow-md">
                     <View className="flex-row justify-between items-center mb-4">
                         <Text className="text-lg font-sfpro_semibold text-jetblack">General Information</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails', { id: id, name: pet.name })}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PetDetails', { id: id })}>
                             <FontAwesomeIcon icon={faGear} size={20} color="#2C2C2E" />
                         </TouchableOpacity>
 
@@ -144,7 +147,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faWeightScale} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Weight</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">{pet.weight_kg || "-"}</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.weight_kg ? pet.weight_kg + ' kg' : "-"}</Text>
                     </View>
 
                     {/* Weight */}
@@ -162,7 +165,7 @@ export default function PetScreen({ navigation }) {
                             <FontAwesomeIcon icon={faCalendar} size={20} color="#003366" />
                             <Text className="text-base font-sfpro_regular text-jetblack">Adoption Date</Text>
                         </View>
-                        <Text className="text-base font-sfpro_regular text-text">{pet.adoption_date || "-"}</Text>
+                        <Text className="text-base font-sfpro_regular text-text">{pet.adoption_date ? new Date(pet.adoption_date).toLocaleDateString('hr-HR') : "-"}</Text>
                     </View>
                 </View>
 

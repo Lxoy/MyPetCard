@@ -49,7 +49,13 @@ export const addDetailsPetData = async (req, res) => {
         await updatePetData(ownerId, petId, updatedFields);
 
         const updatedPet = await getPetById(petId, ownerId);
-        res.status(200).json({ success_msg: "Pet updated successfully!", pet: updatedPet[0] });
+        if (!updatedPet || updatedPet.length === 0) {
+            return res.status(404).json({ error_msg: "Pet not found after update." });
+        }
+        res.status(200).json({
+            success_msg: "Pet updated successfully!",
+            pet: updatedPet
+        });
     
     } catch (error) {
         console.error("Update pet error:", error);

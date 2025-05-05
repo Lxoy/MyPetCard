@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, StatusBar, TouchableOpacity, Text, Image } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/free-solid-svg-icons';
@@ -23,8 +23,9 @@ import { useFocusEffect } from 'expo-router';
 
 export default function PetDetailsScreen({ navigation }) {
     const route = useRoute();
-    const { id, name } = route.params;
+    const { id } = route.params;
 
+    const [name, setName] = useState(""); 
     const [color, setColor] = useState("");
     const [weight, setWeight] = useState("");
     const [microchipNumber, setMicrochipNumber] = useState("");
@@ -34,6 +35,42 @@ export default function PetDetailsScreen({ navigation }) {
     const [image, setImage] = useState(null);
 
     const [errorWeight, setErrorWeight] = useState("");
+
+    const handleSubmit = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const data = {
+                color,
+                weight_kg: weight,
+                microchip_number: microchipNumber,
+                adoption_date: selectedDate ? selectedDate.toISOString().split('T')[0] : null,
+                neutered: neutered,
+            };
+              
+            const response = await axios.patch(`${BASE_URL_EMULATOR}/user/pets/${id}/add_details`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            const petData = response.data.pet;
+            setName(petData.name || "");
+            setColor(petData.color || "");
+            setWeight(petData.weight_kg?.toString() || "");
+            setMicrochipNumber(petData.microchip_number || "");
+            setSelectedDate(petData.adoption_date ? new Date(petData.adoption_date) : null);
+            setNeutered(Boolean(petData.neutered));
+    
+            if (response.data.success_msg) {
+                alert(response.data.success_msg);
+                navigation.goBack();
+            }
+            
+        } catch (error) {
+            console.error("Upload failed:", error);
+            alert("Failed to add pet.");
+        }
+    };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -62,37 +99,6 @@ export default function PetDetailsScreen({ navigation }) {
         { id: '4', component: <DatePickerField label="Adoption Date" placeholder="Date" helper="Enter pet's adoption date" action={handleDateChange} value={selectedDate} /> },
     ];
     
-    const handleSubmit = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const data = {
-                color,
-                weight_kg: weight,
-                microchip_number: microchipNumber,
-                adoption_date: selectedDate? selectedDate.toISOString().split('T')[0] : null,
-                neutered: neutered,
-            };
-              
-            const response = await axios.patch(`${BASE_URL_EMULATOR}/user/pets/${id}/add_details`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-    
-            if (response.data.success_msg) {
-                alert(response.data.success_msg);
-                navigation.goBack();
-            }
-            
-        } catch (error) {
-            console.error("Upload failed:", error);
-            alert("Failed to add pet.");
-        }
-    };
-    
-    useEffect(() => {
-        console.log(route.params);
-    },[])
 
     return (
         <View className="flex-1 bg-secondary">

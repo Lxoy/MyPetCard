@@ -48,7 +48,7 @@ export default function MyPetsScreen({ navigation }) {
   );
 
   return (
-    <View className='flex-1 bg-background'>
+    <View className='flex-1 bg-secondary'>
      <StatusBar barStyle="dark-content" backgroundColor="white" />
       
       <View className='flex my-4 items-center'>
