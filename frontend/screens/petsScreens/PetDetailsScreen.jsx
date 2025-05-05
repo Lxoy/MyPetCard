@@ -3,7 +3,6 @@ import { View, FlatList, StatusBar, TouchableOpacity, Text, Image } from 'react-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
-import { InputField } from '../../components/newPetFormComponents/InputField';
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
 import TextInputField from '../../components/TextInputField.jsx';
 
@@ -102,7 +101,7 @@ export default function PetDetailsScreen({ navigation }) {
 
     return (
         <View className="flex-1 bg-secondary">
-            <StatusBar barStyle="light-content" backgroundColor="black" />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
             <FlatList
                 data={data}
                 keyExtractor={(item) => item.id}

@@ -46,7 +46,7 @@ export default function LanguageSettingsScreen({ navigation }) {
 
   return (
     <View className="flex-1 bg-secondary">
-      <StatusBar barStyle="light-content" backgroundColor="black" />
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         {/* Back Button */}

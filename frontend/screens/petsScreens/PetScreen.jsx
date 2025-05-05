@@ -21,7 +21,7 @@ export default function PetScreen({ navigation }) {
     const route = useRoute();
 
     const { id } = route.params;
-    
+
     const [menuVisible, setMenuVisible] = useState(false);
     const [image, setImage] = useState();
     const [pet, setPet] = useState([]);
@@ -53,7 +53,7 @@ export default function PetScreen({ navigation }) {
 
     return (
         <View className="flex-1 bg-secondary">
-            <StatusBar barStyle="light-content" backgroundColor="black" />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {/* Back Button */}

@@ -26,6 +26,7 @@ import AccountSettingsScreen from '../screens/profileScreens/AccountSettingsScre
 import AccountDeletionScreen from '../screens/profileScreens/AccountDeletionScreen';
 import SubscriptionScreen from '../screens/profileScreens/SubscriptionScreen';
 import LanguageSettingsScreen from '../screens/profileScreens/LanguageSettingsScreen';
+import PasswordChangeScreen from '../screens/profileScreens/PasswordChangeScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,7 @@ const MyProfileStack = () => (
         <Stack.Screen name="MyProfileMain" component={MyProfileScreen} />
         <Stack.Screen name="AccountSettings" component={AccountSettingsScreen} />
         <Stack.Screen name="LanguageSettings" component={LanguageSettingsScreen} />
+        <Stack.Screen name="PasswordChange" component={PasswordChangeScreen} />
         <Stack.Screen name="Subscription" component={SubscriptionScreen} />
         <Stack.Screen name="AccountDeletion" component={AccountDeletionScreen} />
     </Stack.Navigator>

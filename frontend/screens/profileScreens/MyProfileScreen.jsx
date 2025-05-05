@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGem, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { faLanguage, faEraser, faArrowRightFromBracket, faAngleRight, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faLanguage, faEraser, faArrowRightFromBracket, faAngleRight, faCamera, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import CustomAlert from "../../components/CustomAlert.jsx";
 import { handleCamera, handleGallery, handleRemove } from '../../components/img_menu/OptionsHandling.js';
@@ -104,6 +104,7 @@ export default function MyProfileScreen({ navigation }) {
                     <View className="my-3">
                         <ProfileButton icon={faPenToSquare} label="Edit Data" onPress={() => navigation.navigate('AccountSettings')} />
                         <ProfileButton icon={faLanguage} label="Language" onPress={() => navigation.navigate('LanguageSettings')} />
+                        <ProfileButton icon={faKeyboard} label="Password Settings" onPress={() => navigation.navigate('PasswordChange')} />
                         <ProfileButton icon={faGem} label="Subscription" labelClass="text-primary" iconColor="#007AFF" onPress={() => navigation.navigate('Subscription')} />
                     </View>
 

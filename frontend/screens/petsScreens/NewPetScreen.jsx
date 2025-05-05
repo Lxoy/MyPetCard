@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 import TextInputField from '../../components/TextInputField.jsx';
-import { InputField } from '../../components/newPetFormComponents/InputField';
 import { DropDownField } from '../../components/newPetFormComponents/DropDownField';
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
 import { TouchField } from '../../components/newPetFormComponents/TouchField';
@@ -122,7 +121,7 @@ export default function NewPetScreen({ navigation }) {
 
     return (
         <View className="flex-1 bg-secondary">
-            <StatusBar barStyle="light-content" backgroundColor="black" />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
             <FlatList
                 data={data}
                 keyExtractor={(item) => item.id}
