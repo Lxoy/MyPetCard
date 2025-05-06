@@ -155,5 +155,16 @@ export const updatePetData = (userId, ownerId, updatedFields) => {
   });
 };
 
+export const getPetNutritonById = (petId) => {
+  const sql = "SELECT * FROM nutritions WHERE pet_id = ?";
+  
+  return new Promise((resolve, reject) => {
+    db.query(sql, [petId], (error, results) => {
+      if (error) return reject(error);
+      resolve(results); 
+    });
+  });
+};
+
 
 

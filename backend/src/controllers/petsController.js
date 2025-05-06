@@ -27,7 +27,7 @@ export const addPetData = async (req, res) => {
     }
 };
 
-export const addDetailsPetData = async (req, res) => {
+export const updatePetDetails = async (req, res) => {
     const { color, weight_kg, microchip_number, adoption_date, neutered } = req.body;
     const ownerId = req.user.id; 
     const petId = req.params.id;

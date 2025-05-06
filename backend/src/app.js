@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import petsRouter from './routes/petsRoutes.js';
+import nutritionsRouter from './routes/nutritionRoutes.js';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -29,6 +30,9 @@ app.use(userRouter);
 
 // Pets 
 app.use(petsRouter);
+
+// Nutrition
+app.use(nutritionsRouter);
 
 app.listen(PORT, (request, response) => {
     console.log("Pokrenut na portu " + PORT);
