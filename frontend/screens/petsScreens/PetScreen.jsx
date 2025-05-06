@@ -65,7 +65,7 @@ export default function PetScreen({ navigation }) {
                 </TouchableOpacity>
 
                 {/* Title */}
-                <View className="mt-6 items-center">
+                <View className="mt-4 items-center">
                     <Text className="font-sfpro_regular text-2xl text-text">{pet.name}</Text>
                 </View>
 
@@ -174,7 +174,7 @@ export default function PetScreen({ navigation }) {
 
                         {/* Buttons Group 1 */}
                         <View className="my-3">
-                            <ProfileButton icon={faBowlFood} label="Nutrition" />
+                            <ProfileButton icon={faBowlFood} label="Nutrition" onPress={() => navigation.navigate('Nutrition', { id: id })} />
                             <ProfileButton icon={faSyringe} label="Vaccination" />
                             <ProfileButton icon={faDisease} label="Allergy" />
                             <ProfileButton icon={faFile} label="Files" />

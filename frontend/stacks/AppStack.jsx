@@ -27,6 +27,7 @@ import AccountDeletionScreen from '../screens/profileScreens/AccountDeletionScre
 import SubscriptionScreen from '../screens/profileScreens/SubscriptionScreen';
 import LanguageSettingsScreen from '../screens/profileScreens/LanguageSettingsScreen';
 import PasswordChangeScreen from '../screens/profileScreens/PasswordChangeScreen';
+import NutritionScreen from '../screens/petsScreens/NutritionScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ const MyPetStack = () => (
         <Stack.Screen name="NewPet" component={NewPetScreen} />
         <Stack.Screen name="Pet" component={PetScreen}/>
         <Stack.Screen name="PetDetails" component={PetDetailsScreen} />
+        <Stack.Screen name="Nutrition" component={NutritionScreen} />
     </Stack.Navigator>
 );
 

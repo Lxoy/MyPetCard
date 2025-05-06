@@ -6,10 +6,6 @@ import { faChevronLeft, faCheck, faCamera, faMars, faLeaf } from '@fortawesome/f
 import { DatePickerField } from '../../components/newPetFormComponents/DatePickerField';
 import TextInputField from '../../components/TextInputField.jsx';
 
-import { ChooseMenu } from '../../components/img_menu/ChooseMenu.jsx';
-import defaultImg from '../../img/default-pet.jpg';
-import { handleCamera, handleGallery, handleRemove } from '../../components/img_menu/OptionsHandling';
-
 import { BASE_URL, BASE_URL_EMULATOR } from '../../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -30,8 +26,6 @@ export default function PetDetailsScreen({ navigation }) {
     const [microchipNumber, setMicrochipNumber] = useState("");
     const [selectedDate, setSelectedDate] = useState("");
     const [neutered, setNeutered] = useState();
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [image, setImage] = useState(null);
 
     const [errorWeight, setErrorWeight] = useState("");
 
@@ -129,12 +123,6 @@ export default function PetDetailsScreen({ navigation }) {
                             <Text className="font-sfpro_regular text-2xl text-text">{name}</Text>
                         </View>
                         <View className="mt-2"/>
-                        <ChooseMenu
-                            visible={menuVisible}
-                            onClose={() => setMenuVisible(false)}
-                            onCamera={() => handleCamera(setImage, setMenuVisible)}
-                            onGallery={() => handleGallery(setImage, setMenuVisible)}
-                            onRemove={() => handleRemove(setImage, setMenuVisible)} />
                     </>                
                 }
             />
