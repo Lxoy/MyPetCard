@@ -166,5 +166,15 @@ export const getPetNutritonById = (petId) => {
   });
 };
 
-
+export const insertNewPetNutrition = (nutrition_name, nutrition_value, pet_id) => {
+  const insertSql = "INSERT INTO nutritions (nutrition_name, nutrition_date, nutrition_value, pet_id) VALUES (?, ?, ?, ?)";
+  
+  return new Promise((resolve, reject) => {
+    const currentDate = new Date();
+    db.query(insertSql, [nutrition_name, currentDate, nutrition_value, pet_id], (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+};
 

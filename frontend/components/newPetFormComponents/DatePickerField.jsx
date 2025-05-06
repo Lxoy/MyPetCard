@@ -50,21 +50,24 @@ export const DatePickerField = ({ label, placeholder, value, helper, action, err
                         {/* Top buttons */}
                         <View className="flex-row justify-between mb-4">
                             <TouchableOpacity onPress={handleCancel}>
-                                <FontAwesomeIcon icon={faAngleUp} size={20} color="#007AFF"/>
+                                <FontAwesomeIcon icon={faAngleUp} size={20} color="#007AFF" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={handleConfirm}>
-                                <FontAwesomeIcon icon={faCheck} size={20} color="#007AFF"/>
+                                <FontAwesomeIcon icon={faCheck} size={20} color="#007AFF" />
                             </TouchableOpacity>
                         </View>
 
                         {/* Date Picker */}
-                        <DatePicker
-                            date={date}
-                            onDateChange={setDate}
-                            mode="date"
-                            locale="en-GB"
-                            fadeToColor="none"
-                        />
+                        <View className="items-center">
+                            <DatePicker
+                                date={date}
+                                onDateChange={setDate}
+                                mode="date"
+                                locale="en-GB"
+                                fadeToColor="none"
+                            />
+                        </View>
+
                     </View>
                 </View>
             </Modal>

@@ -6,7 +6,7 @@ import { Text, TextInput, View } from 'react-native';
 import "../css/global.css";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-export default function AuthInputField({ icon, placeholder, value, action, error, secureTextEntry, keyboardType, textContentType, passwordValidation, passwordRules }) {
+export default function AuthInputField({ icon, placeholder, value, action, error, secureTextEntry, keyboardType, textContentType, passwordValidation}) {
 
     return (
         <View>

@@ -224,7 +224,6 @@ export default function SignupScreen({ navigation }) {
                                 value={password}
                                 secureTextEntry={true}
                                 passwordValidation={passwordValidation}
-                                passwordRules={passwordRules}
                             />
                         </View>
 
