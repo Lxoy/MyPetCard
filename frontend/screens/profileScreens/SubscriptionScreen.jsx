@@ -1,12 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { BASE_URL_EMULATOR } from '../../config';
+import { useStripe } from '@stripe/stripe-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { Alert } from 'react-native';
 
 export default function SubscriptionScreen({ navigation }) {
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const fetchPaymentSheetParams = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+
+    const response = await axios.post(`${BASE_URL_EMULATOR}/user/subscription`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const { paymentIntent, ephemeralKey, customer } = response.data;
+
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    } = await fetchPaymentSheetParams();
+
+    console.log("Inicijalizirano...");
+
+    const userString = await AsyncStorage.getItem('userData');
+    const user = JSON.parse(userString);
+
+    console.log("Initialize payment sheet", user);
+    console.log(customer)
+
+    const { error } = await initPaymentSheet({
+      merchantDisplayName: "MyPetCard",
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+
+      defaultBillingDetails: {
+        name: user.first_name,
+        email: user.email
+      }
+    });
+  };
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      Alert.alert('Success', 'Your order is confirmed!');
+    }
+  };
+  
   return (
     <View className="flex-1 bg-secondary">
       <StatusBar barStyle="dark-content" backgroundColor="white" />
@@ -60,6 +124,11 @@ export default function SubscriptionScreen({ navigation }) {
             elevation: 5,
           }}
           activeOpacity={0.7}
+          onPress={async () => {
+            await initializePaymentSheet();
+            await openPaymentSheet();
+          }}
+          
         >
           {/* Gradient Background */}
           <LinearGradient

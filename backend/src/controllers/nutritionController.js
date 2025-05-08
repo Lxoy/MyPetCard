@@ -1,5 +1,5 @@
-import { getPetNutritonById } from '../utils/dbAuthUtils.js';
-import { insertNewPetNutrition } from '../utils/dbAuthUtils.js';
+import { getPetNutritonById } from '../utils/dbUtils.js';
+import { insertNewPetNutrition } from '../utils/dbUtils.js';
 
 export const getPetNutritionDetails = async (req, res) => {
     const petId = req.params.id;

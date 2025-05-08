@@ -1,7 +1,7 @@
-import { insertNewPet } from '../utils/dbAuthUtils.js';
-import { getPetsByOwnerId } from '../utils/dbAuthUtils.js';
-import { updatePetData } from '../utils/dbAuthUtils.js';
-import { getPetById } from '../utils/dbAuthUtils.js';
+import { insertNewPet } from '../utils/dbUtils.js';
+import { getPetsByOwnerId } from '../utils/dbUtils.js';
+import { updatePetData } from '../utils/dbUtils.js';
+import { getPetById } from '../utils/dbUtils.js';
 
 export const addPetData = async (req, res) => {
     const { name, species, breed, gender, date_of_birth } = req.body;

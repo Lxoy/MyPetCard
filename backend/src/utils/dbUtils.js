@@ -89,6 +89,30 @@ export const updateUserInfo = (userId, updatedFields) => {
   });
 };
 
+export const updateUserStripeId = (userId, stripeId) => {
+  const updateSql = "UPDATE users SET stripe_customer_id = ? WHERE id = ?";
+
+  return new Promise((resolve, reject) => {
+    db.query(updateSql, [stripeId, userId], (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+};
+
+export const getPlan = (planName) => {
+  const getPlanSql = "SELECT * FROM subscription_plans WHERE subscription_name = ?";
+
+  return new Promise((resolve, reject) => {
+    db.query(getPlanSql, [planName], (error, results) => {
+      if (error) return reject(error);
+      resolve(results[0]);
+    });
+  });
+};
+
+
+
 export const insertNewPet = (name, species, breed, gender, date_of_birth, ownerId, imageUrl) => {
   const insertSql = "INSERT INTO pets (name, species, breed, gender, date_of_birth, owner_id, photo_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
   

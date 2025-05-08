@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // user validation
-import { checkEmail, checkUsername, getUserById, insertNewUser, getUserByEmail, insertNewUserGoogleLogin } from '../utils/dbAuthUtils.js';
+import { checkEmail, checkUsername, getUserById, insertNewUser, getUserByEmail, insertNewUserGoogleLogin } from '../utils/dbUtils.js';
 import { generateUniqueUsername } from '../utils/usernameUtils.js';
 
 import { OAuth2Client } from 'google-auth-library';

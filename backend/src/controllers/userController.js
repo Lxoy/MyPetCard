@@ -1,4 +1,4 @@
-import { checkUsername, getUserById, updateUserInfo } from '../utils/dbAuthUtils.js';
+import { checkUsername, getUserById, updateUserInfo } from '../utils/dbUtils.js';
 
 export const updateUser = async (req, res) => {
     try {

@@ -10,6 +10,7 @@ import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import petsRouter from './routes/petsRoutes.js';
 import nutritionsRouter from './routes/nutritionRoutes.js';
+import paymentsRouter from './routes/paymentRoutes.js';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -33,6 +34,9 @@ app.use(petsRouter);
 
 // Nutrition
 app.use(nutritionsRouter);
+
+// Payment
+app.use(paymentsRouter);
 
 app.listen(PORT, (request, response) => {
     console.log("Pokrenut na portu " + PORT);

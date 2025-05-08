@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useFonts } from 'expo-font';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { STRIPE_PUBLISHABLE_KEY } from '@env';
 
 // nativewind
 import "./css/global.css";
@@ -34,10 +36,12 @@ export default function App() {
       if (!fontsLoaded) return null;
       
   return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <AppNav />
-      </AuthProvider>
-    </SafeAreaProvider>
+    <StripeProvider publishableKey={STRIPE_PUBLISHABLE_KEY}>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <AppNav />
+        </AuthProvider>
+      </SafeAreaProvider>
+    </StripeProvider>
   );
 }

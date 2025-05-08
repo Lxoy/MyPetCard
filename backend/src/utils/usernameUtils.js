@@ -1,4 +1,4 @@
-import { checkUsername } from './dbAuthUtils.js';
+import { checkUsername } from './dbUtils.js';
 
 const normalizeCroatian = (str) => {
     return str
